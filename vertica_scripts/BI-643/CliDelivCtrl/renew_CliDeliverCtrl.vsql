@@ -1,0 +1,38 @@
+-- временная таблица
+create local temp table if not exists tmp_CliDelivCtrl
+on commit preserve rows as
+	select * from DataPrime.CliDelivCtrl
+where CliDelivCtrl.DataInfo = '0001-01-01';
+truncate table tmp_CliDelivCtrl;
+copy tmp_CliDelivCtrl (
+	DataInfo,
+	StoreCode,
+	TerrCode,
+	DataReqDeliv,
+	UsrInvNumReqDelivNum,
+	UsrInvNumReqDelivDocNum,
+	CliStoreCode,
+	Class_Code10,
+	isCliVIP,
+	CliCode,
+	DataReqDelivFrom,
+	DataReqDelivTo,
+	DataReqDelivFact)
+from local 'H:\OLAP\CliDelivCtrl\DATA\...file.csv'
+delimiter ';'  null '' enclosed by '"' rejectmax 1
+rejected data 'H:\OLAP\CliDelivCtrl\RUN\...file.rej'
+exceptions 'H:\OLAP\CliDelivCtrl...file.exc' direct;
+
+-- обнулить данные о дате без времени
+update tmp_CliDelivCtrl --?
+commit;
+
+-- 10 класс в UPPER
+update tmp_CliDelivCtrl
+set Class_Code10 = upper(Class_Code10);
+commit;
+
+-- код терр-ии в UPPER
+update tmp_CliDeliverCtrl
+set TerrCode = upper(TerrCode);
+commit;
