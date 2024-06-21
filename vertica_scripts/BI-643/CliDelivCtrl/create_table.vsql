@@ -19,10 +19,10 @@ create table DataPrime.CliDelivCtrl (
 order by
 	isCliVIP,
 	Class_Code10,
-    StoreCode,
-    TerrCode,
-    CliStoreCode,
-    CliCode,
+	StoreCode,
+	TerrCode,
+	CliStoreCode,
+	CliCode,
 	DataReqDeliv,
 	DataInfo
 segmented by hash (
