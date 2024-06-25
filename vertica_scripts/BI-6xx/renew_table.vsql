@@ -18,8 +18,7 @@ select
 from public.CliTurnoverDtl as ctd
 left join dataprime.GrpLegEntPersForCRM as glepfc on ctd.CliCode = glepfc.CliCode
 left join dataprime.LongTermGoalDiv_Legent as ltgdl on glepfc.CliInn = ltgdl.CliInn
-left join public.Class294 as cls294 on ltgdl.Class294_Code = cls294.Class294_Code
-cross join public.Class79;
+left join public.Class294 as cls294 on ltgdl.Class294_Code = cls294.Class294_Code;
 commit;
 
 truncate table datamart.tmp_datamart1;

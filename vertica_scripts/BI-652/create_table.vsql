@@ -1,0 +1,25 @@
+-- 24.06.2024 Разработка витрин по ДСЦ для дашборда УП
+-- https://utrack.etm.corp/issue/BI-652/Vertica-Razrabotka-vitrin-po-DSC-dlya-dashborda-UP
+
+create table DataMart.DshSalesManag_LongTerm_DivMnth (
+    DataInfo date,
+    Class63_Code_2 varchar(8),
+    Class63_Code_3 varchar(8),
+    Class294_Code varchar(12),
+    Class79_Code varchar(6),
+    Class72_Code varchar(4),
+    SumShipped float,
+    LongTermGoalMnth float)
+order by
+    Class294_Code,
+    Class72_Code,
+    Class63_Code_2,
+    Class63_Code_3,
+    Class79_Code,
+    DataInfo
+segmented by hash (
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class294_Code,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class72_Code,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class63_Code_2,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class63_Code_3,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class79_Code) all nodes ksafe 1;
