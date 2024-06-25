@@ -1,30 +1,35 @@
-create local temp table tmp_DshSalesManag_LongTerm_DivMnth
+create local temp table tmp_DshSalesManag_LongTerm_DivMnth_fact
 on commit preserve rows as
 	select * from DataMart.DshSalesManag_LongTerm_DivMnth
 where DshSalesManag_LongTerm_DivMnth.DataInfo = '0001-01-01';
 truncate table tmp_DshSalesManag_LongTerm_DivMnth;
 
-insert into tmp_DshSalesManag_LongTerm_DivMnth
+insert into tmp_DshSalesManag_LongTerm_DivMnth_fact
+with vw_grp as (select
+	glepsfc.CliInn,
+	max(cl72.RangValue) over(partition by glepsfc.CliInn) as maxrang
+from DataPrime.GrpLegEntPersForCRM glepsfc
+inner join public.DescKontrag dk on glepsfc.CliCode = dk.CliCode
+inner join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code)
 select
-    DataInfo,
-    coalesce(substring(ClassGroup.ClassCodeGrp, 1, 4), '') AS Class63_Code_2,
-    coalesce(substring(ClassGroup.ClassCodeGrp, 1, 6), '') AS Class63_Code_3,
-    Class294_Code,
-    (select Class79_Code
-    from public.Class79 
-    where Class79_Code like 'G%') as Class79_Code,
-    (select public.DescKontrag.CliCode
-    from public.DescKontrag a
-    left join DataPrime.GrpLegEntPersForCRM.CliCode b on a.CliCode = b.CliCode
-    where public.DescKontrag.CliCode = DataPrime.GrpLegEntPersForCRM.CliCode 
-    except SUBSTRING(public.DescKontrag.Class72_Code, 1, 2)) as CliCode,
-    sum(cbs.SumShipped) float,
-    
-from CBStatInfo cbs
-left join public.Class294 cl on cbs.Class294_Code = cl.Class294_Code
-left join public.ClassGroup on
-    ClassTypeSrc = 37 
-    AND ClassTypeGrp = 63 
-    AND ClassCodeSrc = substring(
-        public.KontragLinkClass37Hist.Class37_Code, 1, 5) 
-    AND ClassCodeGrp LIKE 'УП%'
+    cbs.DataInfo,
+    coalesce(substring(cg.ClassCodeGrp, 1, 4), '') AS Class63_Code_2,
+    coalesce(substring(cg.ClassCodeGrp, 1, 6), '') AS Class63_Code_3,
+    substring(cbs.Class294_Code, 1, 2) as Class294_Code,
+    max(klc79.Class79_Code) over(partition by glepsfc.CustInn) as Class79_Code,
+    substring(dk.Class72_Code, 1, 2) as Class72_Code,
+    sum(cbs.SumShipped) as SumShipped
+from public.CBStatTrader cbs
+inner join DataPrime.GrpLegEntPersForCRM glepsfc on cbs.CustInn = glepsfc.CliInn
+inner join public.DescKontrag dk on dk.CliCode = glepsfc.CliCode and dk.CliInn = glepsfc.CliInn
+left join public.KontragLinkClass79 klc79 on dk.CliCode = klc79.CliCode
+    and klc79.Class79_1 = 'G'
+left join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
+left join public.ClassGroup cg on ClassTypeSrc = 14 
+	and ClassTypeGrp = 63 
+	and ClassCodeSrc = substring(cbs.CustInn, 1, 4) 
+	and ClassCodeGrp LIKE 'УП%'
+where
+    cbs.Class295_Code = '00001'
+    and cl72.RangValue = max(cl72.RangValue);
+commit;
