@@ -1,7 +1,7 @@
 -- 24.06.2024 Разработка витрин по ДСЦ для дашборда УП
 -- https://utrack.etm.corp/issue/BI-652/Vertica-Razrabotka-vitrin-po-DSC-dlya-dashborda-UP
 
-create table DataMart.DshSalesManag_LongTerm_DivMnth (
+create table DataMart.DshSalesManag_LongTerm_DivMnth ( -- Витрина для анализа по дивизионам с учетом месяцев
     DataInfo date,
     Class63_Code_2 varchar(8),
     Class63_Code_3 varchar(12),
@@ -24,7 +24,7 @@ segmented by hash (
     DataMart.DshSalesManag_LongTerm_DivMnth.Class63_Code_3,
     DataMart.DshSalesManag_LongTerm_DivMnth.Class79_Code) all nodes ksafe 1;
     
-create table DataMart.DshSalesManag_LongTerm_TotDivMnth (
+create table DataMart.DshSalesManag_LongTerm_TotDivMnth ( -- Витрина для анализа в целом по дивизионам (без разбивки) с учетом месяцев
     DataInfo date,
     Class63_Code_2 varchar(8),
     Class63_Code_3 varchar(12),
@@ -44,7 +44,7 @@ segmented by hash (
     DataMart.DshSalesManag_LongTerm_TotDivMnth.Class63_Code_3,
     DataMart.DshSalesManag_LongTerm_TotDivMnth.Class79_Code) all nodes ksafe 1;
     
-create table DataMart.DshSalesManag_LongTerm_DivSpecMnth (
+create table DataMart.DshSalesManag_LongTerm_DivSpecMnth ( -- Витрина для анализа по дивизионам с учетом месяцев
     DataInfo date,
     Class63_Code_2 varchar(8),
     Class63_Code_3 varchar(12),
