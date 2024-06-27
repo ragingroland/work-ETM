@@ -8,23 +8,29 @@ on commit preserve rows as
 	select * from DataMart.DshSalesManag_LongTerm_DivMnth
 where DshSalesManag_LongTerm_DivMnth.DataInfo = '0001-01-01';
 truncate table tmp_DshSalesManag_LongTerm_DivMnth_dsc;
+create local temp table tmp_DshSalesManag_LongTerm_DivMnth_63_79_72 -- врем.таблица для общих классификаторов
+on commit preserve rows as
+	select * from DataMart.DshSalesManag_LongTerm_DivMnth
+where DshSalesManag_LongTerm_DivMnth.DataInfo = '0001-01-01';
+truncate table tmp_DshSalesManag_LongTerm_DivMnth_637972;
 
-insert into tmp_DshSalesManag_LongTerm_DivMnth_fact
-with vw_grp as (select
-	glepsfc.CliInn,
-	max(cl72.RangValue) over(partition by glepsfc.CliInn) as MaxRang
-from DataPrime.GrpLegEntPersForCRM glepsfc
-inner join public.DescKontrag dk on glepsfc.CliCode = dk.CliCode
-inner join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
-group by glepsfc.CliInn, cl72.RangValue)
+insert into tmp_DshSalesManag_LongTerm_DivMnth_637972
+with vw_grp as ( 
+    select
+    	glepsfc.CliInn,
+    	max(cl72.RangValue) over(partition by glepsfc.CliInn) as MaxRang
+    from DataPrime.GrpLegEntPersForCRM glepsfc
+    inner join public.DescKontrag dk on glepsfc.CliCode = dk.CliCode
+    inner join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
+    group by glepsfc.CliInn, cl72.RangValue)
 select
     cbs.DataInfo,
-    coalesce(substring(cg.ClassCodeGrp, 1, 4), '') AS Class63_Code_2,
-    coalesce(substring(cg.ClassCodeGrp, 1, 6), '') AS Class63_Code_3,
-    substring(cbs.Class294_Code, 1, 2) as Class294_Code,
+    coalesce(left(cg.ClassCodeGrp, 4), '') AS Class63_Code_2,
+    coalesce(left(cg.ClassCodeGrp, 6), '') AS Class63_Code_3,
+    0 as Class294_Code,
     max(klc79.Class79_Code) over(partition by glepsfc.CliInn) as Class79_Code,
-    substring(dk.Class72_Code, 1, 2) as Class72_Code,
-    sum(cbs.SumShipped) as SumShipped,
+    left(dk.Class72_Code, 2) as Class72_Code,
+    0 as SumShipped,
     0 as LongTermGoalMnth
 from public.CBStatTrader cbs
 inner join DataPrime.GrpLegEntPersForCRM glepsfc on cbs.CustInn = glepsfc.CliInn
@@ -32,32 +38,70 @@ inner join public.DescKontrag dk on dk.CliCode = glepsfc.CliCode and dk.CliInn =
 left join public.KontragLinkClass79 klc79 on dk.CliCode = klc79.CliCode
     and klc79.Class79_1 = 'G'
 left join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
-left join public.ClassGroup cg on ClassTypeSrc = 14 
+left join public.ClassGroup cg on 
+    ClassTypeSrc = 14 
 	and ClassTypeGrp = 63 
-	and ClassCodeSrc = substring(cbs.CustInn, 1, 4) 
+	and ClassCodeSrc = left(cbs.CustInn, 4) 
 	and ClassCodeGrp LIKE 'УП%'
 left join vw_grp on glepsfc.CliInn = vw_grp.CliInn
 where
     cbs.Class295_Code = '00001'
-    and cl72.RangValue = vw_grp.MaxRang
+    and cl72.RangValue = vw_grp.MaxRang;
+
+insert into tmp_DshSalesManag_LongTerm_DivMnth_fact -- наполнение таблиц для факта
+select
+    cbs.DataInfo,
+    Class63_Code_2,
+    Class63_Code_3,
+    left(cbs.Class294_Code, 2) as Class294_Code,
+    Class79_Code,
+    Class72_Code,
+    sum(cbs.SumShipped) as SumShipped,
+    0 as LongTermGoalMnth
+from public.CBStatTrader cbs
+inner join DataPrime.GrpLegEntPersForCRM glepsfc on cbs.CustInn = glepsfc.CliInn
+inner join public.DescKontrag dk on dk.CliCode = glepsfc.CliCode and dk.CliInn = glepsfc.CliInn
+left join tmp_DshSalesManag_LongTerm_DivMnth_637972 cla on glepsfc.CliInn = cla.CliInn
+    and cbs.DataInfo = cla.DataInfo
+    and Class63_Code_2 = cla.Class63_Code_2
+    and Class63_Code_3 = cla.Class63_Code_3
+    and Class79_Code = cla.Class79_Code
+    and Class72_Code = cla.Class72_Code
+where
+    cbs.Class295_Code = '00001'
+    and cl72.RangValue = cla.MaxRang
+    and cbs.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
 group by 
     cbs.DataInfo, Class63_Code_2, Class63_Code_3, Class294_Code, 
     Class79_Code, dk.Class72_Code, glepsfc.CliInn;
 commit;
 
-insert into tmp_DshSalesManag_LongTerm_DivMnth_dsc
+insert into tmp_DshSalesManag_LongTerm_DivMnth_dsc -- наполнение таблиц для дсц
+with vw_ltgm as (
+    select
+        DataInfo, CliInn, Class294_Code, LongTermGoalMnth1 as LongTermGoalMnth
+    from DataPrime.LongTermGoalDiv_LegEnt
+        union
+    select
+        add_months(DataInfo, 1), CliInn, Class294_Code, LongTermGoalMnth2 as LongTermGoalMnth
+    from DataPrime.LongTermGoalDiv_LegEnt
+        union
+    select
+        add_months(DataInfo, 2), CliInn, Class294_Code, LongTermGoalMnth3 as LongTermGoalMnth
+    from DataPrime.LongTermGoalDiv_LegEnt)
 select
     ltgm.DataInfo,
-    0 AS Class63_Code_2,
-    0 AS Class63_Code_3,
-    substring(ltgm.Class294_Code, 1, 2) as Class294_Code,
+    coalesce(left(cg.ClassCodeGrp, 4), '') AS Class63_Code_2,
+    coalesce(left(cg.ClassCodeGrp, 6), '') AS Class63_Code_3,
+    left(ltgm.Class294_Code, 2) as Class294_Code,
     0 as Class79_Code,
     0 as Class72_Code,
     0 as SumShipped,
-case
-	when exctract(month from ltgm.DataInfo) in (1, 2, 3) then 1
-	when exctract(month from ltgm.DataInfo) in (4, 5, 6) then 2
-	when exctract(month from ltgm.DataInfo) in (7, 8, 9) then 3
-	else 4
-end as LongTermGoalMnth
-from DataPrime.LongTermGoalDiv_LegEnt ltgm
+    LongTermGoalMnth
+from vw_ltgm
+-- inner join vw_ltgm on ltgm.CliInn = vw_ltgm.CliInn
+left join public.ClassGroup cg on 
+    ClassTypeSrc = 37 
+	and ClassTypeGrp = 63 
+	and ClassCodeSrc = left(public.KontragLinkClass37Hist.Class37_Code, 5) 
+	and ClassCodeGrp LIKE 'УП%'
