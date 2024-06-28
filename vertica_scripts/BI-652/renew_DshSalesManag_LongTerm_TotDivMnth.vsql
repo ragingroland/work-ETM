@@ -54,9 +54,9 @@ left join tmp_DshSalesManag_LongTerm_TotDivMnth_7972 cla on cbs.CustInn = cla.Cl
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
 left join public.ClassGroup cg on 
     ClassTypeSrc = 14 
-	and ClassTypeGrp = 63 
-	and ClassCodeSrc = left(cbs.CustInn, 4) 
-	and ClassCodeGrp LIKE 'УП%'
+    and ClassTypeGrp = 63 
+    and ClassCodeSrc = left(cbs.CustInn, 4) 
+    and ClassCodeGrp LIKE 'УП%'
 where
     cbs.Class295_Code = '00001'
     and cbs.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
@@ -91,9 +91,9 @@ left join tmp_DshSalesManag_LongTerm_TotDivMnth_7972 cla on vw_ltgm.CliInn = cla
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
 left join public.ClassGroup cg on 
     ClassTypeSrc = 14 
-	and ClassTypeGrp = 63 
-	and ClassCodeSrc = left(vw_ltgm.CliInn, 4) 
-	and ClassCodeGrp LIKE 'УП%'
+    and ClassTypeGrp = 63 
+    and ClassCodeSrc = left(vw_ltgm.CliInn, 4) 
+    and ClassCodeGrp LIKE 'УП%'
 where
     vw_ltgm.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
 group by 

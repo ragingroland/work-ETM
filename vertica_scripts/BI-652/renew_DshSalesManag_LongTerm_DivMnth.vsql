@@ -2,13 +2,13 @@
 
 create local temp table tmp_DshSalesManag_LongTerm_DivMnth_fact -- врем.таблица для факта го
 on commit preserve rows as
-	select * from DataMart.DshSalesManag_LongTerm_DivMnth
+    select * from DataMart.DshSalesManag_LongTerm_DivMnth
 where DshSalesManag_LongTerm_DivMnth.DataInfo = '0001-01-01';
 truncate table tmp_DshSalesManag_LongTerm_DivMnth_fact;
 
 create local temp table tmp_DshSalesManag_LongTerm_DivMnth_dsc -- врем.таблица для дсц
 on commit preserve rows as
-	select * from DataMart.DshSalesManag_LongTerm_DivMnth
+    select * from DataMart.DshSalesManag_LongTerm_DivMnth
 where DshSalesManag_LongTerm_DivMnth.DataInfo = '0001-01-01';
 truncate table tmp_DshSalesManag_LongTerm_DivMnth_dsc;
  
@@ -22,16 +22,16 @@ truncate table tmp_DshSalesManag_LongTerm_DivMnth_7972;
 
 create local temp table tmp_DshSalesManag_LongTerm_DivMnth_merge -- врем.таблица для слияния факта и дсц
 on commit preserve rows as
-	select * from DataMart.DshSalesManag_LongTerm_DivMnth
+    select * from DataMart.DshSalesManag_LongTerm_DivMnth
 where DshSalesManag_LongTerm_DivMnth.DataInfo = '0001-01-01';
 truncate table tmp_DshSalesManag_LongTerm_DivMnth_merge;
 
 
 insert into tmp_DshSalesManag_LongTerm_DivMnth_7972
 select distinct 
-		glepsfc.CliInn,
-		max(cl72.RangValue) over(partition by glepsfc.CliInn) as MaxRang,
-		max(left(klc79.Class79_Code, 2)) over(partition by glepsfc.CliInn) as Class79_Code
+    glepsfc.CliInn,
+    max(cl72.RangValue) over(partition by glepsfc.CliInn) as MaxRang,
+    max(left(klc79.Class79_Code, 2)) over(partition by glepsfc.CliInn) as Class79_Code
 from DataPrime.GrpLegEntPersForCRM glepsfc
 inner join public.DescKontrag dk on glepsfc.CliCode = dk.CliCode
 inner join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
@@ -55,9 +55,9 @@ left join tmp_DshSalesManag_LongTerm_DivMnth_7972 cla on cbs.CustInn = cla.CliIn
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
 left join public.ClassGroup cg on 
     ClassTypeSrc = 14 
-	and ClassTypeGrp = 63 
-	and ClassCodeSrc = left(cbs.CustInn, 4) 
-	and ClassCodeGrp LIKE 'УП%'
+    and ClassTypeGrp = 63 
+    and ClassCodeSrc = left(cbs.CustInn, 4) 
+    and ClassCodeGrp LIKE 'УП%'
 where
     cbs.Class295_Code = '00001'
     and cbs.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
@@ -93,9 +93,9 @@ left join tmp_DshSalesManag_LongTerm_DivMnth_7972 cla on vw_ltgm.CliInn = cla.Cl
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
 left join public.ClassGroup cg on 
     ClassTypeSrc = 14 
-	and ClassTypeGrp = 63 
-	and ClassCodeSrc = left(vw_ltgm.CliInn, 4) 
-	and ClassCodeGrp LIKE 'УП%'
+    and ClassTypeGrp = 63 
+    and ClassCodeSrc = left(vw_ltgm.CliInn, 4) 
+    and ClassCodeGrp LIKE 'УП%'
 where
     vw_ltgm.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
 group by 
@@ -135,7 +135,7 @@ commit;
 truncate table DataMart.DshSalesManag_LongTerm_DivMnth;
 insert into DataMart.DshSalesManag_LongTerm_DivMnth
 select * from tmp_DshSalesManag_LongTerm_DivMnth_merge;
-commit; select * from DataMart.DshSalesManag_LongTerm_DivMnth
+commit;
 
 drop table tmp_DshSalesManag_LongTerm_DivMnth_fact;
 drop table tmp_DshSalesManag_LongTerm_DivMnth_dsc;
