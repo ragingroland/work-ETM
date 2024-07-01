@@ -1,29 +1,42 @@
 -- временная таблица
-create local temp table tmp_CliDelivCtrl
-on commit preserve rows as
-	select * from DataPrime.CliDelivCtrl
-where CliDelivCtrl.DataInfo = '0001-01-01';
+create local temp table tmp_CliDelivCtrl (
+    DataInfo varchar(50),
+    StoreCode varchar(50),
+    TerrCode varchar(40),
+    DataReqDeliv varchar(50),
+    UsrInvNumReqDelivNum varchar(150),
+    UsrInvNumReqDelivDocNum varchar(150),
+    CliStoreCode varchar(50),
+    EmptyRow varchar(12),
+    isCliVIP varchar(6),
+    CliCode varchar(50),
+    DataReqDelivFrom varchar(50),
+    DataReqDelivTo varchar(50),
+    DataReqDelivFact varchar(50))
+on commit preserve rows;
 truncate table tmp_CliDelivCtrl;
-copy tmp_CliDelivCtrl (
-	DataInfo format 'DD#MM#YYYY',
-	StoreCode,
-	TerrCode,
-	DataReqDeliv format 'DD#MM#YYYY',
-	UsrInvNumReqDelivNum,
-	UsrInvNumReqDelivDocNum,
-	CliStoreCode,
-	isCliVIP,
-	CliCode,
-	DataReqDelivFrom format 'DD#MM#YYYY HH#MI#SS',
-	DataReqDelivTo format 'DD#MM#YYYY HH#MI#SS',
-	DataReqDelivFact format 'DD#MM#YYYY HH#MI#SS')
-from local 'H:\OLAP\CliDelivCtrl\DATA\...file.csv'
-delimiter ';'  null '' enclosed by '"' rejectmax 1
-rejected data 'H:\OLAP\CliDelivCtrl\RUN\...file.rej'
-exceptions 'H:\OLAP\CliDelivCtrl...file.exc' direct;
 
--- обнулить данные о дате без времени
-update tmp_CliDelivCtrl --?
+copy tmp_CliDelivCtrl (
+    DataInfo,
+    StoreCode,
+    TerrCode,
+    DataReqDeliv,
+    UsrInvNumReqDelivNum,
+    UsrInvNumReqDelivDocNum,
+    CliStoreCode,
+    EmptyRow,
+    isCliVIP,
+    CliCode,
+    DataReqDelivFrom,
+    DataReqDelivTo,
+    DataReqDelivFact)
+-- from local 'H:\OLAP\CliDelivCtrl\DATA\...file.csv'
+from local 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\csv-utt9.csv'
+delimiter ';'  null '' enclosed by '"' rejectmax 1
+-- rejected data 'H:\OLAP\CliDelivCtrl\RUN\...file.rej'
+-- exceptions 'H:\OLAP\CliDelivCtrl...file.exc' direct;
+rejected data 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\file.rej'
+exceptions 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\file.exc' direct skip 1;
 commit;
 
 -- код терр-ии в UPPER
@@ -31,21 +44,53 @@ update tmp_CliDeliverCtrl
 set TerrCode = upper(TerrCode);
 commit;
 
+-- преобразование дат
+update tmp_CliDelivCtrl
+set DataInfo = to_date(DataInfo, 'dd-mm-yyyy'),
+DataReqDeliv = to_date(DataReqDeliv, 'dd-mm-yyyy'),
+DataReqDelivFrom = to_timestamp(
+    left(trim(replace(DataReqDelivFrom, '/', '-')), 10) || ' ' || 
+    substring(right(DataReqDelivFrom, 4), 1, 2) || ':' || 
+    right(trim(DataReqDelivFrom), 2), 'yyyy-mm-dd hh-mi'),
+DataReqDelivTo = to_timestamp(
+    left(trim(replace(DataReqDelivTo, '/', '-')), 10) || ' ' || 
+    substring(right(DataReqDelivTo, 4), 1, 2) || ':' || 
+    right(trim(DataReqDelivTo), 2), 'yyyy-mm-dd hh-mi'),
+DataReqDelivFact = to_timestamp(DataReqDelivFact, 'dd-mm-yyyy hh-mi');
+commit;
 
 -- почистить в исходных табличках срезы
-DELETE
-FROM DataPrime.CliDelivCtrl
-WHERE EXISTS (
-	SELECT 1
-	FROM tmp_CliDelivCtrl
-	WHERE tmp_CliDelivCtrl.DataInfo = DataPrime.CliDelivCtrl.DataInfo
-	);
-COMMIT;
+delete
+from DataPrime.CliDelivCtrl
+where exists (
+    select 1
+    from tmp_CliDelivCtrl
+    where tmp_CliDelivCtrl.DataInfo = DataPrime.CliDelivCtrl.DataInfo
+    );
+commit;
 
 -- Очищает все проекции указанной таблицы
-SELECT PURGE_TABLE('DataPrime.CliDelivCtrl');
+select purge_table('DataPrime.CliDelivCtrl');
 
 -- загрузить в таблички
-INSERT INTO DataPrime.CliDelivCtrl
-SELECT * FROM tmp_CliDelivCtrl;
-COMMIT;
+insert into DataPrime.CliDelivCtrl
+select
+    DataInfo,
+    StoreCode,
+    TerrCode,
+    DataReqDeliv,
+    UsrInvNumReqDelivNum,
+    UsrInvNumReqDelivDocNum,
+    CliStoreCode,
+    isCliVIP,
+    CliCode,
+    to_date(DataReqDelivFrom, 'yyyy-mm-dd') as DataReqDelivFrom_date,
+    DataReqDelivFrom as DataReqDelivFrom_time,
+    to_date(DataReqDelivTo, 'yyyy-mm-dd') as DataReqDelivTo_date,
+    DataReqDelivTo as DataReqDelivTo_time,
+    to_date(DataReqDelivFact, 'yyyy-mm-dd') as DataReqDelivFact_date,
+    DataReqDelivFact as DataReqDelivFact_time
+from tmp_CliDelivCtrl;
+commit;
+
+drop table tmp_CliDelivCtrl;

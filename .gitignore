@@ -1,2 +1,9 @@
 vertica_scripts/BI-643/202406281343.csv
 vertica_scripts/BI-643/test.csv
+vertica_scripts/BI-643/read.py
+vertica_scripts/BI-643/renew_CliDeliverCtrl copy.vsql
+vertica_scripts/BI-643/csv-utf8.csv
+vertica_scripts/BI-643/file.exc
+vertica_scripts/BI-643/file.rej
+vertica_scripts/BI-643/csv-utt9 — копия.csv
+vertica_scripts/BI-643/csv-utt9.csv
