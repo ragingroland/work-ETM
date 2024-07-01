@@ -12,7 +12,6 @@ copy tmp_CliDelivCtrl (
 	UsrInvNumReqDelivNum,
 	UsrInvNumReqDelivDocNum,
 	CliStoreCode,
-	Class_Code10,
 	isCliVIP,
 	CliCode,
 	DataReqDelivFrom format 'DD#MM#YYYY HH#MI#SS',
@@ -25,11 +24,6 @@ exceptions 'H:\OLAP\CliDelivCtrl...file.exc' direct;
 
 -- обнулить данные о дате без времени
 update tmp_CliDelivCtrl --?
-commit;
-
--- 10 класс в UPPER
-update tmp_CliDelivCtrl
-set Class_Code10 = upper(Class_Code10);
 commit;
 
 -- код терр-ии в UPPER
