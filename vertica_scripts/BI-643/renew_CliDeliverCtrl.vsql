@@ -38,7 +38,7 @@ set TerrCode = upper(TerrCode);
 commit;
 
 
---почистить в исходных табличках срезы
+-- почистить в исходных табличках срезы
 DELETE
 FROM DataPrime.CliDelivCtrl
 WHERE EXISTS (
@@ -48,10 +48,10 @@ WHERE EXISTS (
 	);
 COMMIT;
 
---Очищает все проекции указанной таблицы
+-- Очищает все проекции указанной таблицы
 SELECT PURGE_TABLE('DataPrime.CliDelivCtrl');
 
---загрузить в таблички
+-- загрузить в таблички
 INSERT INTO DataPrime.CliDelivCtrl
 SELECT * FROM tmp_CliDelivCtrl;
 COMMIT;
