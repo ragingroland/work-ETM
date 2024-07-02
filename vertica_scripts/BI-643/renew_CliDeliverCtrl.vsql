@@ -30,14 +30,11 @@ copy tmp_CliDelivCtrl (
     DataReqDelivFrom,
     DataReqDelivTo,
     DataReqDelivFact)
--- from local 'H:\OLAP\CliDelivCtrl\DATA\...file.csv'
-from local 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\csv-utt9.csv'
+from local 'H:\OLAP\CliDelivCtrl\DATA\t-rep005.vcsv'
 delimiter ';'  null '' enclosed by '"' rejectmax 1
--- rejected data 'H:\OLAP\CliDelivCtrl\RUN\...file.rej'
--- exceptions 'H:\OLAP\CliDelivCtrl...file.exc' direct;
-rejected data 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\file.rej'
-exceptions 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\file.exc' direct skip 1;
-commit;
+rejected data 'H:\OLAP\CliDelivCtrl\RUN\renew_CliDelivCtrl.rej'
+exceptions 'H:\OLAP\CliDelivCtrl\RUN\renew_CliDelivCtrl.exc' direct skip 1;
+
 
 -- код терр-ии в UPPER
 update tmp_CliDelivCtrl
@@ -46,11 +43,11 @@ commit;
 
 -- преобразование дат
 update tmp_CliDelivCtrl
-set DataInfo = to_date(DataInfo, 'yyyy-mm-dd'),
-DataReqDeliv = to_date(DataReqDeliv, 'yyyy-mm-dd'),
-DataReqDelivFrom = to_timestamp(DataReqDelivFrom, 'yyyy-mm-dd hh:mi'),
-DataReqDelivTo = to_timestamp(DataReqDelivTo, 'yyyy-mm-dd hh:mi'),
-DataReqDelivFact = to_timestamp(DataReqDelivFact, 'yyyy-mm-dd hh:mi');
+set DataInfo = to_date(DataInfo, 'yyyy-mm-dd')::varchar(50),
+DataReqDeliv = to_date(DataReqDeliv, 'yyyy-mm-dd')::varchar(50),
+DataReqDelivFrom = to_timestamp(DataReqDelivFrom, 'yyyy-mm-dd hh:mi')::varchar(50),
+DataReqDelivTo = to_timestamp(DataReqDelivTo, 'yyyy-mm-dd hh:mi')::varchar(50),
+DataReqDelivFact = to_timestamp(DataReqDelivFact, 'yyyy-mm-dd hh:mi')::varchar(50);
 commit;
 
 -- почистить в исходных табличках срезы
@@ -59,7 +56,7 @@ from DataPrime.CliDelivCtrl
 where exists (
     select 1
     from tmp_CliDelivCtrl
-    where tmp_CliDelivCtrl.DataInfo = DataPrime.CliDelivCtrl.DataInfo
+    where tmp_CliDelivCtrl.DataInfo::date = DataPrime.CliDelivCtrl.DataInfo
     );
 commit;
 
@@ -92,5 +89,3 @@ select
         else substring(right(to_char(DataReqDelivFact), 8), 1, 5) end as DataReqDelivFact_time
 from tmp_CliDelivCtrl;
 commit;
-
-drop table tmp_CliDelivCtrl;
