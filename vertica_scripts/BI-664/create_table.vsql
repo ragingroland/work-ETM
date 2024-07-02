@@ -1,0 +1,101 @@
+-- 02.07.2024 Разработка витрин для "Своевременность доставок"
+-- https://utrack.etm.corp/issue/BI-664/BI-UL-razrabotka-vitrin-dlya-Svoevremennost-dostavok
+
+create table DataMart.DshLogistManag_OnTimeDeliv_Day ( -- Витрина для анализа по дивизионам с учетом месяцев
+    DataInfo date,
+    Mnth_Beginning date,
+    )
+order by
+    Class294_Code,
+    Class72_Code,
+    Class63_Code_2,
+    Class63_Code_3,
+    Class79_Code,
+    DataInfo
+segmented by hash (
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class294_Code,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class72_Code,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class63_Code_2,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class63_Code_3,
+    DataMart.DshSalesManag_LongTerm_DivMnth.Class79_Code) all nodes ksafe 1;
+    
+create table DataMart.DshSalesManag_LongTerm_TotDivMnth ( -- Витрина для анализа в целом по дивизионам (без разбивки) с учетом месяцев
+    DataInfo date,
+    Class63_Code_2 varchar(8),
+    Class63_Code_3 varchar(12),
+    Class79_Code varchar(6),
+    Class72_Code varchar(4),
+    SumShipped float,
+    LongTermGoalMnth float)
+order by
+    Class72_Code,
+    Class63_Code_2,
+    Class63_Code_3,
+    Class79_Code,
+    DataInfo
+segmented by hash (
+    DataMart.DshSalesManag_LongTerm_TotDivMnth.Class72_Code,
+    DataMart.DshSalesManag_LongTerm_TotDivMnth.Class63_Code_2,
+    DataMart.DshSalesManag_LongTerm_TotDivMnth.Class63_Code_3,
+    DataMart.DshSalesManag_LongTerm_TotDivMnth.Class79_Code) all nodes ksafe 1;
+    
+create table DataMart.DshSalesManag_LongTerm_DivSpecMnth ( -- Витрина для анализа по дивизионам с учетом месяцев
+    DataInfo date,
+    Class63_Code_2 varchar(8),
+    Class63_Code_3 varchar(12),
+    Class294_Code varchar(4),
+    SalesSubChannel varchar(8),
+    Class79_Code varchar(6),
+    Class72_Code varchar(4),
+    SumShipped float,
+    LongTermGoalMnth float)
+order by
+    Class294_Code,
+    Class72_Code,
+    Class63_Code_2,
+    SalesSubChannel,
+    Class63_Code_3,
+    Class79_Code,
+    DataInfo
+segmented by hash (
+    DataMart.DshSalesManag_LongTerm_DivSpecMnth.Class294_Code,
+    DataMart.DshSalesManag_LongTerm_DivSpecMnth.Class72_Code,
+    DataMart.DshSalesManag_LongTerm_DivSpecMnth.Class63_Code_2,
+    DataMart.DshSalesManag_LongTerm_DivSpecMnth.SalesSubChannel,
+    DataMart.DshSalesManag_LongTerm_DivSpecMnth.Class63_Code_3,
+    DataMart.DshSalesManag_LongTerm_DivSpecMnth.Class79_Code) all nodes ksafe 1;
+    
+create table DataMart.DshSalesManag_LongTerm_TotDivSpecMnth (
+    DataInfo date,
+    Class63_Code_2 varchar(8),
+    Class63_Code_3 varchar(12),
+    SalesSubChannel varchar(8),
+    Class79_Code varchar(6),
+    Class72_Code varchar(4),
+    SumShipped float,
+    LongTermGoalMnth float)
+order by
+    Class72_Code,
+    Class63_Code_2,
+    SalesSubChannel,
+    Class63_Code_3,
+    Class79_Code,
+    DataInfo
+segmented by hash (
+    DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.Class72_Code,
+    DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.Class63_Code_2,
+    DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.SalesSubChannel,
+    DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.Class63_Code_3,
+    DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.Class79_Code) all nodes ksafe 1;
+    
+GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT ALL ON SCHEMA public, DataPrime, DataMart TO RW_public_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RW_public_role;
+-- !!! для ED добавляем по роли etl_ed_role:
+--                 public и dataprime - только смотрим
+--                 datamart          - все 
+GRANT USAGE ON SCHEMA public, DataPrime TO etl_ed_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime  TO etl_ed_role;
+GRANT ALL ON SCHEMA DataMart TO etl_ed_role;
+GRANT ALL ON ALL TABLES IN SCHEMA DataMart TO etl_ed_role;

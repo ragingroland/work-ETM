@@ -76,16 +76,13 @@ select
     isCliVIP,
     to_number(CliCode) as CliCode,
     to_date(DataReqDelivFrom, 'yyyy-mm-dd') as DataReqDelivFrom_date,
-    case when substring(right(to_char(DataReqDelivFrom), 8), 1, 5) = '00:00' 
-        then null 
-        else substring(right(to_char(DataReqDelivFrom), 8), 1, 5) end as DataReqDelivFrom_time,
+    case when length(DataReqDelivFrom) < 11 then null
+    	else substring(right(to_char(DataReqDelivFrom), 8), 1, 5)::time end as DataReqDelivFrom_time,
     to_date(DataReqDelivTo, 'yyyy-mm-dd') as DataReqDelivTo_date,
-    case when substring(right(to_char(DataReqDelivTo), 8), 1, 5) = '00:00' 
-        then null 
-        else substring(right(to_char(DataReqDelivTo), 8), 1, 5) end as DataReqDelivTo_time,
+    case when length(DataReqDelivTo) < 11 then null
+    	else substring(right(to_char(DataReqDelivTo), 8), 1, 5)::time end as DataReqDelivTo_time,
     to_date(DataReqDelivFact, 'yyyy-mm-dd') as DataReqDelivFact_date,
-    case when substring(right(to_char(DataReqDelivFact), 8), 1, 5) = '00:00' 
-        then null 
-        else substring(right(to_char(DataReqDelivFact), 8), 1, 5) end as DataReqDelivFact_time
+    case when length(DataReqDelivFact) < 11 then null
+    	else substring(right(to_char(DataReqDelivFact), 8), 1, 5)::time end as DataReqDelivFact_time
 from tmp_CliDelivCtrl;
 commit;
