@@ -12,11 +12,11 @@ create table DataPrime.CliDelivCtrl (
     isCliVIP varchar(6),
     CliCode int,
     DataReqDelivFrom_date date default null,
-    DataReqDelivFrom_time timestamp default null,
+    DataReqDelivFrom_time varchar(50) default null,
     DataReqDelivTo_date date default null,
-    DataReqDelivTo_time timestamp default null,
+    DataReqDelivTo_time varchar(50) default null,
     DataReqDelivFact_date date default null,
-    DataReqDelivFact_time timestamp default null
+    DataReqDelivFact_time varchar(50) default null
     )
 order by
     isCliVIP,

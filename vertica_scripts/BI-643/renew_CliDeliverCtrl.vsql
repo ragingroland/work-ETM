@@ -40,23 +40,17 @@ exceptions 'C:\Users\ivanov_vvx\work\vertica_scripts\BI-643\file.exc' direct ski
 commit;
 
 -- код терр-ии в UPPER
-update tmp_CliDeliverCtrl
+update tmp_CliDelivCtrl
 set TerrCode = upper(TerrCode);
 commit;
 
 -- преобразование дат
 update tmp_CliDelivCtrl
-set DataInfo = to_date(DataInfo, 'dd-mm-yyyy'),
-DataReqDeliv = to_date(DataReqDeliv, 'dd-mm-yyyy'),
-DataReqDelivFrom = to_timestamp(
-    left(trim(replace(DataReqDelivFrom, '/', '-')), 10) || ' ' || 
-    substring(right(DataReqDelivFrom, 4), 1, 2) || ':' || 
-    right(trim(DataReqDelivFrom), 2), 'yyyy-mm-dd hh-mi'),
-DataReqDelivTo = to_timestamp(
-    left(trim(replace(DataReqDelivTo, '/', '-')), 10) || ' ' || 
-    substring(right(DataReqDelivTo, 4), 1, 2) || ':' || 
-    right(trim(DataReqDelivTo), 2), 'yyyy-mm-dd hh-mi'),
-DataReqDelivFact = to_timestamp(DataReqDelivFact, 'dd-mm-yyyy hh-mi');
+set DataInfo = to_date(DataInfo, 'yyyy-mm-dd'),
+DataReqDeliv = to_date(DataReqDeliv, 'yyyy-mm-dd'),
+DataReqDelivFrom = to_timestamp(DataReqDelivFrom, 'yyyy-mm-dd hh:mi'),
+DataReqDelivTo = to_timestamp(DataReqDelivTo, 'yyyy-mm-dd hh:mi'),
+DataReqDelivFact = to_timestamp(DataReqDelivFact, 'yyyy-mm-dd hh:mi');
 commit;
 
 -- почистить в исходных табличках срезы
@@ -75,15 +69,15 @@ select purge_table('DataPrime.CliDelivCtrl');
 -- загрузить в таблички
 insert into DataPrime.CliDelivCtrl
 select
-    DataInfo,
-    StoreCode,
+    to_date(DataInfo, 'yyyy-mm-dd') as DataInfo,
+    to_number(StoreCode) as StoreCode,
     TerrCode,
-    DataReqDeliv,
+    to_date(DataReqDeliv, 'yyyy-mm-dd') as DataReqDeliv,
     UsrInvNumReqDelivNum,
     UsrInvNumReqDelivDocNum,
-    CliStoreCode,
+    to_number(CliStoreCode) as CliStoreCode,
     isCliVIP,
-    CliCode,
+    to_number(CliCode) as CliCode,
     to_date(DataReqDelivFrom, 'yyyy-mm-dd') as DataReqDelivFrom_date,
     case when substring(right(to_char(DataReqDelivFrom), 8), 1, 5) = '00:00' 
         then null 
