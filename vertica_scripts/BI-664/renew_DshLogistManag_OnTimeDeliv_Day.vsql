@@ -1,0 +1,36 @@
+-- временная таблица
+create local temp table tmp_DshLogistManag_OnTimeDeliv_Day (
+    DataInfo date,
+    MnthStrt date,
+    StoreCode int,
+    ReqNum varchar(150),
+    CliCode int,
+    ReqID int serial,
+    LateCode varchar(50))
+on commit preserve rows;
+truncate table tmp_DshLogistManag_OnTimeDeliv_Day;
+
+with otdd_cte as (
+    select
+        DataReqDeliv,
+        CliCode,
+        UsrInvNumReqDelivNum
+    from DataPrime.CliDelivCtrl)
+insert into tmp_DshLogistManag_OnTimeDeliv_Day (
+	cdc.DataInfo as DataInfo,
+    trunc(cdc.DataInfo, 'MM')::date as MnthStrt,
+    case when rdc.StoreCode isnull then '' else rdc.StoreCode end as StoreCode,
+    UsrInvNumReqDelivNum as ReqNum,
+    cdc.CliCode as CliCode,
+    row_number() over(partition by cte.CliCode, cte.UsrInvNumReqDelivNum, cte.DataInfo) as ReqID,
+    0 as LateCode
+from DataPrime.CliDelivCtrl cdc
+inner join public.RegionDescCommon rdc on cdc.CliStoreCode = rdc.StoreCode 
+    and rdc.TypeStore = 'ЛЦ'
+inner join DataPrime.StoreLinkClass10 slc on cdc.CliStoreCode = slc.Class10_Code
+    and (slc.Class10_Code like 'НО%' 
+        or slc.Class10_Code like 'ОП%' 
+        or slc.Class10_Code like 'РЦ%')
+inner join otdd_cte cte on cdc.CliCode = cte.CliCode
+    and cdc.ReqNum = cte.UsrInvNumReqDelivNum
+    and cdc.DataInfo = cte.DataInfo);
