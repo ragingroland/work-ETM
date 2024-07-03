@@ -11,26 +11,35 @@ on commit preserve rows;
 truncate table tmp_DshLogistManag_OnTimeDeliv_Day;
 
 with otdd_cte as (
-    select
-        DataReqDeliv,
+    select distinct
+        case when DataReqDeliv isnull
+            then DataInfo
+            else DataReqDeliv
+        end as DataReqDeliv_cte,
         CliCode,
-        UsrInvNumReqDelivNum
+        UsrInvNumReqDelivNum,
+        DataReqDeliv_cte || ' ' || CliCode || ' ' || UsrInvNumReqDelivNum as compose_key,
+        row_number() over(order by compose_key) as serial
     from DataPrime.CliDelivCtrl)
-insert into tmp_DshLogistManag_OnTimeDeliv_Day (
-	cdc.DataInfo as DataInfo,
+select
+    cdc.DataInfo as DataInfo,
     trunc(cdc.DataInfo, 'MM')::date as MnthStrt,
     case when rdc.StoreCode isnull then '' else rdc.StoreCode end as StoreCode,
-    UsrInvNumReqDelivNum as ReqNum,
+    cdc.UsrInvNumReqDelivNum as ReqNum,
     cdc.CliCode as CliCode,
-    row_number() over(partition by cte.CliCode, cte.UsrInvNumReqDelivNum, cte.DataInfo) as ReqID,
-    0 as LateCode
-from DataPrime.CliDelivCtrl cdc
+    cte.serial as ReqID,
+    (DataReqDelivFact_date||' '||DataReqDelivFact_time)::timestamp - (DataReqDelivTo_date||' '||DataReqDelivTo_time)::timestamp as delta,
+    case when EXTRACT(DAY FROM delta)*24*60 + EXTRACT(HOUR FROM delta)*60 + EXTRACT(MINUTE FROM delta) >= 0 
+            then EXTRACT(DAY FROM delta)*24*60 + EXTRACT(HOUR FROM delta)*60 + EXTRACT(MINUTE FROM delta) 
+            else 0 end as total_minutes,
+    LateCode
+from DataPrime.DshLogistManag_TypeCodeLate, DataPrime.CliDelivCtrl cdc
 inner join public.RegionDescCommon rdc on cdc.CliStoreCode = rdc.StoreCode 
     and rdc.TypeStore = 'ЛЦ'
-inner join DataPrime.StoreLinkClass10 slc on cdc.CliStoreCode = slc.Class10_Code
+left join DataPrime.StoreLinkClass10 slc on cdc.CliStoreCode = slc.Class10_Code
     and (slc.Class10_Code like 'НО%' 
         or slc.Class10_Code like 'ОП%' 
         or slc.Class10_Code like 'РЦ%')
-inner join otdd_cte cte on cdc.CliCode = cte.CliCode
-    and cdc.ReqNum = cte.UsrInvNumReqDelivNum
-    and cdc.DataInfo = cte.DataInfo);
+inner join otdd_cte cte on cdc.compose_key = cte.compose_key
+where total_minutes > LowBound and total_minutes <= UpBound;
+commit;
