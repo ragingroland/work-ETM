@@ -1,3 +1,12 @@
+create local temp table tmp_interval (
+    targetdate date)
+on commit preserve rows;
+truncate table tmp_interval;
+
+insert into tmp_interval (
+    select trunc(ADD_MONTHS(CURRENT_DATE-1, -12), 'MM') as targetdate);
+
+
 create local temp table tmp_otdd (
     DataInfo date,
     CliCode int,
@@ -14,7 +23,8 @@ insert into tmp_otdd (
         UsrInvNumReqDelivNum,
         DataInfo || ' ' || CliCode || ' ' || UsrInvNumReqDelivNum as compose_key,
         row_number() over(order by compose_key) as serial
-    from DataPrime.CliDelivCtrl cdc);
+    from tmp_interval, DataPrime.CliDelivCtrl cdc
+    where cdc.DataInfo >= targetdate);
 commit;
 
 create local temp table tmp_tcl (
@@ -41,9 +51,10 @@ insert into tmp_tcl (
             else 0 
         end as total_minutes,
         cdc.DataInfo || ' ' || cdc.CliCode || ' ' || cdc.UsrInvNumReqDelivNum as compose_key,
-        tcl.LateCode
-    from DataPrime.DshLogistManag_TypeCodeLate tcl, DataPrime.CliDelivCtrl cdc 
-    where total_minutes > LowBound and total_minutes <= UpBound);
+        case when delta is not null then tcl.LateCode else null end as LateCode
+    from tmp_interval, DataPrime.DshLogistManag_TypeCodeLate tcl, DataPrime.CliDelivCtrl cdc 
+    where total_minutes > LowBound and total_minutes <= UpBound
+        and cdc.DataInfo >= targetdate);
 commit;
 
 create local temp table tmp_main (
@@ -68,11 +79,12 @@ insert into tmp_main (
         0 as ReqID,
         cdc.DataInfo|| ' ' || cdc.CliCode || ' ' || cdc.UsrInvNumReqDelivNum as compose_key,
         0 as LateCode
-    from DataPrime.CliDelivCtrl cdc
+    from tmp_interval, DataPrime.CliDelivCtrl cdc
     left join public.RegionDescCommon rdc on cdc.CliStoreCode = rdc.StoreCode
         and rdc.TypeStore = 'ЛЦ'
     left join DataPrime.StoreLinkClass10 slc on cdc.CliStoreCode = slc.Class10_Code
-    and slc.Class10_Code in ('НО', 'ОП', 'РЦ'));
+        and slc.Class10_Code in ('НО', 'ОП', 'РЦ')
+    where cdc.DataInfo >= targetdate);
 commit;
 
 create local temp table tmp_DshLogistManag_OnTimeDeliv_Mnth (
@@ -101,6 +113,7 @@ inner join tmp_tcl tcl on otd.compose_key = tcl.compose_key
 group by main.compose_key, 1, 2, 3, 4, 5, 6, 7);
 commit;
 
+truncate table DataMart.DshLogistManag_OnTimeDeliv_Mnth;
 insert into DataMart.DshLogistManag_OnTimeDeliv_Mnth
 select 
     MnthStrt,
