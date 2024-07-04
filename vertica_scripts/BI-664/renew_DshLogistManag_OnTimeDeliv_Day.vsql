@@ -75,7 +75,7 @@ insert into tmp_main (
     select
         cdc.DataInfo as DataInfo,
         trunc(cdc.DataInfo, 'MM')::date as MnthStrt,
-        coalesce(rdc.StoreCode::int, cdc.StoreCode::int, 0) as StoreCode,
+        coalesce(rdc.StoreCode, '') as StoreCode,
         cdc.UsrInvNumReqDelivNum as ReqNum,
         cdc.CliCode as CliCode,
         0 as ReqID,
@@ -92,7 +92,7 @@ commit;
 create local temp table tmp_DshLogistManag_OnTimeDeliv_Day (
     DataInfo date,
     MnthStrt date,
-    StoreCode int,
+    StoreCode varchar(20),
     ReqNum varchar(150),
     CliCode int,
     ReqID int,
