@@ -7,8 +7,8 @@ create table DataMart.DshLogistManag_OnTimeDeliv_Day (
     StoreCode int,
     ReqNum varchar(150),
     CliCode int,
-    ReqID int serial,
-    LateCode varchar(50))
+    ReqID int,
+    LateCode int)
 order by
     LateCode,
     StoreCode,
@@ -29,18 +29,20 @@ create table DataMart.DshLogistManag_OnTimeDeliv_Mnth (
     StoreCode int,
     ReqNum varchar(150),
     CliCode int,
-    ReqID int serial,
-    LateCode varchar(50))
+    ReqID int,
+    LateCode int)
 order by
     LateCode,
     StoreCode,
+    CliCode,
     ReqID,
     ReqNum
 segmented by hash (
-    DataMart.DshLogistManag_OnTimeDeliv_Day.LateCode,
-    DataMart.DshLogistManag_OnTimeDeliv_Day.StoreCode
-    DataMart.DshLogistManag_OnTimeDeliv_Day.ReqID,
-    DataMart.DshLogistManag_OnTimeDeliv_Day.ReqNum
+    DataMart.DshLogistManag_OnTimeDeliv_Mnth.LateCode,
+    DataMart.DshLogistManag_OnTimeDeliv_Mnth.StoreCode,
+    DataMart.DshLogistManag_OnTimeDeliv_Mnth.CliCode,
+    DataMart.DshLogistManag_OnTimeDeliv_Mnth.ReqID,
+    DataMart.DshLogistManag_OnTimeDeliv_Mnth.ReqNum
     ) all nodes ksafe 1;
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;

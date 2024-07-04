@@ -75,7 +75,7 @@ insert into tmp_main (
     and slc.Class10_Code in ('НО', 'ОП', 'РЦ'));
 commit;
 
-create local temp table tmp_DshLogistManag_OnTimeDeliv_Day (
+create local temp table tmp_DshLogistManag_OnTimeDeliv_Mnth (
     DataInfo date,
     MnthStrt date,
     StoreCode int,
@@ -84,10 +84,10 @@ create local temp table tmp_DshLogistManag_OnTimeDeliv_Day (
     ReqID int,
     LateCode int)
 on commit preserve rows;
-truncate table tmp_DshLogistManag_OnTimeDeliv_Day;
+truncate table tmp_DshLogistManag_OnTimeDeliv_Mnth;
 
-insert into tmp_DshLogistManag_OnTimeDeliv_Day (
-select 
+insert into tmp_DshLogistManag_OnTimeDeliv_Mnth (
+select
     main.DataInfo,
     main.MnthStrt,
     main.StoreCode::int as StoreCode,
@@ -101,6 +101,13 @@ inner join tmp_tcl tcl on otd.compose_key = tcl.compose_key
 group by main.compose_key, 1, 2, 3, 4, 5, 6, 7);
 commit;
 
-insert into DataMart.DshLogistManag_OnTimeDeliv_Day
-select * from tmp_DshLogistManag_OnTimeDeliv_Day;
+insert into DataMart.DshLogistManag_OnTimeDeliv_Mnth
+select 
+    MnthStrt,
+    StoreCode,
+    ReqNum,
+    CliCode,
+    ReqID,
+    LateCode 
+from tmp_DshLogistManag_OnTimeDeliv_Mnth;
 commit;
