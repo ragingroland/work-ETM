@@ -73,7 +73,7 @@ insert into tmp_main (
     select
         cdc.DataInfo as DataInfo,
         trunc(cdc.DataInfo, 'MM')::date as MnthStrt,
-        coalesce(rdc.StoreCode::int, cdc.StoreCode::int, 0) as StoreCode,
+        coalesce(rdc.StoreCode::int, 0) as StoreCode,
         cdc.UsrInvNumReqDelivNum as ReqNum,
         cdc.CliCode as CliCode,
         0 as ReqID,
@@ -82,7 +82,7 @@ insert into tmp_main (
     from tmp_interval, DataPrime.CliDelivCtrl cdc
     left join public.RegionDescCommon rdc on cdc.CliStoreCode = rdc.StoreCode
         and rdc.TypeStore = 'ЛЦ'
-    left join DataPrime.StoreLinkClass10 slc on cdc.CliStoreCode = slc.Class10_Code
+    inner join DataPrime.StoreLinkClass10 slc on cdc.CliStoreCode::varchar(21) = slc.StoreCodeSymb
         and slc.Class10_Code in ('НО', 'ОП', 'РЦ')
     where cdc.DataInfo >= targetdate);
 commit;
