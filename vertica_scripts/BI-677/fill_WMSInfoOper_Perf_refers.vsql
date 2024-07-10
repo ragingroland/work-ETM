@@ -1,0 +1,36 @@
+-- создать и единожды наполнить справочники для должности,
+-- подтипа должности и операции
+
+create local temp table tmp_pos ( -- должность
+    pos_ID int,
+    EmpPos varchar(100))
+on commit preserve rows;
+truncate table tmp_pos;
+insert into tmp_pos (
+select distinct
+    EmpPos,
+    row_number() over() as pos_ID)
+from tmp_WMSInfoOper_Perf;
+commit;
+
+create local temp table tmp_subpos ( -- подтип должности
+    subpos_ID int,
+    EmpSubPos varchar(100))
+on commit preserve rows;
+truncate table tmp_subpos;
+insert into tmp_subpos (
+    EmpSubPos,
+    row_number() over() as subpos_ID)
+from tmp_WMSInfoOper_Perf;
+commit;
+
+create local temp table tmp_ops ( -- операция
+    ops_ID int,
+    WrkOp varchar(100))
+on commit preserve rows;
+truncate table tmp_ops;
+insert into tmp_ops (
+    WrkOp,
+    row_number() over() as ops_ID)
+from tmp_WMSInfoOper_Perf;
+commit;
