@@ -1,0 +1,81 @@
+create local temp table tmp_WMSInfoOper_Perf ( -- создать врем.таблицу и
+    DataInfo date,                             -- наполнить её из файла
+    TimeInfo time,
+    StoreCode int,
+    EmpNum int,
+    EmpPos varchar(100),
+    EmpSubPos varchar(100) default '',
+    WrkOp varchar(100),
+    OpZone varchar(20) default '')
+on commit preserve rows;
+truncate table tmp_WMSInfoOper_Perf;
+
+copy tmp_WMSInfoOper_Perf (
+    DataInfo,
+    TimeInfo,
+    StoreCode,
+    EmpNum,
+    EmpPos,
+    EmpSubPos,
+    WrkOp,
+    OpZone)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\file.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+    rejectmax 1
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\renew_WMSInfoOper_Perf.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\renew_WMSInfoOper_Perf.exc' direct skip 1;
+commit;
+
+create local temp table tmp_pos (
+    pos_ID int,
+    EmpPos varchar(100))
+on commit preserve rows;
+truncate table tmp_pos;
+
+merge into tmp_pos (
+    using
+        (select distinct
+            w.EmpPos
+        from tmp_WMSInfoOper_Perf w) as EmpPos);
+commit;
+
+create local temp table tmp_subpos (
+    subpos_ID int,
+    EmpSubPos varchar(100))
+on commit preserve rows;
+truncate table tmp_pos;
+
+insert into tmp_subpos (
+    row_number() over() as subpos_ID,
+    EmpSubPos)
+from tmp_WMSInfoOper_Perf w;
+
+create local temp table tmp_ops (
+    ops_ID int,
+    WrkOp varchar(100))
+on commit preserve rows;
+truncate table tmp_pos;
+
+insert into tmp_ops (
+    row_number() over() as ops_ID,
+    WrkOp)
+from tmp_WMSInfoOper_Perf w;
+
+-- очищает все проекции указанной таблицы
+select purge_table('DataPrime.WMSInfoOper_Perf');
+
+-- почистить в исходных табличках срезы по дате
+delete
+from DataPrime.WMSInfoOper_Perf
+where exists (
+    select 1
+    from tmp_WMSInfoOper_Perf
+    where tmp_WMSInfoOper_Perf.DataInfo = DataPrime.WMSInfoOper_Perf.DataInfo);
+commit;
+
+-- загрузить в основу
+insert into DataPrime.WMSInfoOper_Perf
+select * from tmp_WMSInfoOper_Perf;
+commit;

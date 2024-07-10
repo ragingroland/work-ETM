@@ -1,0 +1,51 @@
+-- 10.07.2024 Организовать хранение в Vertica (отчет WMS по операциям) - "Производительность СК ЛЦ"
+-- https://utrack.etm.corp/issue/BI-677/BI-UL-Organizovat-hranenie-v-Vertica-otchet-WMS-po-operaciyam-Proizvoditelnost-SK-LC
+
+create table DataPrime.WMSInfoOper_Perf (
+    DataInfo date,
+    TimeInfo time,
+    StoreCode int,
+    EmpNum int,
+    EmpPos varchar(100),
+    EmpSubPos varchar(100) default '',
+    WrkOp varchar(100),
+    OpZone varchar(20) default '')
+order by
+    StoreCode,
+    OpZone,
+    WrkOp,
+    EmpNum,
+    DataInfo
+segmented by hash (
+    DataPrime.WMSInfoOper_Perf.StoreCode,
+    DataPrime.WMSInfoOper_Perf.OpZone,
+    DataPrime.WMSInfoOper_Perf.WrkOp,
+    DataPrime.WMSInfoOper_Perf.EmpNum
+    ) all nodes ksafe 1;
+    
+create table DataPrime.WMSInfoOper_Perf_pos (
+    pos_ID int,
+    EmpPos varchar(100))
+all nodes ksafe 1;
+
+create table DataPrime.WMSInfoOper_Perf_subpos (
+    subpos_ID int,
+    EmpSubPos varchar(100))
+all nodes ksafe 1;
+
+create table DataPrime.WMSInfoOper_Perf_ops (
+    ops_ID int,
+    WrkOp varchar(100))
+all nodes ksafe 1;
+    
+GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT ALL ON SCHEMA public, DataPrime, DataMart TO RW_public_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RW_public_role;
+-- !!! для ED добавляем по роли etl_ed_role:
+--                 public и dataprime - только смотрим
+--                 datamart          - все 
+GRANT USAGE ON SCHEMA public, DataPrime TO etl_ed_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime  TO etl_ed_role;
+GRANT ALL ON SCHEMA DataMart TO etl_ed_role;
+GRANT ALL ON ALL TABLES IN SCHEMA DataMart TO etl_ed_role;
