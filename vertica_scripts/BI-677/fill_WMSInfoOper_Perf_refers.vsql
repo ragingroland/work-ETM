@@ -6,11 +6,13 @@ create local temp table tmp_pos ( -- должность
     EmpPos varchar(100))
 on commit preserve rows;
 truncate table tmp_pos;
-insert into tmp_pos (
+insert into tmp_pos
 select distinct
-    EmpPos,
-    row_number() over() as pos_ID)
+    lower(EmpPos) as EmpPos,
+    row_number() over(order by EmpPos) as pos_ID
 from tmp_WMSInfoOper_Perf;
+insert into DataPrime.WMSInfoOper_Perf_pos
+select * from tmp_pos;
 commit;
 
 create local temp table tmp_subpos ( -- подтип должности
@@ -18,10 +20,13 @@ create local temp table tmp_subpos ( -- подтип должности
     EmpSubPos varchar(100))
 on commit preserve rows;
 truncate table tmp_subpos;
-insert into tmp_subpos (
-    EmpSubPos,
-    row_number() over() as subpos_ID)
+insert into tmp_subpos
+select distinct
+    lower(EmpSubPos) as EmpSubPos,
+    row_number() over(order by EmpSubPos) as subpos_ID
 from tmp_WMSInfoOper_Perf;
+insert into DataPrime.WMSInfoOper_Perf_subpos
+select * from tmp_subpos;
 commit;
 
 create local temp table tmp_ops ( -- операция
@@ -29,8 +34,11 @@ create local temp table tmp_ops ( -- операция
     WrkOp varchar(100))
 on commit preserve rows;
 truncate table tmp_ops;
-insert into tmp_ops (
-    WrkOp,
-    row_number() over() as ops_ID)
+insert into tmp_ops
+select distinct
+    lower(WrkOp) as WrkOp,
+    row_number() over(order by WrkOp) as ops_ID
 from tmp_WMSInfoOper_Perf;
+insert into DataPrime.WMSInfoOper_Perf_ops
+select * from tmp_ops;
 commit;
