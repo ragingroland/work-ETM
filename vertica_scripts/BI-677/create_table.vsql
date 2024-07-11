@@ -5,7 +5,7 @@ create table DataPrime.WMSInfoOper_Perf (
     DataInfo date,
     TimeInfo time,
     StoreCode int,
-    EmpNum int,
+    EmpNum int, -- ДОЛЖНЫ БЫТЬ ВАРЧАР?
     EmpPos int,
     EmpSubPos int default '',
     WrkOp int,
