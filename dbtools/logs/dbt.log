@@ -1,0 +1,30 @@
+[0m09:28:55.638325 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A57BF32870>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A57BF327E0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A57BF32960>]}
+
+
+============================== 09:28:55.645323 | 77f6fd49-a565-4286-970d-a3704b714e1d ==============================
+[0m09:28:55.645323 [info ] [MainThread]: Running with dbt=1.7.3
+[0m09:28:55.645323 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'version_check': 'True', 'log_path': 'logs', 'debug': 'False', 'profiles_dir': 'C:\\Users\\ivanov_vvx\\.dbt', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt init', 'static_parser': 'True', 'introspect': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m09:28:55.646325 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': WindowsPath('C:/Users/ivanov_vvx/.dbt')}
+[0m09:28:55.647323 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m09:29:11.593096 [debug] [MainThread]: Starter project path: C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\include\starter_project
+[0m09:29:11.609680 [info ] [MainThread]: 
+Your new dbt project "ETM_docs" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m09:29:11.611679 [info ] [MainThread]: Setting up your profile.
+[0m09:31:22.381029 [info ] [MainThread]: Profile ETM_docs written to C:\Users\ivanov_vvx\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m09:31:22.382029 [debug] [MainThread]: Command `dbt init` succeeded at 09:31:22.382029 after 146.76 seconds
+[0m09:31:22.383030 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A57BBC1E50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A57B765A00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001A57B4CF860>]}
+[0m09:31:22.383030 [debug] [MainThread]: Flushing usage events
