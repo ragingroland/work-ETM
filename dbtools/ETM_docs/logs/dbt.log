@@ -1,0 +1,615 @@
+[0m09:38:33.069880 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020180857EF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002018128EBA0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002018128C470>]}
+
+
+============================== 09:38:33.073875 | 57656156-8487-462a-af23-f10e6746d400 ==============================
+[0m09:38:33.073875 [info ] [MainThread]: Running with dbt=1.7.3
+[0m09:38:33.074876 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'C:\\Users\\ivanov_vvx\\work\\dbtools\\ETM_docs\\logs', 'profiles_dir': 'C:\\Users\\ivanov_vvx\\.dbt', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'log_format': 'default', 'static_parser': 'True', 'target_path': 'None', 'invocation_command': 'dbt run', 'send_anonymous_usage_stats': 'True'}
+[0m09:38:33.262878 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020180DC4FE0>]}
+[0m09:38:33.333879 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020180F78F20>]}
+[0m09:38:33.337882 [info ] [MainThread]: Registered adapter: vertica=1.7.3
+[0m09:38:33.344880 [debug] [MainThread]: checksum: c95636796e12235e48c0560a0bb6a50e98827ef72e7ea1fe07a97c38c91661e1, vars: {}, profile: , target: , version: 1.7.3
+[0m09:38:33.345879 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m09:38:33.346879 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000201814B2AB0>]}
+[0m09:38:34.402311 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000201827B6C00>]}
+[0m09:38:34.412510 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000201827C5070>]}
+[0m09:38:34.413512 [info ] [MainThread]: Found 2 models, 4 tests, 0 sources, 0 exposures, 0 metrics, 454 macros, 0 groups, 0 semantic models
+[0m09:38:34.413512 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002018277C3B0>]}
+[0m09:38:34.415511 [info ] [MainThread]: 
+[0m09:38:34.416510 [debug] [MainThread]: Acquiring new vertica connection 'master'
+[0m09:38:34.417512 [debug] [ThreadPool]: Acquiring new vertica connection 'list_DWH'
+[0m09:38:34.427512 [debug] [ThreadPool]: Using vertica connection "list_DWH"
+[0m09:38:34.427512 [debug] [ThreadPool]: On list_DWH: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "list_DWH"} */
+
+    select schema_name
+    from v_catalog.schemata
+  
+[0m09:38:34.428512 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m09:38:34.471523 [debug] [ThreadPool]: vertica adapter: :P Connection work <Vertica.Connection:2205507494224 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150810537, backend_key=1204527118, transaction_status=no_transaction, socket=<socket.socket fd=1352, family=2, type=1, proto=0, laddr=('172.16.24.150', 53765), raddr=('172.24.2.174', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.472523 [debug] [ThreadPool]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:2205507494224 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150810537, backend_key=1204527118, transaction_status=no_transaction, socket=<socket.socket fd=1352, family=2, type=1, proto=0, laddr=('172.16.24.150', 53765), raddr=('172.24.2.174', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.488199 [debug] [ThreadPool]: SQL status: Operation: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "list_DWH"} */
+
+    select schema_name
+    from v_catalog.schemata
+  , Message: DataRow, Code: [ColumnTuple(name='schema_name', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True)], Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.490215 [debug] [ThreadPool]: On list_DWH: Close
+[0m09:38:34.492215 [debug] [ThreadPool]: Acquiring new vertica connection 'list_DWH_public'
+[0m09:38:34.498216 [debug] [ThreadPool]: Using vertica connection "list_DWH_public"
+[0m09:38:34.499215 [debug] [ThreadPool]: On list_DWH_public: BEGIN
+[0m09:38:34.499215 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m09:38:34.562484 [debug] [ThreadPool]: vertica adapter: :P Connection work <Vertica.Connection:2205506806720 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Etc/GMT-3', 'standard_conforming_strings': 'on'} backend_pid=150820103, backend_key=945315851, transaction_status=no_transaction, socket=<socket.socket fd=1248, family=2, type=1, proto=0, laddr=('172.16.24.150', 53767), raddr=('172.24.2.141', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.563489 [debug] [ThreadPool]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:2205506806720 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Etc/GMT-3', 'standard_conforming_strings': 'on'} backend_pid=150820103, backend_key=945315851, transaction_status=no_transaction, socket=<socket.socket fd=1248, family=2, type=1, proto=0, laddr=('172.16.24.150', 53767), raddr=('172.24.2.141', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.567778 [debug] [ThreadPool]: SQL status: Operation: BEGIN, Message: CommandComplete: command_tag = "BEGIN", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.568821 [debug] [ThreadPool]: Using vertica connection "list_DWH_public"
+[0m09:38:34.568821 [debug] [ThreadPool]: On list_DWH_public: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "list_DWH_public"} */
+select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'table' as type
+    from v_catalog.tables
+    where table_schema ilike 'public'
+    union all
+    select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'view' as type
+    from v_catalog.views
+    where table_schema ilike 'public'
+  
+[0m09:38:34.589968 [debug] [ThreadPool]: SQL status: Operation: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "list_DWH_public"} */
+select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'table' as type
+    from v_catalog.tables
+    where table_schema ilike 'public'
+    union all
+    select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'view' as type
+    from v_catalog.views
+    where table_schema ilike 'public'
+  , Message: DataRow, Code: [ColumnTuple(name='database', type_code=9, display_size=3, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='name', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='schema', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='type', type_code=9, display_size=5, internal_size=-1, precision=None, scale=None, null_ok=True)], Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.594967 [debug] [ThreadPool]: On list_DWH_public: ROLLBACK
+[0m09:38:34.600097 [debug] [ThreadPool]: On list_DWH_public: Close
+[0m09:38:34.630116 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020181460D70>]}
+[0m09:38:34.630116 [debug] [MainThread]: Using vertica connection "master"
+[0m09:38:34.631118 [debug] [MainThread]: On master: BEGIN
+[0m09:38:34.631118 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m09:38:34.705833 [debug] [MainThread]: vertica adapter: :P Connection work <Vertica.Connection:2205507514976 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150802326, backend_key=1853956112, transaction_status=no_transaction, socket=<socket.socket fd=1204, family=2, type=1, proto=0, laddr=('172.16.24.150', 53769), raddr=('172.24.2.201', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.706832 [debug] [MainThread]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:2205507514976 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150802326, backend_key=1853956112, transaction_status=no_transaction, socket=<socket.socket fd=1204, family=2, type=1, proto=0, laddr=('172.16.24.150', 53769), raddr=('172.24.2.201', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.710834 [debug] [MainThread]: SQL status: Operation: BEGIN, Message: CommandComplete: command_tag = "BEGIN", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.711833 [debug] [MainThread]: On master: COMMIT
+[0m09:38:34.711833 [debug] [MainThread]: Using vertica connection "master"
+[0m09:38:34.712833 [debug] [MainThread]: On master: COMMIT
+[0m09:38:34.715833 [debug] [MainThread]: SQL status: Operation: COMMIT, Message: CommandComplete: command_tag = "COMMIT", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.716833 [debug] [MainThread]: On master: Close
+[0m09:38:34.717833 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m09:38:34.718833 [info ] [MainThread]: 
+[0m09:38:34.733838 [debug] [Thread-1 (]: Began running node model.ETM_docs.my_first_dbt_model
+[0m09:38:34.734834 [info ] [Thread-1 (]: 1 of 2 START sql table model public.my_first_dbt_model ......................... [RUN]
+[0m09:38:34.736834 [debug] [Thread-1 (]: Acquiring new vertica connection 'model.ETM_docs.my_first_dbt_model'
+[0m09:38:34.736834 [debug] [Thread-1 (]: Began compiling node model.ETM_docs.my_first_dbt_model
+[0m09:38:34.744833 [debug] [Thread-1 (]: Writing injected SQL for node "model.ETM_docs.my_first_dbt_model"
+[0m09:38:34.746833 [debug] [Thread-1 (]: Timing info for model.ETM_docs.my_first_dbt_model (compile): 09:38:34.737833 => 09:38:34.746833
+[0m09:38:34.747834 [debug] [Thread-1 (]: Began executing node model.ETM_docs.my_first_dbt_model
+[0m09:38:34.776708 [debug] [Thread-1 (]: Applying DROP to: "DWH"."public"."my_first_dbt_model__dbt_tmp"
+[0m09:38:34.786593 [debug] [Thread-1 (]: Using vertica connection "model.ETM_docs.my_first_dbt_model"
+[0m09:38:34.787897 [debug] [Thread-1 (]: On model.ETM_docs.my_first_dbt_model: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */
+drop table if exists "DWH"."public"."my_first_dbt_model__dbt_tmp" cascade
+[0m09:38:34.788981 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m09:38:34.834193 [debug] [Thread-1 (]: vertica adapter: :P Connection work <Vertica.Connection:2205508915744 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150802334, backend_key=706228240, transaction_status=no_transaction, socket=<socket.socket fd=1420, family=2, type=1, proto=0, laddr=('172.16.24.150', 53771), raddr=('172.24.2.201', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.835193 [debug] [Thread-1 (]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:2205508915744 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150802334, backend_key=706228240, transaction_status=no_transaction, socket=<socket.socket fd=1420, family=2, type=1, proto=0, laddr=('172.16.24.150', 53771), raddr=('172.24.2.201', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.883160 [debug] [Thread-1 (]: SQL status: Operation: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */
+drop table if exists "DWH"."public"."my_first_dbt_model__dbt_tmp" cascade, Message: CommandComplete: command_tag = "DROP TABLE", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.887175 [debug] [Thread-1 (]: Applying DROP to: "DWH"."public"."my_first_dbt_model__dbt_backup"
+[0m09:38:34.888175 [debug] [Thread-1 (]: Using vertica connection "model.ETM_docs.my_first_dbt_model"
+[0m09:38:34.889175 [debug] [Thread-1 (]: On model.ETM_docs.my_first_dbt_model: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */
+drop table if exists "DWH"."public"."my_first_dbt_model__dbt_backup" cascade
+[0m09:38:34.901299 [debug] [Thread-1 (]: SQL status: Operation: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */
+drop table if exists "DWH"."public"."my_first_dbt_model__dbt_backup" cascade, Message: CommandComplete: command_tag = "DROP TABLE", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.917298 [debug] [Thread-1 (]: Writing runtime sql for node "model.ETM_docs.my_first_dbt_model"
+[0m09:38:34.919299 [debug] [Thread-1 (]: Using vertica connection "model.ETM_docs.my_first_dbt_model"
+[0m09:38:34.919299 [debug] [Thread-1 (]: On model.ETM_docs.my_first_dbt_model: BEGIN
+[0m09:38:34.923760 [debug] [Thread-1 (]: SQL status: Operation: BEGIN, Message: CommandComplete: command_tag = "BEGIN", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:34.924328 [debug] [Thread-1 (]: Using vertica connection "model.ETM_docs.my_first_dbt_model"
+[0m09:38:34.925349 [debug] [Thread-1 (]: On model.ETM_docs.my_first_dbt_model: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */
+
+  
+    
+  
+  create  table
+    "DWH"."public"."my_first_dbt_model__dbt_tmp"
+    
+    INCLUDE SCHEMA PRIVILEGES as (
+    /*
+    Welcome to your first dbt model!
+    Did you know that you can also configure models directly within SQL files?
+    This will override configurations stated in dbt_project.yml
+
+    Try changing "table" to "view" below
+*/
+
+
+
+with source_data as (
+
+    select 1 as id
+    union all
+    select null as id
+
+)
+
+select *
+from source_data
+
+/*
+    Uncomment the line below to remove records with null `id` values
+*/
+
+-- where id is not null
+  )
+ 
+
+  
+
+    
+ 
+  ;
+
+  
+[0m09:38:34.943084 [debug] [Thread-1 (]: vertica adapter: :P Database error: Severity: ROLLBACK, Message: Permission denied for schema public, Sqlstate: 42501, Routine: report_no_priv, File: /data/jenkins/workspace/RE-ReleaseBuilds/RE-Jackhammer/server/vertica/Commands/GrantRevoke.cpp, Line: 482, Error Code: 4367, SQL: '/* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */              create  table     "DWH"."public"."my_first_dbt_model__dbt_tmp"          INCLUDE SCHEMA PRIVILEGES as (     /*     Welcome to your first dbt model!     Did you know that you can also configure models directly within SQL files?     This will override configurations stated in dbt_project.yml     Try changing "table" to "view" below */ with source_data as (     select 1 as id     union all     select null as id ) select * from source_data /*     Uncomment the line below to remove records with null `id` values */ -- where id is not null   )               ;   '
+[0m09:38:34.944083 [debug] [Thread-1 (]: On model.ETM_docs.my_first_dbt_model: ROLLBACK
+[0m09:38:34.948085 [debug] [Thread-1 (]: On model.ETM_docs.my_first_dbt_model: Close
+[0m09:38:34.949083 [debug] [Thread-1 (]: Timing info for model.ETM_docs.my_first_dbt_model (execute): 09:38:34.747834 => 09:38:34.948085
+[0m09:38:34.964508 [debug] [Thread-1 (]: Database Error in model my_first_dbt_model (models\example\my_first_dbt_model.sql)
+  Severity: ROLLBACK, Message: Permission denied for schema public, Sqlstate: 42501, Routine: report_no_priv, File: /data/jenkins/workspace/RE-ReleaseBuilds/RE-Jackhammer/server/vertica/Commands/GrantRevoke.cpp, Line: 482, Error Code: 4367, SQL: '/* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */              create  table     "DWH"."public"."my_first_dbt_model__dbt_tmp"          INCLUDE SCHEMA PRIVILEGES as (     /*     Welcome to your first dbt model!     Did you know that you can also configure models directly within SQL files?     This will override configurations stated in dbt_project.yml     Try changing "table" to "view" below */ with source_data as (     select 1 as id     union all     select null as id ) select * from source_data /*     Uncomment the line below to remove records with null `id` values */ -- where id is not null   )               ;   '
+  compiled Code at target\run\ETM_docs\models\example\my_first_dbt_model.sql
+[0m09:38:34.964508 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '57656156-8487-462a-af23-f10e6746d400', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020182920470>]}
+[0m09:38:34.965507 [error] [Thread-1 (]: 1 of 2 ERROR creating sql table model public.my_first_dbt_model ................ [[31mERROR[0m in 0.23s]
+[0m09:38:34.966507 [debug] [Thread-1 (]: Finished running node model.ETM_docs.my_first_dbt_model
+[0m09:38:34.968508 [debug] [Thread-1 (]: Began running node model.ETM_docs.my_second_dbt_model
+[0m09:38:34.968508 [info ] [Thread-1 (]: 2 of 2 SKIP relation public.my_second_dbt_model ................................ [[33mSKIP[0m]
+[0m09:38:34.969508 [debug] [Thread-1 (]: Finished running node model.ETM_docs.my_second_dbt_model
+[0m09:38:34.970506 [debug] [MainThread]: Using vertica connection "master"
+[0m09:38:34.970506 [debug] [MainThread]: On master: BEGIN
+[0m09:38:34.971510 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m09:38:34.997510 [debug] [MainThread]: vertica adapter: :P Connection work <Vertica.Connection:2205508836944 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150813866, backend_key=478953487, transaction_status=no_transaction, socket=<socket.socket fd=1304, family=2, type=1, proto=0, laddr=('172.16.24.150', 53773), raddr=('172.24.2.175', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:34.998509 [debug] [MainThread]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:2205508836944 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150813866, backend_key=478953487, transaction_status=no_transaction, socket=<socket.socket fd=1304, family=2, type=1, proto=0, laddr=('172.16.24.150', 53773), raddr=('172.24.2.175', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:38:35.002514 [debug] [MainThread]: SQL status: Operation: BEGIN, Message: CommandComplete: command_tag = "BEGIN", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:35.003518 [debug] [MainThread]: On master: COMMIT
+[0m09:38:35.003518 [debug] [MainThread]: Using vertica connection "master"
+[0m09:38:35.003518 [debug] [MainThread]: On master: COMMIT
+[0m09:38:35.007509 [debug] [MainThread]: SQL status: Operation: COMMIT, Message: CommandComplete: command_tag = "COMMIT", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:38:35.008507 [debug] [MainThread]: On master: Close
+[0m09:38:35.009509 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m09:38:35.009509 [debug] [MainThread]: Connection 'list_DWH' was properly closed.
+[0m09:38:35.010507 [debug] [MainThread]: Connection 'list_DWH_public' was properly closed.
+[0m09:38:35.010507 [debug] [MainThread]: Connection 'model.ETM_docs.my_first_dbt_model' was properly closed.
+[0m09:38:35.010507 [info ] [MainThread]: 
+[0m09:38:35.011520 [info ] [MainThread]: Finished running 1 table model, 1 view model in 0 hours 0 minutes and 0.59 seconds (0.59s).
+[0m09:38:35.013508 [debug] [MainThread]: Command end result
+[0m09:38:35.020512 [info ] [MainThread]: 
+[0m09:38:35.021511 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m09:38:35.022508 [info ] [MainThread]: 
+[0m09:38:35.023507 [error] [MainThread]:   Database Error in model my_first_dbt_model (models\example\my_first_dbt_model.sql)
+  Severity: ROLLBACK, Message: Permission denied for schema public, Sqlstate: 42501, Routine: report_no_priv, File: /data/jenkins/workspace/RE-ReleaseBuilds/RE-Jackhammer/server/vertica/Commands/GrantRevoke.cpp, Line: 482, Error Code: 4367, SQL: '/* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "node_id": "model.ETM_docs.my_first_dbt_model"} */              create  table     "DWH"."public"."my_first_dbt_model__dbt_tmp"          INCLUDE SCHEMA PRIVILEGES as (     /*     Welcome to your first dbt model!     Did you know that you can also configure models directly within SQL files?     This will override configurations stated in dbt_project.yml     Try changing "table" to "view" below */ with source_data as (     select 1 as id     union all     select null as id ) select * from source_data /*     Uncomment the line below to remove records with null `id` values */ -- where id is not null   )               ;   '
+  compiled Code at target\run\ETM_docs\models\example\my_first_dbt_model.sql
+[0m09:38:35.024508 [info ] [MainThread]: 
+[0m09:38:35.025508 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=1 SKIP=1 TOTAL=2
+[0m09:38:35.026506 [debug] [MainThread]: Command `dbt run` failed at 09:38:35.026506 after 2.01 seconds
+[0m09:38:35.026506 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000201815D9850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020180B54F20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000020180B54380>]}
+[0m09:38:35.027511 [debug] [MainThread]: Flushing usage events
+[0m09:46:48.762024 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0B2110A0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0AA83B60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0B211D00>]}
+
+
+============================== 09:46:48.766025 | a35dff94-a01b-48e2-8508-c3fb47e63fec ==============================
+[0m09:46:48.766025 [info ] [MainThread]: Running with dbt=1.7.3
+[0m09:46:48.767024 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'profiles_dir': 'C:\\Users\\ivanov_vvx\\.dbt', 'log_path': 'C:\\Users\\ivanov_vvx\\work\\dbtools\\ETM_docs\\logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt docs generate', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m09:46:48.938029 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'a35dff94-a01b-48e2-8508-c3fb47e63fec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0AED1670>]}
+[0m09:46:49.010031 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'a35dff94-a01b-48e2-8508-c3fb47e63fec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0AB44470>]}
+[0m09:46:49.011031 [info ] [MainThread]: Registered adapter: vertica=1.7.3
+[0m09:46:49.019036 [debug] [MainThread]: checksum: c95636796e12235e48c0560a0bb6a50e98827ef72e7ea1fe07a97c38c91661e1, vars: {}, profile: , target: , version: 1.7.3
+[0m09:46:49.096036 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m09:46:49.096036 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m09:46:49.102035 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'a35dff94-a01b-48e2-8508-c3fb47e63fec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0B3A4440>]}
+[0m09:46:49.104035 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'a35dff94-a01b-48e2-8508-c3fb47e63fec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0B500D40>]}
+[0m09:46:49.105034 [info ] [MainThread]: Found 2 models, 4 tests, 0 sources, 0 exposures, 0 metrics, 454 macros, 0 groups, 0 semantic models
+[0m09:46:49.106035 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'a35dff94-a01b-48e2-8508-c3fb47e63fec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0B302570>]}
+[0m09:46:49.107035 [info ] [MainThread]: 
+[0m09:46:49.108035 [debug] [MainThread]: Acquiring new vertica connection 'master'
+[0m09:46:49.109035 [debug] [ThreadPool]: Acquiring new vertica connection 'list_DWH_public'
+[0m09:46:49.118035 [debug] [ThreadPool]: Using vertica connection "list_DWH_public"
+[0m09:46:49.119035 [debug] [ThreadPool]: On list_DWH_public: BEGIN
+[0m09:46:49.119035 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m09:46:49.139339 [debug] [ThreadPool]: vertica adapter: :P Connection work <Vertica.Connection:1911450021296 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150803755, backend_key=511377421, transaction_status=no_transaction, socket=<socket.socket fd=1072, family=2, type=1, proto=0, laddr=('172.16.24.150', 54007), raddr=('172.24.2.143', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:46:49.140338 [debug] [ThreadPool]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:1911450021296 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150803755, backend_key=511377421, transaction_status=no_transaction, socket=<socket.socket fd=1072, family=2, type=1, proto=0, laddr=('172.16.24.150', 54007), raddr=('172.24.2.143', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:46:49.144339 [debug] [ThreadPool]: SQL status: Operation: BEGIN, Message: CommandComplete: command_tag = "BEGIN", Code: None, Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:46:49.145338 [debug] [ThreadPool]: Using vertica connection "list_DWH_public"
+[0m09:46:49.145338 [debug] [ThreadPool]: On list_DWH_public: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "list_DWH_public"} */
+select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'table' as type
+    from v_catalog.tables
+    where table_schema ilike 'public'
+    union all
+    select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'view' as type
+    from v_catalog.views
+    where table_schema ilike 'public'
+  
+[0m09:46:49.163485 [debug] [ThreadPool]: SQL status: Operation: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "list_DWH_public"} */
+select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'table' as type
+    from v_catalog.tables
+    where table_schema ilike 'public'
+    union all
+    select
+      'DWH' as database,
+      table_name as name,
+      table_schema as schema,
+      'view' as type
+    from v_catalog.views
+    where table_schema ilike 'public'
+  , Message: DataRow, Code: [ColumnTuple(name='database', type_code=9, display_size=3, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='name', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='schema', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='type', type_code=9, display_size=5, internal_size=-1, precision=None, scale=None, null_ok=True)], Rows: -1, Arraysize: 1 in 0.0 seconds
+[0m09:46:49.168499 [debug] [ThreadPool]: On list_DWH_public: ROLLBACK
+[0m09:46:49.175371 [debug] [ThreadPool]: On list_DWH_public: Close
+[0m09:46:49.204380 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'a35dff94-a01b-48e2-8508-c3fb47e63fec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0B4C8BF0>]}
+[0m09:46:49.205380 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m09:46:49.206380 [info ] [MainThread]: 
+[0m09:46:49.208380 [debug] [Thread-1 (]: Began running node model.ETM_docs.my_first_dbt_model
+[0m09:46:49.209380 [debug] [Thread-1 (]: Acquiring new vertica connection 'model.ETM_docs.my_first_dbt_model'
+[0m09:46:49.210380 [debug] [Thread-1 (]: Began compiling node model.ETM_docs.my_first_dbt_model
+[0m09:46:49.215381 [debug] [Thread-1 (]: Writing injected SQL for node "model.ETM_docs.my_first_dbt_model"
+[0m09:46:49.216381 [debug] [Thread-1 (]: Timing info for model.ETM_docs.my_first_dbt_model (compile): 09:46:49.210380 => 09:46:49.216381
+[0m09:46:49.217380 [debug] [Thread-1 (]: Began executing node model.ETM_docs.my_first_dbt_model
+[0m09:46:49.217380 [debug] [Thread-1 (]: Timing info for model.ETM_docs.my_first_dbt_model (execute): 09:46:49.217380 => 09:46:49.217380
+[0m09:46:49.218384 [debug] [Thread-1 (]: Finished running node model.ETM_docs.my_first_dbt_model
+[0m09:46:49.219382 [debug] [Thread-1 (]: Began running node model.ETM_docs.my_second_dbt_model
+[0m09:46:49.220380 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.ETM_docs.my_first_dbt_model, now model.ETM_docs.my_second_dbt_model)
+[0m09:46:49.220380 [debug] [Thread-1 (]: Began compiling node model.ETM_docs.my_second_dbt_model
+[0m09:46:49.223381 [debug] [Thread-1 (]: Writing injected SQL for node "model.ETM_docs.my_second_dbt_model"
+[0m09:46:49.224381 [debug] [Thread-1 (]: Timing info for model.ETM_docs.my_second_dbt_model (compile): 09:46:49.221381 => 09:46:49.223381
+[0m09:46:49.224381 [debug] [Thread-1 (]: Began executing node model.ETM_docs.my_second_dbt_model
+[0m09:46:49.225383 [debug] [Thread-1 (]: Timing info for model.ETM_docs.my_second_dbt_model (execute): 09:46:49.224381 => 09:46:49.224381
+[0m09:46:49.225383 [debug] [Thread-1 (]: Finished running node model.ETM_docs.my_second_dbt_model
+[0m09:46:49.226380 [debug] [Thread-1 (]: Began running node test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710
+[0m09:46:49.227381 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.ETM_docs.my_second_dbt_model, now test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710)
+[0m09:46:49.227381 [debug] [Thread-1 (]: Began compiling node test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710
+[0m09:46:49.237381 [debug] [Thread-1 (]: Writing injected SQL for node "test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710"
+[0m09:46:49.240384 [debug] [Thread-1 (]: Timing info for test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710 (compile): 09:46:49.227381 => 09:46:49.239384
+[0m09:46:49.240384 [debug] [Thread-1 (]: Began executing node test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710
+[0m09:46:49.241382 [debug] [Thread-1 (]: Timing info for test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710 (execute): 09:46:49.241382 => 09:46:49.241382
+[0m09:46:49.242383 [debug] [Thread-1 (]: Finished running node test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710
+[0m09:46:49.243382 [debug] [Thread-1 (]: Began running node test.ETM_docs.unique_my_first_dbt_model_id.16e066b321
+[0m09:46:49.244383 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.ETM_docs.not_null_my_first_dbt_model_id.5fb22c2710, now test.ETM_docs.unique_my_first_dbt_model_id.16e066b321)
+[0m09:46:49.244383 [debug] [Thread-1 (]: Began compiling node test.ETM_docs.unique_my_first_dbt_model_id.16e066b321
+[0m09:46:49.251383 [debug] [Thread-1 (]: Writing injected SQL for node "test.ETM_docs.unique_my_first_dbt_model_id.16e066b321"
+[0m09:46:49.252384 [debug] [Thread-1 (]: Timing info for test.ETM_docs.unique_my_first_dbt_model_id.16e066b321 (compile): 09:46:49.245382 => 09:46:49.252384
+[0m09:46:49.253382 [debug] [Thread-1 (]: Began executing node test.ETM_docs.unique_my_first_dbt_model_id.16e066b321
+[0m09:46:49.253382 [debug] [Thread-1 (]: Timing info for test.ETM_docs.unique_my_first_dbt_model_id.16e066b321 (execute): 09:46:49.253382 => 09:46:49.253382
+[0m09:46:49.254382 [debug] [Thread-1 (]: Finished running node test.ETM_docs.unique_my_first_dbt_model_id.16e066b321
+[0m09:46:49.255383 [debug] [Thread-1 (]: Began running node test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778
+[0m09:46:49.256385 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.ETM_docs.unique_my_first_dbt_model_id.16e066b321, now test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778)
+[0m09:46:49.256385 [debug] [Thread-1 (]: Began compiling node test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778
+[0m09:46:49.260382 [debug] [Thread-1 (]: Writing injected SQL for node "test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778"
+[0m09:46:49.263382 [debug] [Thread-1 (]: Timing info for test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778 (compile): 09:46:49.256385 => 09:46:49.262383
+[0m09:46:49.263382 [debug] [Thread-1 (]: Began executing node test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778
+[0m09:46:49.264382 [debug] [Thread-1 (]: Timing info for test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778 (execute): 09:46:49.264382 => 09:46:49.264382
+[0m09:46:49.265382 [debug] [Thread-1 (]: Finished running node test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778
+[0m09:46:49.265382 [debug] [Thread-1 (]: Began running node test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493
+[0m09:46:49.266382 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.ETM_docs.not_null_my_second_dbt_model_id.151b76d778, now test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493)
+[0m09:46:49.266382 [debug] [Thread-1 (]: Began compiling node test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493
+[0m09:46:49.271383 [debug] [Thread-1 (]: Writing injected SQL for node "test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493"
+[0m09:46:49.273384 [debug] [Thread-1 (]: Timing info for test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493 (compile): 09:46:49.267384 => 09:46:49.272383
+[0m09:46:49.273384 [debug] [Thread-1 (]: Began executing node test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493
+[0m09:46:49.274383 [debug] [Thread-1 (]: Timing info for test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493 (execute): 09:46:49.273384 => 09:46:49.273384
+[0m09:46:49.275383 [debug] [Thread-1 (]: Finished running node test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493
+[0m09:46:49.275383 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m09:46:49.276384 [debug] [MainThread]: Connection 'list_DWH_public' was properly closed.
+[0m09:46:49.276384 [debug] [MainThread]: Connection 'test.ETM_docs.unique_my_second_dbt_model_id.57a0f8c493' was properly closed.
+[0m09:46:49.278382 [debug] [MainThread]: Command end result
+[0m09:46:49.287385 [debug] [MainThread]: Acquiring new vertica connection 'generate_catalog'
+[0m09:46:49.287385 [info ] [MainThread]: Building catalog
+[0m09:46:49.289385 [debug] [ThreadPool]: Acquiring new vertica connection 'DWH.information_schema'
+[0m09:46:49.299385 [debug] [ThreadPool]: Using vertica connection "DWH.information_schema"
+[0m09:46:49.300383 [debug] [ThreadPool]: On DWH.information_schema: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "DWH.information_schema"} */
+
+    
+
+           
+            with tables as (
+                select * from  (
+ select
+    'DWH' table_database
+    , tab.table_schema
+    , tab.table_name
+    , 'TABLE' table_type
+    , comment table_comment
+    , tab.owner_name table_owner
+    , col.column_name
+    , col.ordinal_position column_index
+    , col.data_type column_type
+    , nullif('','') column_comment
+    from v_catalog.tables tab
+    join v_catalog.columns col on tab.table_id = col.table_id
+    left join v_catalog.comments on tab.table_id = object_id
+    union all
+    select
+    'DWH' table_database
+    , vw.table_schema
+    , vw.table_name
+    , 'VIEW' table_type
+    , comment table_comment
+    , vw.owner_name table_owner
+    , col.column_name
+    , col.ordinal_position column_index
+    , col.data_type column_type
+    , nullif('','') column_comment
+    from v_catalog.views vw
+    join v_catalog.view_columns col on vw.table_id = col.table_id
+    left join v_catalog.comments on vw.table_id = object_id
+
+   )  anything
+                where (
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_first_dbt_model')
+                )
+             or 
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_second_dbt_model')
+                )
+            )
+             ), 
+        columns as (
+             select * from  ( select
+       'DWH' table_database , 
+    table_schema 
+    ,table_name
+    , column_name
+    , ordinal_position column_index
+    , data_type column_type
+         
+    from v_catalog.columns 
+
+         union all
+
+     select 
+    'DWH' table_database ,
+    table_schema 
+    ,table_name
+    ,  column_name
+    , ordinal_position column_index
+    , data_type column_type
+    
+    from v_catalog.view_columns
+    )  y
+             where (
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_first_dbt_model')
+                )
+             or 
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_second_dbt_model')
+                )
+            )
+          
+        )
+    select *
+    from tables
+    join columns using ("table_database", "table_schema", "table_name");
+  
+[0m09:46:49.301385 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m09:46:49.336300 [debug] [ThreadPool]: vertica adapter: :P Connection work <Vertica.Connection:1911468772624 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150799156, backend_key=1891655692, transaction_status=no_transaction, socket=<socket.socket fd=1052, family=2, type=1, proto=0, laddr=('172.16.24.150', 54009), raddr=('172.24.2.142', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:46:49.337301 [debug] [ThreadPool]: vertica adapter: :P Connected to database: DWH at 172.24.2.140 at <Vertica.Connection:1911468772624 parameters={'client_locale': 'en_US@collation=binary', 'client_label': 'dbt_user_finebi_jdbc', 'server_version': 'v11.1.1-7', 'long_string_types': 'on', 'protocol_version': 196619, 'timezone': 'Europe/Moscow', 'standard_conforming_strings': 'on'} backend_pid=150799156, backend_key=1891655692, transaction_status=no_transaction, socket=<socket.socket fd=1052, family=2, type=1, proto=0, laddr=('172.16.24.150', 54009), raddr=('172.24.2.142', 5433)>, options={'host': '172.24.2.140', 'port': 5433, 'user': 'user_finebi_jdbc', 'database': 'DWH', 'connection_timeout': 3600, 'connection_load_balance': True, 'session_label': 'dbt_user_finebi_jdbc', 'retries': 1, 'oauth_access_token': '', 'autocommit': False, 'backup_server_node': [], 'workload': '', 'kerberos_service_name': 'vertica', 'kerberos_host_name': '172.24.2.140', 'unicode_error': None, 'use_prepared_statements': False, 'disable_copy_local': False, 'binary_transfer': False, 'request_complex_types': True}>
+[0m09:46:50.570581 [debug] [ThreadPool]: SQL status: Operation: /* {"app": "dbt", "dbt_version": "1.7.3", "profile_name": "ETM_docs", "target_name": "dev", "connection_name": "DWH.information_schema"} */
+
+    
+
+           
+            with tables as (
+                select * from  (
+ select
+    'DWH' table_database
+    , tab.table_schema
+    , tab.table_name
+    , 'TABLE' table_type
+    , comment table_comment
+    , tab.owner_name table_owner
+    , col.column_name
+    , col.ordinal_position column_index
+    , col.data_type column_type
+    , nullif('','') column_comment
+    from v_catalog.tables tab
+    join v_catalog.columns col on tab.table_id = col.table_id
+    left join v_catalog.comments on tab.table_id = object_id
+    union all
+    select
+    'DWH' table_database
+    , vw.table_schema
+    , vw.table_name
+    , 'VIEW' table_type
+    , comment table_comment
+    , vw.owner_name table_owner
+    , col.column_name
+    , col.ordinal_position column_index
+    , col.data_type column_type
+    , nullif('','') column_comment
+    from v_catalog.views vw
+    join v_catalog.view_columns col on vw.table_id = col.table_id
+    left join v_catalog.comments on vw.table_id = object_id
+
+   )  anything
+                where (
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_first_dbt_model')
+                )
+             or 
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_second_dbt_model')
+                )
+            )
+             ), 
+        columns as (
+             select * from  ( select
+       'DWH' table_database , 
+    table_schema 
+    ,table_name
+    , column_name
+    , ordinal_position column_index
+    , data_type column_type
+         
+    from v_catalog.columns 
+
+         union all
+
+     select 
+    'DWH' table_database ,
+    table_schema 
+    ,table_name
+    ,  column_name
+    , ordinal_position column_index
+    , data_type column_type
+    
+    from v_catalog.view_columns
+    )  y
+             where (
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_first_dbt_model')
+                )
+             or 
+                (
+                    upper("table_schema") = upper('public')
+                    and upper("table_name") = upper('my_second_dbt_model')
+                )
+            )
+          
+        )
+    select *
+    from tables
+    join columns using ("table_database", "table_schema", "table_name");
+  , Message: CommandComplete: command_tag = "", Code: [ColumnTuple(name='table_database', type_code=9, display_size=3, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='table_schema', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='table_name', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='table_type', type_code=9, display_size=5, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='table_comment', type_code=9, display_size=8192, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='table_owner', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_name', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_index', type_code=6, display_size=20, internal_size=8, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_type', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_comment', type_code=9, display_size=1, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_name', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_index', type_code=6, display_size=20, internal_size=8, precision=None, scale=None, null_ok=True), ColumnTuple(name='column_type', type_code=9, display_size=128, internal_size=-1, precision=None, scale=None, null_ok=True)], Rows: -1, Arraysize: 1 in 1.0 seconds
+[0m09:46:50.572577 [debug] [ThreadPool]: On DWH.information_schema: Close
+[0m09:46:50.581577 [info ] [MainThread]: Catalog written to C:\Users\ivanov_vvx\work\dbtools\ETM_docs\target\catalog.json
+[0m09:46:50.583581 [debug] [MainThread]: Command `dbt docs generate` succeeded at 09:46:50.583581 after 1.88 seconds
+[0m09:46:50.583581 [debug] [MainThread]: Connection 'generate_catalog' was properly closed.
+[0m09:46:50.584580 [debug] [MainThread]: Connection 'DWH.information_schema' was properly closed.
+[0m09:46:50.584580 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0C6C9A30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD07CDF020>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001BD0C5220C0>]}
+[0m09:46:50.585578 [debug] [MainThread]: Flushing usage events
+[0m09:47:04.380949 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000292436CAF60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029244BD36E0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029244BD3A70>]}
+
+
+============================== 09:47:04.383949 | bb71e949-50a9-4ca3-aed0-d9e75b761d39 ==============================
+[0m09:47:04.383949 [info ] [MainThread]: Running with dbt=1.7.3
+[0m09:47:04.384946 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'C:\\Users\\ivanov_vvx\\.dbt', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'C:\\Users\\ivanov_vvx\\work\\dbtools\\ETM_docs\\logs', 'version_check': 'True', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'log_format': 'default', 'static_parser': 'True', 'target_path': 'None', 'invocation_command': 'dbt docs serve', 'send_anonymous_usage_stats': 'True'}
+[0m09:47:04.556952 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'bb71e949-50a9-4ca3-aed0-d9e75b761d39', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029244C62EA0>]}
+[0m09:47:04.627955 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'bb71e949-50a9-4ca3-aed0-d9e75b761d39', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029244BD3770>]}
+[0m11:26:14.816691 [error] [MainThread]: Encountered an error:
+
+[0m11:26:14.831213 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 90, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 75, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 168, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 197, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 244, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\main.py", line 324, in docs_serve
+    results = task.run()
+              ^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\task\serve.py", line 28, in run
+    httpd.serve_forever()
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+[0m11:26:14.840212 [debug] [MainThread]: Command `dbt docs serve` failed at 11:26:14.840212 after 5950.43 seconds
+[0m11:26:14.841227 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000292448BBBC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029244D08950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029244DDF260>]}
+[0m11:26:14.842215 [debug] [MainThread]: Flushing usage events
+[0m14:31:56.789195 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8B86F7D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8B86EA50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8B86D850>]}
+
+
+============================== 14:31:56.795198 | 19547559-dc99-4a69-b91b-367cbee7106a ==============================
+[0m14:31:56.795198 [info ] [MainThread]: Running with dbt=1.7.3
+[0m14:31:56.797201 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'C:\\Users\\ivanov_vvx\\.dbt', 'fail_fast': 'False', 'version_check': 'True', 'log_path': 'C:\\Users\\ivanov_vvx\\work\\dbtools\\ETM_docs\\logs', 'debug': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'log_format': 'default', 'static_parser': 'True', 'target_path': 'None', 'invocation_command': 'dbt docs serve', 'send_anonymous_usage_stats': 'True'}
+[0m14:31:57.086201 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '19547559-dc99-4a69-b91b-367cbee7106a', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8BA32360>]}
+[0m14:31:57.212013 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '19547559-dc99-4a69-b91b-367cbee7106a', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8B1A6FC0>]}
+[0m15:40:46.386109 [error] [MainThread]: Encountered an error:
+
+[0m15:40:46.390119 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 90, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 75, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 168, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 197, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 244, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\main.py", line 324, in docs_serve
+    results = task.run()
+              ^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\task\serve.py", line 28, in run
+    httpd.serve_forever()
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ivanov_vvx\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+[0m15:40:46.395106 [debug] [MainThread]: Command `dbt docs serve` failed at 15:40:46.395106 after 4129.62 seconds
+[0m15:40:46.396107 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE88362F00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8B8A2C90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001DE8BA4DF10>]}
+[0m15:40:46.397108 [debug] [MainThread]: Flushing usage events
+[0m16:06:41.629990 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025B163135C0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025B163132F0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025B163136B0>]}
+
+
+============================== 16:06:41.633991 | 80587389-54b5-4c1a-8fda-df3eb99a5829 ==============================
+[0m16:06:41.633991 [info ] [MainThread]: Running with dbt=1.7.3
+[0m16:06:41.634991 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'C:\\Users\\ivanov_vvx\\.dbt', 'fail_fast': 'False', 'warn_error': 'None', 'log_path': 'C:\\Users\\ivanov_vvx\\work\\dbtools\\ETM_docs\\logs', 'debug': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'invocation_command': 'dbt docs serve', 'send_anonymous_usage_stats': 'True'}
+[0m16:06:41.900995 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '80587389-54b5-4c1a-8fda-df3eb99a5829', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025B163E3650>]}
+[0m16:06:41.974995 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '80587389-54b5-4c1a-8fda-df3eb99a5829', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000025B16313A10>]}
