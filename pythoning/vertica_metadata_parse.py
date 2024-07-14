@@ -9,27 +9,31 @@ conn_info = {'host': '172.24.2.140',
              'autocommit': True,
              'connection_load_balance': True}
              
-# with vertica_python.connect(**conn_info) as conn:
-#     cur = conn.cursor()
-#     tables = cur.execute('''
-#         select 
-#             schema_name,
-#             table_name,
-#             remarks
-#         from v_catalog.all_tables
-#         where schema_name not like 'v_%';
-#         ''')
-#     with open('tables_metadata.csv', 'w', newline='', encoding = 'utf-8') as csvfile:
-#         writer = csv.writer(csvfile)
-#         writer.writerow(['schema_name', 'table_name', 'remarks'])
-#         writer.writerows(cur.fetchall())
+with vertica_python.connect(**conn_info) as conn:
+    cur = conn.cursor()
+    tables = cur.execute('''
+        select
+            at.schema_name,
+            at.table_name,
+            at.remarks,
+            cl.column_name,
+            cl.data_type,
+            cm.comment
+        from v_catalog.all_tables at
+        left join v_catalog.columns cl on at.table_name = cl.table_name
+        left join v_catalog.comments cm on cl.column_name = cm.child_object
+        where at.schema_name not like 'v_%';
+        ''')
+    with open('tables_metadata.csv', 'w', newline='', encoding = 'utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['schema_name', 'table_name', 'remarks', 'column_name', 'data_type', 'comment'])
+        writer.writerows(cur.fetchall())
 
 # with vertica_python.connect(**conn_info) as conn:
 #     cur = conn.cursor()
 #     cur.execute('''
-#         SELECT export_objects('', 'public');
+#         select export_objects('', 'public');
 #         ''')
-
 #     with open('table_ddls.csv', 'w', newline = '') as f:
 #         for row in cur.fetchall():
-#             f.write(row[0] + '\n') 
+#             f.write(row[0])

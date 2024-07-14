@@ -1,4 +1,5 @@
-DDL
+
+
 CREATE TABLE public.Class37History
 (
     DataInfo date NOT NULL,
@@ -27,6 +28,8 @@ CREATE TABLE public.Class37History
 )
 PARTITION BY (Class37History.DataInfo) GROUP BY (date_trunc('year', Class37History.DataInfo)) ActivePartitionCount 3
 ;
+
+
 CREATE TABLE public.Class37Plan
 (
     DataInfo date NOT NULL,
@@ -12575,7 +12578,7 @@ CREATE  VIEW public.Vw_CliTrnDtlRgdAnl_AllInfo AS
         RgdLinkClass82_8.Class82_Code AS Class82_Code_35,
         RgdLinkClass82_ClassSuppl.Class82_Code AS Class82_Code_ClassSuppl,
         RgdLinkClass82_Quality.Class82_Code AS Class82_Code_Quality
- FROM ((((((((((((((public.CliTurnoverDtl LEFT  JOIN public.RegionDescCommon ON ((CliTurnoverDtl.StoreCode1F = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((CliTurnoverDtl.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.DescKontrag ON ((DescMnf.SupplCodeUser = DescKontrag.CliCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'О©╫%'::varchar(3))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'О©╫%'::varchar(3)))));
+ FROM ((((((((((((((public.CliTurnoverDtl LEFT  JOIN public.RegionDescCommon ON ((CliTurnoverDtl.StoreCode1F = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((CliTurnoverDtl.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.DescKontrag ON ((DescMnf.SupplCodeUser = DescKontrag.CliCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'о%'::varchar(3))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((CliTurnoverDtl.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'й%'::varchar(3)))));
 
 CREATE  VIEW public.Vw_DebtInvoicePrj_AllInfo AS
  SELECT DebtInvoice.DataInfo,
@@ -12597,7 +12600,7 @@ CREATE  VIEW public.Vw_DebtInvoicePrj_AllInfo AS
         DebtInvoice.Class37_Code,
         DebtInvoice.IsTender,
         ClassGroup.ClassCodeGrp
- FROM (public.DebtInvoice LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (DebtInvoice.Class37OP = ClassGroup.ClassCodeSrc))));
+ FROM (public.DebtInvoice LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (DebtInvoice.Class37OP = ClassGroup.ClassCodeSrc))));
 
 CREATE  VIEW public.Vw_GroupCls98_1ByCls98_38 AS
  SELECT ClassGroup38.Class98_Code AS CodeCostGroup,
@@ -12688,7 +12691,7 @@ CREATE  VIEW public.Vw_RemSumDataLogcntMnfCls33_2 AS
         coalesce(sum(RgdRem1f.CurrRemFactInQuant), 0::float) AS CurrRemFactInQuant,
         coalesce(sum(RgdRem1f.CurrRemFactInPriceCost), 0::float) AS CurrRemFactInPriceCost
  FROM ((public.RgdRem1f JOIN public.RegionDescCommon ON ((RgdRem1f.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((RgdRem1f.RgdCode = DescRgd.RgdCode)))
- WHERE (RegionDescCommon.TypeStore <> 'О©╫О©╫О©╫О©╫О©╫О©╫'::varchar(12))
+ WHERE (RegionDescCommon.TypeStore <> 'гЮЪБЙХ'::varchar(12))
  GROUP BY (trunc(RgdRem1f.DataInfo, 'MONTH'::varchar(5)))::date,
           RegionDescCommon.LogistikCentreName,
           DescRgd.MnfCode,
@@ -12747,7 +12750,7 @@ CREATE  VIEW public.Vw_ReservRgdRgdAnl_AllInfo AS
         RgdLinkClass82_8.Class82_Code AS Class82_Code_35,
         RgdLinkClass82_ClassSuppl.Class82_Code AS Class82_Code_ClassSuppl,
         RgdLinkClass82_Quality.Class82_Code AS Class82_Code_Quality
- FROM ((((((((((((((public.ReservRgd LEFT  JOIN public.RegionDescCommon ON ((ReservRgd.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((ReservRgd.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.DescKontrag ON ((DescMnf.SupplCodeUser = DescKontrag.CliCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((ReservRgd.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((ReservRgd.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((ReservRgd.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((ReservRgd.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((ReservRgd.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((ReservRgd.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((ReservRgd.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((ReservRgd.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((ReservRgd.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'О©╫%'::varchar(3))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((ReservRgd.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'О©╫%'::varchar(3)))));
+ FROM ((((((((((((((public.ReservRgd LEFT  JOIN public.RegionDescCommon ON ((ReservRgd.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((ReservRgd.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.DescKontrag ON ((DescMnf.SupplCodeUser = DescKontrag.CliCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((ReservRgd.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((ReservRgd.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((ReservRgd.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((ReservRgd.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((ReservRgd.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((ReservRgd.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((ReservRgd.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((ReservRgd.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((ReservRgd.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'о%'::varchar(3))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((ReservRgd.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'й%'::varchar(3)))));
 
 CREATE  VIEW public.Vw_RgdSumTrnSumDataStoreCls33_2 AS
  SELECT RgdSumTurnover.DataInfo,
@@ -12848,7 +12851,7 @@ CREATE  VIEW public.Vw_DebtInvoice_AllInfo AS
         DebtInvoice.DayInfo,
         DebtInvoice.QuartInfo,
         DebtInvoice.CliHasOt
- FROM (((public.DebtInvoice LEFT  JOIN public.Class37History ON ((((trunc(DebtInvoice.DataInfo, 'MONTH'::varchar(5)))::date = Class37History.DataInfo) AND (DebtInvoice.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (DebtInvoice.Class37OP = ClassGroup.ClassCodeSrc)))) LEFT  JOIN public.DescKontrag ON ((DebtInvoice.CliCode = DescKontrag.CliCode)));
+ FROM (((public.DebtInvoice LEFT  JOIN public.Class37History ON ((((trunc(DebtInvoice.DataInfo, 'MONTH'::varchar(5)))::date = Class37History.DataInfo) AND (DebtInvoice.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (DebtInvoice.Class37OP = ClassGroup.ClassCodeSrc)))) LEFT  JOIN public.DescKontrag ON ((DebtInvoice.CliCode = DescKontrag.CliCode)));
 
 CREATE  VIEW public.Vw_AbcFmrRgd82ClassQuality AS
  SELECT AbcFmrRgd.DataInfo,
@@ -12888,7 +12891,7 @@ CREATE  VIEW public.Vw_AbcFmrRgd82ClassQuality AS
         DescRgd.Class27_Code_AllVzaim,
         RgdLinkClass82_Quality.Class82_Code AS Class82_Code_Quality,
         DescRgd.Class70V_Code_Rg118
- FROM ((public.AbcFmrRgd LEFT  JOIN public.DescRgd ON ((AbcFmrRgd.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((DescRgd.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'О©╫%'::varchar(3)))));
+ FROM ((public.AbcFmrRgd LEFT  JOIN public.DescRgd ON ((AbcFmrRgd.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((DescRgd.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'й%'::varchar(3)))));
 
 CREATE  VIEW public.Vw_QntCliManAss_AllInfo AS
  SELECT KontragLinkClass37Hist.DataInfo,
@@ -12907,7 +12910,7 @@ CREATE  VIEW public.Vw_QntCliManAss_AllInfo AS
         DescKontrag.SuppCust,
         1 AS QuantCliAssigned,
         ((((coalesce(DescMan.ManName, ''::varchar) || '$'::varchar(1)) || (Class37History.ManCode)::varchar(10)) || '$'::varchar(1)) || KontragLinkClass37Hist.Class37_Code) AS KeyMan
- FROM ((((public.KontragLinkClass37Hist LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3)))) JOIN public.Class37History ON (((KontragLinkClass37Hist.DataInfo = Class37History.DataInfo) AND (KontragLinkClass37Hist.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((KontragLinkClass37Hist.CliCode = DescKontrag.CliCode)));
+ FROM ((((public.KontragLinkClass37Hist LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3)))) JOIN public.Class37History ON (((KontragLinkClass37Hist.DataInfo = Class37History.DataInfo) AND (KontragLinkClass37Hist.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((KontragLinkClass37Hist.CliCode = DescKontrag.CliCode)));
 
 CREATE  VIEW public.Vw_QntCliManAssHd_AllInfo AS
  SELECT KontragLinkClass37Hist.DataInfo,
@@ -12926,7 +12929,7 @@ CREATE  VIEW public.Vw_QntCliManAssHd_AllInfo AS
         DescKontrag.SuppCust,
         1 AS QuantCliAssignedHd,
         ((((coalesce(DescMan.ManName, ''::varchar) || '$'::varchar(1)) || (Class37History.ManCode)::varchar(10)) || '$'::varchar(1)) || KontragLinkClass37Hist.Class37_Code) AS KeyMan
- FROM (((((public.KontragLinkClass37Hist JOIN public.CliHeadHistory ON (((CliHeadHistory.DataInfo = KontragLinkClass37Hist.DataInfo) AND (CliHeadHistory.CliHeadCode = KontragLinkClass37Hist.CliCode) AND (CliHeadHistory.CliCode = CliHeadHistory.CliHeadCode)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3)))) JOIN public.Class37History ON (((KontragLinkClass37Hist.DataInfo = Class37History.DataInfo) AND (KontragLinkClass37Hist.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((CliHeadHistory.CliHeadCode = DescKontrag.CliCode)));
+ FROM (((((public.KontragLinkClass37Hist JOIN public.CliHeadHistory ON (((CliHeadHistory.DataInfo = KontragLinkClass37Hist.DataInfo) AND (CliHeadHistory.CliHeadCode = KontragLinkClass37Hist.CliCode) AND (CliHeadHistory.CliCode = CliHeadHistory.CliHeadCode)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3)))) JOIN public.Class37History ON (((KontragLinkClass37Hist.DataInfo = Class37History.DataInfo) AND (KontragLinkClass37Hist.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((CliHeadHistory.CliHeadCode = DescKontrag.CliCode)));
 
 CREATE  VIEW public.Vw_QntCliManOt_AllInfo AS
  SELECT OtResumeCli.DataInfo,
@@ -12948,7 +12951,7 @@ CREATE  VIEW public.Vw_QntCliManOt_AllInfo AS
         OtResumeCli.QuantCliAssgMTh15,
         OtResumeCli.QuantCliAssgMTh50,
         ((((coalesce(DescMan.ManName, ''::varchar) || '$'::varchar(1)) || (Class37History.ManCode)::varchar(10)) || '$'::varchar(1)) || OtResumeCli.Class37_Code) AS KeyMan
- FROM ((((public.OtResumeCli LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = OtResumeCli.Class37_Code_3)))) JOIN public.Class37History ON (((OtResumeCli.DataInfo = Class37History.DataInfo) AND (OtResumeCli.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((OtResumeCli.CliCode = DescKontrag.CliCode)))
+ FROM ((((public.OtResumeCli LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = OtResumeCli.Class37_Code_3)))) JOIN public.Class37History ON (((OtResumeCli.DataInfo = Class37History.DataInfo) AND (OtResumeCli.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((OtResumeCli.CliCode = DescKontrag.CliCode)))
  WHERE (OtResumeCli.SumSaled > 0::float);
 
 CREATE  VIEW public.Vw_QntCliHdManOt_AllInfo AS
@@ -12971,7 +12974,7 @@ CREATE  VIEW public.Vw_QntCliHdManOt_AllInfo AS
         OtResumeCliHd.QuantCliAssgHdMTh15,
         OtResumeCliHd.QuantCliAssgHdMTh50,
         ((((coalesce(DescMan.ManName, ''::varchar) || '$'::varchar(1)) || (Class37History.ManCode)::varchar(10)) || '$'::varchar(1)) || OtResumeCliHd.Class37_Code) AS KeyMan
- FROM ((((public.OtResumeCliHd LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = OtResumeCliHd.Class37_Code_3)))) JOIN public.Class37History ON (((OtResumeCliHd.DataInfo = Class37History.DataInfo) AND (OtResumeCliHd.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((OtResumeCliHd.CliCodeHd = DescKontrag.CliCode)))
+ FROM ((((public.OtResumeCliHd LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = OtResumeCliHd.Class37_Code_3)))) JOIN public.Class37History ON (((OtResumeCliHd.DataInfo = Class37History.DataInfo) AND (OtResumeCliHd.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((OtResumeCliHd.CliCodeHd = DescKontrag.CliCode)))
  WHERE (OtResumeCliHd.SumSaled > 0::float);
 
 CREATE  VIEW public.Vw_QntCliHdManOtPlan_AllInfo AS
@@ -12994,7 +12997,7 @@ CREATE  VIEW public.Vw_QntCliHdManOtPlan_AllInfo AS
         CASE WHEN (CliManufact.TurnoverPlan > 15000::float) THEN 1 ELSE 0 END AS QuantCliAssgHdMTh15,
         CASE WHEN (CliManufact.TurnoverPlan > 50000::float) THEN 1 ELSE 0 END AS QuantCliAssgHdMTh50,
         ((((coalesce(DescMan.ManName, ''::varchar) || '$'::varchar(1)) || (Class37History.ManCode)::varchar(10)) || '$'::varchar(1)) || KontragLinkClass37Hist.Class37_Code) AS KeyMan
- FROM (((((public.KontragLinkClass37Hist LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3)))) JOIN public.CliManufact ON (((KontragLinkClass37Hist.DataInfo = CliManufact.DataInfo) AND (KontragLinkClass37Hist.CliCode = CliManufact.CliCode) AND (KontragLinkClass37Hist.Class37_Code = CliManufact.Class37_Code)))) JOIN public.Class37History ON (((CliManufact.DataInfo = Class37History.DataInfo) AND (CliManufact.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((CliManufact.CliCode = DescKontrag.CliCode)))
+ FROM (((((public.KontragLinkClass37Hist LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3)))) JOIN public.CliManufact ON (((KontragLinkClass37Hist.DataInfo = CliManufact.DataInfo) AND (KontragLinkClass37Hist.CliCode = CliManufact.CliCode) AND (KontragLinkClass37Hist.Class37_Code = CliManufact.Class37_Code)))) JOIN public.Class37History ON (((CliManufact.DataInfo = Class37History.DataInfo) AND (CliManufact.Class37_Code = Class37History.Class37_Code)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.DescKontrag ON ((CliManufact.CliCode = DescKontrag.CliCode)))
  WHERE (CliManufact.TurnoverPlan > 0::float);
 
 CREATE  VIEW public.Vw_OtBudg_AllInfo AS
@@ -13038,7 +13041,7 @@ CREATE  VIEW public.Vw_OtBudg_AllInfo AS
           Ot.StoreCode) Vw_RsmOt LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class63_Code,
         ClassGroup.ClassCodeSrc AS Class37_Code
  FROM public.ClassGroup
- WHERE ((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)))) Vw_GrpCls6337 ON (("substring"(Vw_RsmOt.Class37_Code, 1, 5) = Vw_GrpCls6337.Class37_Code))) LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class98_Code,
+ WHERE ((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)))) Vw_GrpCls6337 ON (("substring"(Vw_RsmOt.Class37_Code, 1, 5) = Vw_GrpCls6337.Class37_Code))) LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class98_Code,
         ClassGroup.ClassCodeSrc AS Class37_Code
  FROM public.ClassGroup
  WHERE ((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 98) AND (NOT (ClassGroup.ClassCodeSrc ~~ '%='::varchar(2))))) Vw_GrpCls9837 ON ((Vw_RsmOt.Class37_Code ~~ (Vw_GrpCls9837.Class37_Code || '%'::varchar(1)))));
@@ -13053,7 +13056,7 @@ CREATE  VIEW public.Vw_QntSumCost_63_55_Cli_AllInfo AS
         sum(CliTurnoverDtl.SumRB) AS SumRB,
         sum(CliTurnoverDtl.CostOnShip) AS CostOnShip,
         CASE WHEN (sum(CliTurnoverDtl.SumSaled) > 0::float) THEN 1 ELSE 0 END AS QuantCliAssg
- FROM ((public.CliTurnoverDtl LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(CliTurnoverDtl.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((CliTurnoverDtl.CliCode = DescKontrag.CliCode)))
+ FROM ((public.CliTurnoverDtl LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(CliTurnoverDtl.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((CliTurnoverDtl.CliCode = DescKontrag.CliCode)))
  WHERE (CliTurnoverDtl.DataInfo >= add_months((trunc((now())::date, 'YEAR'::varchar(4)))::date, (-12)))
  GROUP BY CliTurnoverDtl.DataInfo,
           ClassGroup.ClassCodeGrp,
@@ -13073,7 +13076,7 @@ CREATE  VIEW public.Vw_QntSumCost_63_55_33_Cli_AllInfo AS
         sum(CliTurnoverDtl.SumRB) AS SumRB,
         sum(CliTurnoverDtl.CostOnShip) AS CostOnShip,
         CASE WHEN (sum(CliTurnoverDtl.SumSaled) > 0::float) THEN 1 ELSE 0 END AS QuantCliAssg
- FROM (((public.CliTurnoverDtl LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(CliTurnoverDtl.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((CliTurnoverDtl.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((CliTurnoverDtl.RgdCode = DescRgd.RgdCode)))
+ FROM (((public.CliTurnoverDtl LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(CliTurnoverDtl.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((CliTurnoverDtl.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((CliTurnoverDtl.RgdCode = DescRgd.RgdCode)))
  WHERE (CliTurnoverDtl.DataInfo >= add_months((trunc((now())::date, 'YEAR'::varchar(4)))::date, (-12)))
  GROUP BY CliTurnoverDtl.DataInfo,
           ClassGroup.ClassCodeGrp,
@@ -13096,7 +13099,7 @@ CREATE  VIEW public.Vw_QntSumCostOt_63_55_Cli_AllInfo AS
         sum(Ot.SumRB) AS SumRB,
         sum(Ot.Cost) AS Cost,
         CASE WHEN (sum(Ot.SumSaled) > 0::float) THEN 1 ELSE 0 END AS QuantCliAssg
- FROM ((public.Ot LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(Ot.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((Ot.CliCode = DescKontrag.CliCode)))
+ FROM ((public.Ot LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(Ot.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((Ot.CliCode = DescKontrag.CliCode)))
  WHERE (Ot.DataInfo >= add_months((trunc((now())::date, 'YEAR'::varchar(4)))::date, (-13)))
  GROUP BY Ot.DataInfo,
           ClassGroup.ClassCodeGrp,
@@ -13122,7 +13125,7 @@ CREATE  VIEW public.Vw_QntSumCostOt_63_55_33_Cli_AllInfo AS
         sum(Ot.SumRB) AS SumRB,
         sum(Ot.Cost) AS Cost,
         CASE WHEN (sum(Ot.SumSaled) > 0::float) THEN 1 ELSE 0 END AS QuantCliAssg
- FROM (((public.Ot LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(Ot.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((Ot.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((Ot.RgdCode = DescRgd.RgdCode)))
+ FROM (((public.Ot LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(Ot.Class37_Code, 1, 5))))) LEFT  JOIN public.DescKontrag ON ((Ot.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((Ot.RgdCode = DescRgd.RgdCode)))
  WHERE (Ot.DataInfo >= add_months((trunc((now())::date, 'YEAR'::varchar(4)))::date, (-13)))
  GROUP BY Ot.DataInfo,
           ClassGroup.ClassCodeGrp,
@@ -13157,7 +13160,7 @@ CREATE  VIEW public.Vw_DebtInvForAccCli AS
         sum(DebtInvoice.OverDebtSum) AS OverDebtSum,
         sum(DebtInvoice.GenDebtSum) AS GenDebtSum,
         max(DebtInvoice.DelayedDays) AS DelayedDays
- FROM (public.DebtInvoice LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (DebtInvoice.Class37OP = ClassGroup.ClassCodeSrc))))
+ FROM (public.DebtInvoice LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (DebtInvoice.Class37OP = ClassGroup.ClassCodeSrc))))
  WHERE (((DebtInvoice.DataInfo <= (trunc((now())::date, 'MONTH'::varchar(5)))::date) AND (DebtInvoice.DayInfo = 1)) OR (DebtInvoice.DataInfo = (now())::date))
  GROUP BY CASE WHEN (DebtInvoice.DataInfo = (now())::date) THEN (trunc(DebtInvoice.DataInfo, 'MONTH'::varchar(5)))::date ELSE add_months((trunc(DebtInvoice.DataInfo, 'MONTH'::varchar(5)))::date, (-1)) END,
           DebtInvoice.CliCode,
@@ -13170,7 +13173,7 @@ CREATE  VIEW public.Vw_AccCliHist AS
         KontragLinkClass37Hist.TypeMan,
         KontragLinkClass37Hist.Class37_Code_3,
         "substring"(ClassGroup.ClassCodeGrp, 1, 4) AS Class63_Code_2
- FROM (public.KontragLinkClass37Hist LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3))));
+ FROM (public.KontragLinkClass37Hist LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = KontragLinkClass37Hist.Class37_Code_3))));
 
 CREATE  VIEW public.Vw_OtForAccCli AS
  SELECT Ot.DataInfo,
@@ -13287,7 +13290,7 @@ CREATE  VIEW public.Vw_OtgrAssrtRgd82ClassACG1_AllInfo AS
         OtgruzAssrtRgd.QuantInventBackgr,
         OtgruzAssrtRgd.CostInventBackgrAccount,
         OtgruzAssrtRgd.PersSpecIncom
- FROM (((((((((public.OtgruzAssrtRgd LEFT  JOIN public.DescRgd ON ((OtgruzAssrtRgd.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((DescRgd.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((DescRgd.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((DescRgd.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((DescRgd.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((DescRgd.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((DescRgd.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((DescRgd.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'О©╫%'::varchar(3)))))
+ FROM (((((((((public.OtgruzAssrtRgd LEFT  JOIN public.DescRgd ON ((OtgruzAssrtRgd.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((DescRgd.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((DescRgd.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((DescRgd.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((DescRgd.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((DescRgd.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((DescRgd.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((DescRgd.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'о%'::varchar(3)))))
  WHERE (OtgruzAssrtRgd.DataInfo >= add_months((trunc((now())::date, 'MONTH'::varchar(5)))::date, (-12)));
 
 CREATE  VIEW public.active_events_mon AS
@@ -13327,7 +13330,7 @@ CREATE  VIEW public.Vw_StatCompetitIN_ETM AS
         "substring"(DescRgd.Class33_Code, 1, 2) AS Class33_Code_2,
         "substring"(RegionDescCommon.Class14_Code, 1, 4) AS Class14_Code_2,
         9202 AS CliCode,
-        'О©╫1'::varchar(3) AS Class79_Code_K,
+        'й1'::varchar(3) AS Class79_Code_K,
         9202 AS BrandCode,
         sum((IncomRgd.SumPrcSuppl * 1.2::float)) AS SumIN
  FROM (((public.IncomRgd JOIN public.DescRgd ON (((IncomRgd.RgdCode = DescRgd.RgdCode) AND ("substring"(DescRgd.Class33_Code, 1, 2) = ANY (ARRAY['11'::varchar(2), '13'::varchar(2), '14'::varchar(2), '16'::varchar(2), '17'::varchar(2), '1F'::varchar(2), '1S'::varchar(2)]))))) JOIN ( SELECT StatCompetitor_SC.MnfCode
@@ -13345,7 +13348,7 @@ CREATE  VIEW public.Vw_StatCompetitGO_ETM AS
         "substring"(DescRgd.Class33_Code, 1, 2) AS Class33_Code_2,
         "substring"(RegionDescCommon.Class14_Code, 1, 4) AS Class14_Code_2,
         9202 AS CliCode,
-        'О©╫1'::varchar(3) AS Class79_Code_K,
+        'й1'::varchar(3) AS Class79_Code_K,
         9202 AS BrandCode,
         sum(CliTurnoverDtl.SumSaled) AS SumGO
  FROM (((public.CliTurnoverDtl JOIN public.DescRgd ON (((CliTurnoverDtl.RgdCode = DescRgd.RgdCode) AND ("substring"(DescRgd.Class33_Code, 1, 2) = ANY (ARRAY['11'::varchar(2), '13'::varchar(2), '14'::varchar(2), '16'::varchar(2), '17'::varchar(2), '1F'::varchar(2), '1S'::varchar(2)]))))) JOIN ( SELECT StatCompetitor_SC.MnfCode
@@ -13365,7 +13368,7 @@ CREATE  VIEW public.Vw_DescCompetitors AS
         coalesce(DescCliBrand.CliBrandCode, DescKontrag.CliCode) AS BrandCode,
         coalesce(DescCliBrand.CliBrandName, "substring"(DescKontrag.CliName, 1, 45)) AS BrandName
  FROM (((public.KontragLinkClass79 JOIN public.DescKontrag ON ((KontragLinkClass79.CliCode = DescKontrag.CliCode))) JOIN public.Class79 ON ((KontragLinkClass79.Class79_Code = Class79.Class79_Code))) LEFT  JOIN public.DescCliBrand ON ((DescKontrag.CliCode = DescCliBrand.CliCode)))
- WHERE (KontragLinkClass79.Class79_Code ~~ 'О©╫%'::varchar(3));
+ WHERE (KontragLinkClass79.Class79_Code ~~ 'й%'::varchar(3));
 
 CREATE  VIEW public.Vw_PlanMnfctBudg_AllInfo AS
  SELECT Class37History.DataInfo,
@@ -13384,11 +13387,11 @@ CREATE  VIEW public.Vw_PlanMnfctBudg_AllInfo AS
         Class37Plan.PlanPrftAbilBudg,
         Class37Plan.PlanQuantity,
         ClassGroup.ClassCodeGrp
- FROM (((public.Class37History RIGHT  JOIN public.Class37Plan ON (((Class37History.DataInfo = Class37Plan.DataInfo) AND (Class37History.Class37_Code = Class37Plan.Class37_Code)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc)))) LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class98_Code,
+ FROM (((public.Class37History RIGHT  JOIN public.Class37Plan ON (((Class37History.DataInfo = Class37Plan.DataInfo) AND (Class37History.Class37_Code = Class37Plan.Class37_Code)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc)))) LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class98_Code,
         ClassGroup.ClassCodeSrc AS Class37_Code
  FROM public.ClassGroup
  WHERE ((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 98) AND (NOT (ClassGroup.ClassCodeSrc ~~ '%='::varchar(2))))) Vw_GrpCls9837 ON ((Class37History.Class37_Code ~~ (Vw_GrpCls9837.Class37_Code || '%'::varchar(1)))))
- WHERE ((Class37History.DataInfo >= add_months((trunc((now())::date, 'MONTH'::varchar(5)))::date, (-25))) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)));
+ WHERE ((Class37History.DataInfo >= add_months((trunc((now())::date, 'MONTH'::varchar(5)))::date, (-25))) AND (Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)));
 
 CREATE  VIEW public.Vw_ManMnfctBudg_AllInfo AS
  SELECT Class37History.DataInfo,
@@ -13413,11 +13416,11 @@ CREATE  VIEW public.Vw_ManMnfctBudg_AllInfo AS
         ClassGroup.ClassCodeGrp,
         OtResumeMan.PercSumSaledBckgr,
         OtResumeMan.PercSumSaledPrj
- FROM ((((((public.Class37History LEFT  JOIN public.ManManufact ON (((Class37History.DataInfo = ManManufact.DataInfo) AND (Class37History.Class37_Code = ManManufact.Class37_Code) AND (Class37History.ManCode = ManManufact.ManCode)))) LEFT  JOIN public.CliManufact ON (((ManManufact.DataInfo = CliManufact.DataInfo) AND (ManManufact.Class37_Code = CliManufact.Class37_Code) AND (ManManufact.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc)))) LEFT  JOIN public.OtResumeMan ON (((ManManufact.DataInfo = OtResumeMan.DataInfo) AND (ManManufact.Class37_Code = OtResumeMan.Class37_Code) AND (ManManufact.ManCode = OtResumeMan.ManCode)))) LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class98_Code,
+ FROM ((((((public.Class37History LEFT  JOIN public.ManManufact ON (((Class37History.DataInfo = ManManufact.DataInfo) AND (Class37History.Class37_Code = ManManufact.Class37_Code) AND (Class37History.ManCode = ManManufact.ManCode)))) LEFT  JOIN public.CliManufact ON (((ManManufact.DataInfo = CliManufact.DataInfo) AND (ManManufact.Class37_Code = CliManufact.Class37_Code) AND (ManManufact.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc)))) LEFT  JOIN public.OtResumeMan ON (((ManManufact.DataInfo = OtResumeMan.DataInfo) AND (ManManufact.Class37_Code = OtResumeMan.Class37_Code) AND (ManManufact.ManCode = OtResumeMan.ManCode)))) LEFT  JOIN ( SELECT ClassGroup.ClassCodeGrp AS Class98_Code,
         ClassGroup.ClassCodeSrc AS Class37_Code
  FROM public.ClassGroup
  WHERE ((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 98) AND (NOT (ClassGroup.ClassCodeSrc ~~ '%='::varchar(2))))) Vw_GrpCls9837 ON ((Class37History.Class37_Code ~~ (Vw_GrpCls9837.Class37_Code || '%'::varchar(1)))))
- WHERE ((Class37History.DataInfo >= add_months((trunc((now())::date, 'MONTH'::varchar(5)))::date, (-25))) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)))
+ WHERE ((Class37History.DataInfo >= add_months((trunc((now())::date, 'MONTH'::varchar(5)))::date, (-25))) AND (Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_опл%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_нпо%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_лмн%'::varchar(8)))
  GROUP BY Class37History.DataInfo,
           Class37History.Class37_Code,
           Class37History.ManCode,
@@ -13461,8 +13464,8 @@ CREATE  VIEW public.Vw_CliMnfct_AllInfo AS
         ClassGroup.ClassCodeGrp,
         CliManufact.CliCode,
         CliManufact.CostFactDtSh
- FROM (((public.Class37History LEFT  JOIN public.CliManufact ON (((Class37History.DataInfo = CliManufact.DataInfo) AND (Class37History.Class37_Code = CliManufact.Class37_Code) AND (Class37History.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc))))
- WHERE ((Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)));
+ FROM (((public.Class37History LEFT  JOIN public.CliManufact ON (((Class37History.DataInfo = CliManufact.DataInfo) AND (Class37History.Class37_Code = CliManufact.Class37_Code) AND (Class37History.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc))))
+ WHERE ((Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_опл%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_нпо%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_лмн%'::varchar(8)));
 
 CREATE  VIEW public.Vw_Cls37HistPlan_AllInfo AS
  SELECT Class37History.DataInfo,
@@ -13487,7 +13490,7 @@ CREATE  VIEW public.Vw_Cls37HistPlan_AllInfo AS
         Class37Plan.PlanBudget,
         Class37Plan.PlanPrftAbilBudg
  FROM (public.Class37History RIGHT  JOIN public.Class37Plan ON (((Class37History.DataInfo = Class37Plan.DataInfo) AND (Class37History.Class37_Code = Class37Plan.Class37_Code))))
- WHERE ((Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)));
+ WHERE ((Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)));
 
 CREATE  VIEW public.Vw_Cls37HistPlanCls63_AllInfo AS
  SELECT Class37History.DataInfo,
@@ -13510,8 +13513,8 @@ CREATE  VIEW public.Vw_Cls37HistPlanCls63_AllInfo AS
         Class37Plan.PlanBudget,
         ClassGroup.ClassCodeGrp,
         Class37Plan.PlanPrftAbilBudg
- FROM ((public.Class37History RIGHT  JOIN public.Class37Plan ON (((Class37History.DataInfo = Class37Plan.DataInfo) AND (Class37History.Class37_Code = Class37Plan.Class37_Code)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc))))
- WHERE ((Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)));
+ FROM ((public.Class37History RIGHT  JOIN public.Class37Plan ON (((Class37History.DataInfo = Class37Plan.DataInfo) AND (Class37History.Class37_Code = Class37Plan.Class37_Code)))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc))))
+ WHERE ((Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)));
 
 CREATE  VIEW public.Vw_ManMnfctCls63OtRsmMan_AllInfo AS
  SELECT Class37History.DataInfo,
@@ -13546,8 +13549,8 @@ CREATE  VIEW public.Vw_ManMnfctCls63OtRsmMan_AllInfo AS
         ClassGroup.ClassCodeGrp,
         OtResumeMan.PercSumSaledBckgr,
         OtResumeMan.PercSumSaledPrj
- FROM (((((public.Class37History LEFT  JOIN public.ManManufact ON (((Class37History.DataInfo = ManManufact.DataInfo) AND (Class37History.Class37_Code = ManManufact.Class37_Code) AND (Class37History.ManCode = ManManufact.ManCode)))) LEFT  JOIN public.CliManufact ON (((ManManufact.DataInfo = CliManufact.DataInfo) AND (ManManufact.Class37_Code = CliManufact.Class37_Code) AND (ManManufact.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc)))) LEFT  JOIN public.OtResumeMan ON (((ManManufact.DataInfo = OtResumeMan.DataInfo) AND (ManManufact.Class37_Code = OtResumeMan.Class37_Code) AND (ManManufact.ManCode = OtResumeMan.ManCode))))
- WHERE ((Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)))
+ FROM (((((public.Class37History LEFT  JOIN public.ManManufact ON (((Class37History.DataInfo = ManManufact.DataInfo) AND (Class37History.Class37_Code = ManManufact.Class37_Code) AND (Class37History.ManCode = ManManufact.ManCode)))) LEFT  JOIN public.CliManufact ON (((ManManufact.DataInfo = CliManufact.DataInfo) AND (ManManufact.Class37_Code = CliManufact.Class37_Code) AND (ManManufact.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND ("substring"(Class37History.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc)))) LEFT  JOIN public.OtResumeMan ON (((ManManufact.DataInfo = OtResumeMan.DataInfo) AND (ManManufact.Class37_Code = OtResumeMan.Class37_Code) AND (ManManufact.ManCode = OtResumeMan.ManCode))))
+ WHERE ((Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_опл%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_нпо%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_лмн%'::varchar(8)))
  GROUP BY Class37History.DataInfo,
           Class37History.Class37_Code,
           Class37History.ManCode,
@@ -13599,7 +13602,7 @@ CREATE  VIEW public.Vw_ManMnfct_AllInfo AS
         Class37History.Class37_Name_Level7,
         DescMan.ManName
  FROM (((public.Class37History LEFT  JOIN public.ManManufact ON (((Class37History.DataInfo = ManManufact.DataInfo) AND (Class37History.Class37_Code = ManManufact.Class37_Code) AND (Class37History.ManCode = ManManufact.ManCode)))) LEFT  JOIN public.CliManufact ON (((ManManufact.DataInfo = CliManufact.DataInfo) AND (ManManufact.Class37_Code = CliManufact.Class37_Code) AND (ManManufact.ManCode = CliManufact.ManCode)))) LEFT  JOIN public.DescMan ON ((Class37History.ManCode = DescMan.ManCode)))
- WHERE ((Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____О©╫1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____О©╫%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_О©╫О©╫О©╫%'::varchar(8)))
+ WHERE ((Class37History.Class37_Code !~~ '_____с%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_____я1%'::varchar(9)) AND (Class37History.Class37_Code !~~ '_____п%'::varchar(8)) AND (Class37History.Class55_Code <> ''::varchar) AND (Class37History.Category <> ''::varchar) AND (Class37History.Class37_Code !~~ '_опл%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_нпо%'::varchar(8)) AND (Class37History.Class37_Code !~~ '_лмн%'::varchar(8)))
  GROUP BY Class37History.DataInfo,
           Class37History.YearInfo,
           Class37History.MonthInfo,
@@ -13631,7 +13634,7 @@ CREATE  VIEW public.Vw_CliTrnDebtRsm_CliPlan AS
         coalesce(CliTrnDebtResume.GenDebtSum, 0::float) AS GenDebtSum,
         coalesce(CliTrnDebtResume.OverDebtSum, 0::float) AS OverDebtSum,
         coalesce(CliTrnDebtResume.PlanPotClass72, 0::float) AS PlanPotClass72,
-        coalesce(CliTrnDebtResume.IsArbitration, 'О©╫О©╫О©╫'::varchar(6)) AS IsArbitration,
+        coalesce(CliTrnDebtResume.IsArbitration, 'МЕР'::varchar(6)) AS IsArbitration,
         coalesce(CliTrnDebtResume.StateArbitration, ''::varchar) AS StateArbitration,
         coalesce(CliTrnPlan.TurnoverPlan, 0::float) AS TurnoverPlan,
         coalesce(CliTrnPlan.CostPlan, 0::float) AS CostPlan,
@@ -13673,7 +13676,7 @@ CREATE  VIEW public.Vw_OtCliAnl_AllInfo AS
         Ot.CostOnShip,
         Ot.CostRegional,
         Ot.Cost81Orig
- FROM ((((public.Ot LEFT  JOIN public.DescKontrag ON ((Ot.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((Ot.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMan ON ((Ot.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(Ot.Class37_Code, 1, 5)))));
+ FROM ((((public.Ot LEFT  JOIN public.DescKontrag ON ((Ot.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((Ot.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMan ON ((Ot.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = "substring"(Ot.Class37_Code, 1, 5)))));
 
 CREATE  VIEW public.Vw_DescTraders AS
  SELECT KontragLinkClass295.CliCode,
@@ -13716,7 +13719,7 @@ CREATE  VIEW public.Vw_TailStatTraderETMQrt_AllInfo AS
           (date_trunc('QUARTER'::varchar(7), TailStatTraderETM.DataInfo))::date) Vw_DateTailQrt ON ((TailStatTraderETM.DataInfo = Vw_DateTailQrt.DataInfo)))
  GROUP BY Vw_DateTailQrt.DataQrt,
           TailStatTraderETM.CustInn,
-          TailStatTraderETM.Class14_Code_2) Vw_TailStatTraderETMQrt LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_ACG ON (((Vw_TailStatTraderETMQrt.CustCode = KontragLinkClass79_ACG.CliCode) AND (KontragLinkClass79_ACG.Class79_Code ~~ 'G%'::varchar(2))))) LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_EXCL ON (((Vw_TailStatTraderETMQrt.CustCode = KontragLinkClass79_EXCL.CliCode) AND (KontragLinkClass79_EXCL.Class79_Code ~~ 'E%'::varchar(2))))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 14) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = Vw_TailStatTraderETMQrt.Class14_Code_2))));
+          TailStatTraderETM.Class14_Code_2) Vw_TailStatTraderETMQrt LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_ACG ON (((Vw_TailStatTraderETMQrt.CustCode = KontragLinkClass79_ACG.CliCode) AND (KontragLinkClass79_ACG.Class79_Code ~~ 'G%'::varchar(2))))) LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_EXCL ON (((Vw_TailStatTraderETMQrt.CustCode = KontragLinkClass79_EXCL.CliCode) AND (KontragLinkClass79_EXCL.Class79_Code ~~ 'E%'::varchar(2))))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 14) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassCodeSrc = Vw_TailStatTraderETMQrt.Class14_Code_2))));
 
 CREATE  VIEW public.Vw_CBStatTraderQrt_AllInfo AS
  SELECT Vw_CBStatTraderQrt.DataQrt,
@@ -13747,7 +13750,7 @@ CREATE  VIEW public.Vw_CBStatTraderQrt_AllInfo AS
           CBStatTrader.Class295_Code,
           CBStatTrader.Class294_Code,
           CBStatTrader.Class14_Code_2,
-          CBStatTrader.CustInn) Vw_CBStatTraderQrt LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_ACG ON (((Vw_CBStatTraderQrt.CustCode = KontragLinkClass79_ACG.CliCode) AND (KontragLinkClass79_ACG.Class79_Code ~~ 'G%'::varchar(2))))) LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_EXCL ON (((Vw_CBStatTraderQrt.CustCode = KontragLinkClass79_EXCL.CliCode) AND (KontragLinkClass79_EXCL.Class79_Code ~~ 'E%'::varchar(2))))) LEFT  JOIN public.KontragLinkClass296 ON (((Vw_CBStatTraderQrt.CustCode = KontragLinkClass296.CliCode) AND ("substring"(Vw_CBStatTraderQrt.Class294_Code, 1, 2) = KontragLinkClass296.Class294_Code)))) LEFT  JOIN public.ClassGroup ClassGroup_63 ON (((ClassGroup_63.ClassTypeSrc = 14) AND (ClassGroup_63.ClassTypeGrp = 63) AND (ClassGroup_63.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup_63.ClassCodeSrc = Vw_CBStatTraderQrt.Class14_Code_2)))) LEFT  JOIN public.ClassGroup ClassGroup_297 ON (((ClassGroup_297.ClassTypeSrc = 295) AND (ClassGroup_297.ClassTypeGrp = 297) AND (ClassGroup_297.ClassCodeSrc = Vw_CBStatTraderQrt.Class295_Code))));
+          CBStatTrader.CustInn) Vw_CBStatTraderQrt LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_ACG ON (((Vw_CBStatTraderQrt.CustCode = KontragLinkClass79_ACG.CliCode) AND (KontragLinkClass79_ACG.Class79_Code ~~ 'G%'::varchar(2))))) LEFT  JOIN public.KontragLinkClass79 KontragLinkClass79_EXCL ON (((Vw_CBStatTraderQrt.CustCode = KontragLinkClass79_EXCL.CliCode) AND (KontragLinkClass79_EXCL.Class79_Code ~~ 'E%'::varchar(2))))) LEFT  JOIN public.KontragLinkClass296 ON (((Vw_CBStatTraderQrt.CustCode = KontragLinkClass296.CliCode) AND ("substring"(Vw_CBStatTraderQrt.Class294_Code, 1, 2) = KontragLinkClass296.Class294_Code)))) LEFT  JOIN public.ClassGroup ClassGroup_63 ON (((ClassGroup_63.ClassTypeSrc = 14) AND (ClassGroup_63.ClassTypeGrp = 63) AND (ClassGroup_63.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup_63.ClassCodeSrc = Vw_CBStatTraderQrt.Class14_Code_2)))) LEFT  JOIN public.ClassGroup ClassGroup_297 ON (((ClassGroup_297.ClassTypeSrc = 295) AND (ClassGroup_297.ClassTypeGrp = 297) AND (ClassGroup_297.ClassCodeSrc = Vw_CBStatTraderQrt.Class295_Code))));
 
 CREATE  VIEW public.Vw_CustomerBaseDataMart AS
  SELECT CBST_U.DataInfo,
@@ -13787,7 +13790,7 @@ CREATE  VIEW public.Vw_CustomerBaseDataMart AS
         ClassGroup.ClassCodeSrc,
         ClassGroup.ClassCodeGrp
  FROM public.ClassGroup
- WHERE ((ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND (ClassGroup.ClassTypeSrc = 14) AND (ClassGroup.ClassTypeGrp = 63))) CG ON ((substr(C14.Class14_Code, 1, 4) = CG.ClassCodeSrc))) LEFT  JOIN public.Class63 C63 ON ((CG.ClassCodeGrp = C63.Class63_Code))) LEFT  JOIN public.DescKontrag DK ON ((CBST_U.CustCode = DK.CliCode))) JOIN ( SELECT KLC79_G.CliCode,
+ WHERE ((ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND (ClassGroup.ClassTypeSrc = 14) AND (ClassGroup.ClassTypeGrp = 63))) CG ON ((substr(C14.Class14_Code, 1, 4) = CG.ClassCodeSrc))) LEFT  JOIN public.Class63 C63 ON ((CG.ClassCodeGrp = C63.Class63_Code))) LEFT  JOIN public.DescKontrag DK ON ((CBST_U.CustCode = DK.CliCode))) JOIN ( SELECT KLC79_G.CliCode,
         KLC79_G.Class79_1,
         KLC79_G.Class79_Code
  FROM (( SELECT KontragLinkClass79.CliCode,
@@ -13846,7 +13849,7 @@ CREATE  VIEW public.Vw_CliTrnDtlCliAnl_AllInfo AS
         1 AS QuantCapt,
         CliTurnoverDtl.TypeLogin1,
         CliTurnoverDtl.ShipmentSrc
- FROM (((((public.CliTurnoverDtl LEFT  JOIN public.DescKontrag ON ((CliTurnoverDtl.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((CliTurnoverDtl.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.RgdDivisDprt ON ((CliTurnoverDtl.RgdCode = RgdDivisDprt.RgdCode))) LEFT  JOIN public.DescMan ON ((CliTurnoverDtl.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'О©╫О©╫%'::varchar(5)) AND ("substring"(CliTurnoverDtl.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc))));
+ FROM (((((public.CliTurnoverDtl LEFT  JOIN public.DescKontrag ON ((CliTurnoverDtl.CliCode = DescKontrag.CliCode))) LEFT  JOIN public.DescRgd ON ((CliTurnoverDtl.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.RgdDivisDprt ON ((CliTurnoverDtl.RgdCode = RgdDivisDprt.RgdCode))) LEFT  JOIN public.DescMan ON ((CliTurnoverDtl.ManCode = DescMan.ManCode))) LEFT  JOIN public.ClassGroup ON (((ClassGroup.ClassTypeSrc = 37) AND (ClassGroup.ClassTypeGrp = 63) AND (ClassGroup.ClassCodeGrp ~~ 'со%'::varchar(5)) AND ("substring"(CliTurnoverDtl.Class37_Code, 1, 5) = ClassGroup.ClassCodeSrc))));
 
 CREATE  VIEW public.Vw_NormAndRemRgd_AllInfo AS
  SELECT NormAndRemRgd.DataInfo,
@@ -13995,7 +13998,7 @@ CREATE  VIEW public.Vw_RsmCliTrnRgdRsrvRemRem_AllInfo AS
         RsmCliTrnRgdRsrvRem.CurrRemFactInQuant,
         RsmCliTrnRgdRsrvRem.CurrRemFactInPriceCost,
         RsmCliTrnRgdRsrvRem.IsNormedRgdQuant
- FROM (((((((((((((public.RsmCliTrnRgdRsrvRem LEFT  JOIN public.RegionDescCommon ON ((RsmCliTrnRgdRsrvRem.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((RsmCliTrnRgdRsrvRem.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.RgdDivisDprt ON ((RsmCliTrnRgdRsrvRem.RgdCode = RgdDivisDprt.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((DescRgd.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((DescRgd.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((DescRgd.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((DescRgd.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((DescRgd.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((DescRgd.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((DescRgd.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((DescRgd.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((DescRgd.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'О©╫%'::varchar(3)))));
+ FROM (((((((((((((public.RsmCliTrnRgdRsrvRem LEFT  JOIN public.RegionDescCommon ON ((RsmCliTrnRgdRsrvRem.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((RsmCliTrnRgdRsrvRem.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.RgdDivisDprt ON ((RsmCliTrnRgdRsrvRem.RgdCode = RgdDivisDprt.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((DescRgd.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((DescRgd.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((DescRgd.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((DescRgd.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((DescRgd.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((DescRgd.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((DescRgd.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((DescRgd.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((DescRgd.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'о%'::varchar(3)))));
 
 CREATE  VIEW public.Vw_AbcFmrRgdAllInfo AS
  SELECT AbcFmrRgd.DataInfo,
@@ -14097,7 +14100,7 @@ CREATE  VIEW public.Vw_RgdRem1fRgdAnl_AllInfo AS
         RgdLinkClass82_8.Class82_Code AS Class82_Code_35,
         RgdLinkClass82_ClassSuppl.Class82_Code AS Class82_Code_ClassSuppl,
         RgdLinkClass82_Quality.Class82_Code AS Class82_Code_Quality
- FROM (((((((((((((((public.RgdRem1f FULL  JOIN DataPrime.RgdNormedInfo ON (((RgdRem1f.DataInfo = RgdNormedInfo.DataInfo) AND (RgdRem1f.StoreCode = RgdNormedInfo.StoreCode) AND (RgdRem1f.RgdCode = RgdNormedInfo.RgdCode) AND (RgdNormedInfo.IsNormedRgdQuant > 0)))) LEFT  JOIN public.RegionDescCommon ON ((RgdRem1f.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((RgdRem1f.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.DescKontrag ON ((DescMnf.SupplCodeUser = DescKontrag.CliCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((RgdRem1f.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((RgdRem1f.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((RgdRem1f.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((RgdRem1f.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((RgdRem1f.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((RgdRem1f.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((RgdRem1f.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((RgdRem1f.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((RgdRem1f.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'О©╫%'::varchar(3))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((RgdRem1f.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'О©╫%'::varchar(3)))));
+ FROM (((((((((((((((public.RgdRem1f FULL  JOIN DataPrime.RgdNormedInfo ON (((RgdRem1f.DataInfo = RgdNormedInfo.DataInfo) AND (RgdRem1f.StoreCode = RgdNormedInfo.StoreCode) AND (RgdRem1f.RgdCode = RgdNormedInfo.RgdCode) AND (RgdNormedInfo.IsNormedRgdQuant > 0)))) LEFT  JOIN public.RegionDescCommon ON ((RgdRem1f.StoreCode = RegionDescCommon.StoreCode))) LEFT  JOIN public.DescRgd ON ((RgdRem1f.RgdCode = DescRgd.RgdCode))) LEFT  JOIN public.DescMnf ON ((DescRgd.MnfCode = DescMnf.MnfCode))) LEFT  JOIN public.DescKontrag ON ((DescMnf.SupplCodeUser = DescKontrag.CliCode))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_1 ON (((RgdRem1f.RgdCode = RgdLinkClass82_1.RgdCode) AND (RgdLinkClass82_1.Class82_Code = '108111'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_2 ON (((RgdRem1f.RgdCode = RgdLinkClass82_2.RgdCode) AND (RgdLinkClass82_2.Class82_Code = '108112'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_3 ON (((RgdRem1f.RgdCode = RgdLinkClass82_3.RgdCode) AND (RgdLinkClass82_3.Class82_Code = '108113'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_4 ON (((RgdRem1f.RgdCode = RgdLinkClass82_4.RgdCode) AND (RgdLinkClass82_4.Class82_Code = '108114'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_5 ON (((RgdRem1f.RgdCode = RgdLinkClass82_5.RgdCode) AND (RgdLinkClass82_5.Class82_Code = '108115'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_6 ON (((RgdRem1f.RgdCode = RgdLinkClass82_6.RgdCode) AND (RgdLinkClass82_6.Class82_Code = '108116'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_7 ON (((RgdRem1f.RgdCode = RgdLinkClass82_7.RgdCode) AND (RgdLinkClass82_7.Class82_Code = '108119'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_8 ON (((RgdRem1f.RgdCode = RgdLinkClass82_8.RgdCode) AND (RgdLinkClass82_8.Class82_Code = '108135'::varchar(6))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_ClassSuppl ON (((RgdRem1f.RgdCode = RgdLinkClass82_ClassSuppl.RgdCode) AND (RgdLinkClass82_ClassSuppl.Class82_Code ~~ 'о%'::varchar(3))))) LEFT  JOIN public.RgdLinkClass82 RgdLinkClass82_Quality ON (((RgdRem1f.RgdCode = RgdLinkClass82_Quality.RgdCode) AND (RgdLinkClass82_Quality.Class82_Code ~~ 'й%'::varchar(3)))));
 
 CREATE  VIEW public.Vw_IncomRgd_AllInfo AS
 WITH  Vw_IncRgdRsm AS ( SELECT IncomRgd.DataInfo,
