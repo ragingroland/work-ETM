@@ -70,7 +70,7 @@ btn.grid(column=2, row=0)
 combo_schema = Combobox(window)
 schema_names = get_schema()
 combo_schema['values'] = schema_names
-combo_schema.current(0)
+#combo_schema.current(0)
 combo_schema.grid(column=0, row=0)
 combo_table = Combobox(window)
 table_names = get_tables()
