@@ -16,9 +16,9 @@ def get_ddl():
     target = combo_schema.get() + '.' + combo_table.get()
     cur.execute(f"select export_objects('', '{target}');")
     result = cur.fetchall()
-    text_field.delete('1.0', END)
+    text_field2.delete('1.0', END)
     for row in result:
-        text_field.insert(INSERT, row[0])
+        text_field2.insert(INSERT, row[0])
 
 def get_comms():
     cur = conn.cursor()
@@ -51,13 +51,13 @@ def get_comms():
                     where at.schema_name = '{combo_schema.get()}' and at.table_name = '{combo_table.get()}'
                     order by 2;""")
     result = cur.fetchall()
-    text_field2.delete('1.0', END)
+    text_field.delete('1.0', END)
     for row in result:
         for i in range(len(row)):
-            text_field2.insert(INSERT, row[i] if row[i] else '')
+            text_field.insert(INSERT, row[i] if row[i] else '')
             if i < len(row) - 1:
-                text_field2.insert(INSERT, ' ')
-        text_field2.insert(INSERT, '\n') 
+                text_field.insert(INSERT, ' ')
+        text_field.insert(INSERT, '\n') 
 
 def get_schema():
     cur = conn.cursor()
@@ -75,7 +75,7 @@ def get_tables():
 window = Tk()
 window.title("ЭТМ-IT: Описание таблиц Vertica.")
 window.geometry('680x720')
-window.resizable(False, False)
+window.resizable(True, True)
 btn = Button(window, 
             text=" Получить информацию о таблице ",
             bg="white",
