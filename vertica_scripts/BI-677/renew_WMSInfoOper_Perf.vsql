@@ -1,41 +1,181 @@
 create local temp table tmp_WMSInfoOper_Perf ( -- создать врем.таблицу и
-    DataInfo date,                             -- наполнить её из файла
-    TimeInfo time,
-    StoreCode int,
-    EmpNum int,
-    EmpPos int,
-    EmpSubPos int default '',
-    WrkOp int,
-    OpZone varchar(20) default '')
+    StoreCode int,                              -- наполнить её из файлов
+    DataInfo date,
+    EmpNum varchar(100),
+    WrkOp varchar(100),
+    WrkOpCount int,
+    OpZone varchar(100) default '',
+    EmpPos varchar(100),
+    Internship varchar(2))
 on commit preserve rows;
-truncate table tmp_WMSInfoOper_Perf;
 
-copy tmp_WMSInfoOper_Perf (
-    DataInfo,
-    TimeInfo,
+copy tmp_WMSInfoOper_Perf ( -- дальше копирование данных из файлов
     StoreCode,
+    DataInfo,
     EmpNum,
-    EmpPos,
-    EmpSubPos,
     WrkOp,
-    OpZone)
-from local 'H:\OLAP\WMSInfoOper_Perf\DATA\file.vcsv'
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-    rejectmax 1
-rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\renew_WMSInfoOper_Perf.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\renew_WMSInfoOper_Perf.exc' direct skip 1;
-commit;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.exc' direct skip 1;
 
-create local temp table tmp_pos as
-select distinct
-    EmpPos
-from tmp_WMSInfoOper_Perf
-where EmpPos not exists (select EmpPos from DataPrime.WMSInfoOper_Perf_pos)
-on commit preserve rows;
-insert into DataPrime.WMSInfoOper_Perf_pos (EmpPos)
-select EmpPos from tmp_pos;
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.exc' direct skip 1;
+
+copy tmp_WMSInfoOper_Perf (
+    StoreCode,
+    DataInfo,
+    EmpNum,
+    WrkOp,
+    WrkOpCount,
+    OpZone,
+    EmpPos,
+    Internship)
+from local 'H:\OLAP\WMSInfoOper_Perf\DATA\VRN.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\VRN.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\VRN.exc' direct skip 1;
+
+-- обновление справочников
+insert into DataPrime.WMSInfoOper_Perf_pos -- должности
+with maxID as (
+    select max(pos_ID) as mid from DataPrime.WMSInfoOper_Perf_pos),
+emppos as (
+    select distinct upper(tmp_WMSInfoOper_Perf.EmpPos) as ep from tmp_WMSInfoOper_Perf
+    left join DataPrime.WMSInfoOper_Perf_pos main on main.EmpPos = upper(tmp_WMSInfoOper_Perf.EmpPos)
+    where main.pos_ID is null)
+select 
+    coalesce(mid,0) + rank() over(order by emppos.ep),
+    emppos.ep
+from maxID, emppos;
+insert into DataPrime.WMSInfoOper_Perf_ops -- рабочие операции
+with maxID as (
+    select max(ops_ID) as mid from DataPrime.WMSInfoOper_Perf_ops),
+wrkop as (
+    select distinct upper(tmp_WMSInfoOper_Perf.WrkOp) as ep from tmp_WMSInfoOper_Perf
+    left join DataPrime.WMSInfoOper_Perf_ops main on main.WrkOp = upper(tmp_WMSInfoOper_Perf.WrkOp)
+    where main.ops_ID is null)
+select 
+    coalesce(mid,0) + rank() over(order by wrkop.ep),
+    wrkop.ep
+from maxID, wrkop;
 commit;
 
 -- очищает все проекции указанной таблицы
@@ -48,18 +188,19 @@ where exists (
     select 1
     from tmp_WMSInfoOper_Perf
     where tmp_WMSInfoOper_Perf.DataInfo = DataPrime.WMSInfoOper_Perf.DataInfo);
-commit;
 
--- загрузить в основу
+-- загрузить данные в основу
 insert into DataPrime.WMSInfoOper_Perf
 select
-    DataInfo,
-    TimeInfo,
     StoreCode,
+    DataInfo,
     EmpNum,
-    EmpPos,
-    EmpSubPos,
-    WrkOp,
-    OpZone
-from tmp_WMSInfoOper_Perf;
+    o.ops_ID as WrkOp,
+    WrkOpCount,
+    OpZone,
+    p.pos_ID as EmpPos,
+    Internship
+from tmp_WMSInfoOper_Perf w
+left join DataPrime.WMSInfoOper_Perf_pos p on upper(w.EmpPos) = upper(p.EmpPos)
+left join DataPrime.WMSInfoOper_Perf_ops o on upper(w.WrkOp) = upper(o.WrkOp)
 commit;

@@ -112,16 +112,14 @@ tree.heading("Column", text = "Столбец")
 tree.heading("Data Type", text = "Тип данных")
 tree.heading("Comment", text = "Опис.столбца")
 tree.pack(pady = 5)
-# сделать горизонтальный скролл для дерево смотреть
+# сделать горизонтальный скролл для дерева
+# отцентрировать содержимое
+
 # текстовое поле с DDL
 text_field = scrolledtext.ScrolledText(content_frame, width = 120,height = 30)
 text_field.pack(pady = 5)
 text_field.configure(state = 'disabled')
 text_field.config(state = 'normal')
-text_field2 = scrolledtext.ScrolledText(content_frame, width = 120,height = 30)
-text_field2.pack(pady = 5)
-text_field2.configure(state = 'disabled')
-text_field2.config(state = 'normal')
 
 content_window = content_canvas.create_window(0, 0, anchor="nw", window=content_frame)
 content_canvas.bind("<Configure>", 
