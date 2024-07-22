@@ -195,12 +195,12 @@ select
     StoreCode,
     DataInfo,
     EmpNum,
-    o.ops_ID as WrkOp,
+    o.ops_ID,
     WrkOpCount,
     OpZone,
-    p.pos_ID as EmpPos,
+    p.pos_ID,
     Internship
 from tmp_WMSInfoOper_Perf w
 left join DataPrime.WMSInfoOper_Perf_pos p on upper(w.EmpPos) = upper(p.EmpPos)
-left join DataPrime.WMSInfoOper_Perf_ops o on upper(w.WrkOp) = upper(o.WrkOp)
+left join DataPrime.WMSInfoOper_Perf_ops o on upper(w.WrkOp) = upper(o.WrkOp);
 commit;

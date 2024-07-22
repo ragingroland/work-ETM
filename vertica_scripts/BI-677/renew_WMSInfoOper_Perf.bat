@@ -42,12 +42,15 @@ for %%f in (*.csv) do (
 echo Done!
 
 path=%path%;C:\Program Files\Vertica Systems\VSQL64
+
 chcp 65001
 vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C  -f H:\OLAP\WMSInfoOper_Perf\SCRIPTS\renew_WMSInfoOper_Perf.vsql -A -q -o  H:\OLAP\WMSInfoOper_Perf\RUN\renew_WMSInfoOper_Perf.vout
 chcp 866
 
-:_end
-
 copy H:\OLAP\WMSInfoOper_Perf\null.txt H:\OLAP\WMSInfoOper_Perf\endgetfvrt.txt
+
+goto _end
+
+:_end
 
 exit 0

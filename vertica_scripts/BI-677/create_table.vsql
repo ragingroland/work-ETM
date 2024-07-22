@@ -5,32 +5,30 @@ create table DataPrime.WMSInfoOper_Perf (
     StoreCode int,
     DataInfo date,
     EmpNum varchar(30),
-    WrkOp int,
+    ops_ID int,
     WrkOpCount int,
     OpZone varchar(10) default '',
-    EmpPos int,
+    pos_ID int,
     Internship varchar(2))
 order by
     StoreCode,
     OpZone,
-    WrkOp,
     EmpNum,
     DataInfo
 segmented by hash (
     DataPrime.WMSInfoOper_Perf.StoreCode,
     DataPrime.WMSInfoOper_Perf.OpZone,
-    DataPrime.WMSInfoOper_Perf.WrkOp,
     DataPrime.WMSInfoOper_Perf.EmpNum
     ) all nodes ksafe 1;
 comment on table DataPrime.WMSInfoOper_Perf is 'Таблица, содержащая в себе выгрузку отчета по операциям из WMS для дашборда "Производительность СК ЛЦ"';
 comment on column DataPrime.WMSInfoOper_Perf.DataInfo is 'Дата';
 comment on column DataPrime.WMSInfoOper_Perf.StoreCode is 'Код склада';
 comment on column DataPrime.WMSInfoOper_Perf.EmpNum is 'Таб.номер работника';
-comment on column DataPrime.WMSInfoOper_Perf.EmpPos is 'Должность работника, которая тянется из WMSInfoOper_Perf_pos';
-comment on column DataPrime.WMSInfoOper_Perf.WrkOp is 'Вид совершенной операции, которая тянется из WMSInfoOper_Perf_ops';
+comment on column DataPrime.WMSInfoOper_Perf.pos_ID is 'Должность работника, которая тянется из WMSInfoOper_Perf_pos';
+comment on column DataPrime.WMSInfoOper_Perf.ops_ID is 'Вид совершенной операции, которая тянется из WMSInfoOper_Perf_ops';
 comment on column DataPrime.WMSInfoOper_Perf.WrkOpCount is 'Количество совершенных операций';
 comment on column DataPrime.WMSInfoOper_Perf.OpZone is 'Зона совершенной операции';
-comment on column DataPrime.WMSInfoOper_Perf.Internship is 'Является ли работник стажером Yes/No'
+comment on column DataPrime.WMSInfoOper_Perf.Internship is 'Является ли работник стажером Yes/No';
 
 create table DataPrime.WMSInfoOper_Perf_pos (
     pos_ID int,
