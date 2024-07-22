@@ -2,14 +2,14 @@
 -- https://utrack.etm.corp/issue/BI-677/BI-UL-Organizovat-hranenie-v-Vertica-otchet-WMS-po-operaciyam-Proizvoditelnost-SK-LC
 
 create table DataPrime.WMSInfoOper_Perf (
-    DataInfo date,
-    TimeInfo time,
     StoreCode int,
-    EmpNum int, -- ДОЛЖНЫ БЫТЬ ВАРЧАР?
-    EmpPos int,
-    EmpSubPos int default '',
+    DataInfo date,
+    EmpNum varchar(30),
     WrkOp int,
-    OpZone varchar(20) default '')
+    WrkOpCount int,
+    OpZone varchar(10) default '',
+    EmpPos int,
+    Internship varchar(2))
 order by
     StoreCode,
     OpZone,
@@ -24,36 +24,25 @@ segmented by hash (
     ) all nodes ksafe 1;
 comment on table DataPrime.WMSInfoOper_Perf is 'Таблица, содержащая в себе выгрузку отчета по операциям из WMS для дашборда "Производительность СК ЛЦ"';
 comment on column DataPrime.WMSInfoOper_Perf.DataInfo is 'Дата';
-comment on column DataPrime.WMSInfoOper_Perf.TimeInfo is 'Время';
 comment on column DataPrime.WMSInfoOper_Perf.StoreCode is 'Код склада';
 comment on column DataPrime.WMSInfoOper_Perf.EmpNum is 'Таб.номер работника';
 comment on column DataPrime.WMSInfoOper_Perf.EmpPos is 'Должность работника, которая тянется из WMSInfoOper_Perf_pos';
-comment on column DataPrime.WMSInfoOper_Perf.EmpSubPos is 'Подтип должности работника, который тянется из WMSInfoOper_Perf_subpos';
 comment on column DataPrime.WMSInfoOper_Perf.WrkOp is 'Вид совершенной операции, которая тянется из WMSInfoOper_Perf_ops';
+comment on column DataPrime.WMSInfoOper_Perf.WrkOpCount is 'Количество совершенных операций';
 comment on column DataPrime.WMSInfoOper_Perf.OpZone is 'Зона совершенной операции';
+comment on column DataPrime.WMSInfoOper_Perf.Internship is 'Является ли работник стажером Yes/No'
 
 create table DataPrime.WMSInfoOper_Perf_pos (
     pos_ID int,
-    EmpPos varchar(100)
-order by 1)
+    EmpPos varchar(80))
 unsegmented all nodes ksafe 1;
 comment on table DataPrime.WMSInfoOper_Perf_pos is 'Справочник для DataPrime.WMSInfoOper_Perf, содержащий в себе должности';
 comment on column DataPrime.WMSInfoOper_Perf_pos.pos_ID is 'ID номер для должности';
 comment on column DataPrime.WMSInfoOper_Perf_pos.EmpPos is 'Должность работника';
 
-create table DataPrime.WMSInfoOper_Perf_subpos (
-    subpos_ID int,
-    EmpSubPos varchar(100)
-order by 1)
-unsegmented all nodes ksafe 1;
-comment on table DataPrime.WMSInfoOper_Perf_subpos is 'Справочник для DataPrime.WMSInfoOper_Perf, содержащий в себе подтипы должностей';
-comment on column DataPrime.WMSInfoOper_Perf_subpos.subpos_ID is 'ID номер для подтипа должности';
-comment on column DataPrime.WMSInfoOper_Perf_subpos.EmpSubPos is 'Подтип должности работника';
-
 create table DataPrime.WMSInfoOper_Perf_ops (
     ops_ID int,
-    WrkOp varchar(100)
-order by 1)
+    WrkOp varchar(100))
 unsegmented all nodes ksafe 1;
 comment on table DataPrime.WMSInfoOper_Perf_ops is 'Справочник для DataPrime.WMSInfoOper_Perf, содержащий в себе наименования операций';
 comment on column DataPrime.WMSInfoOper_Perf_ops.ops_ID is 'ID номер для операции';

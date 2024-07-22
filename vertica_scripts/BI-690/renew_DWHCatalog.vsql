@@ -1,0 +1,24 @@
+truncate table DataPrime.DWHCatalog;
+
+insert into DataPrime.DWHCatalog
+select distinct
+    projection_schema as table_schema,
+    anchor_table_name as table_name,
+    projection_schema || '.' || anchor_table_name as objname,
+    case
+        when segment_expression like 'hash%'
+            then 'fact'
+        when segment_expression is null
+            then 'refr'
+    end as tag
+from v_catalog.projections;
+
+insert into DataPrime.DWHCatalog
+select distinct
+    table_schema,
+    table_name,
+    table_schema || '.' || table_name as objname,
+    'view' as tag
+from v_catalog.views
+where table_schema != 'public';
+commit;

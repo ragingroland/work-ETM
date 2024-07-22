@@ -7,7 +7,7 @@ cd /d H:\OLAP\DshLogistManag_AssessQltCompl\RUN
 del  H:\OLAP\DshLogistManag_AssessQltCompl\RUN\renew_DshLogistManag_AssessQltCompl.vout
 del  H:\OLAP\DshLogistManag_AssessQltCompl\RUN\renew_DshLogistManag_AssessQltCompl.rej
 del  H:\OLAP\DshLogistManag_AssessQltCompl\RUN\renew_DshLogistManag_AssessQltCompl.exc
-del  H:\OLAP\DshLogistManag_AssessQltCompl\endgetvrt_DshLogistManag_AssessQltCompl.txt
+del  H:\OLAP\DshLogistManag_AssessQltCompl\endgetfvrt_DshLogistManag_AssessQltCompl.txt
 
 :_beg
 
@@ -21,7 +21,7 @@ chcp 65001
 vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f H:\OLAP\DshLogistManag_AssessQltCompl\SCRIPTS\renew_DshLogistManag_AssessQltCompl.vsql  -A -q -o H:\OLAP\DshLogistManag_AssessQltCompl\RUN\renew_DshLogistManag_AssessQltCompl.vout
 chcp 866 
 
-copy H:\OLAP\DshLogistManag_AssessQltCompl\null.txt H:\OLAP\DshLogistManag_AssessQltCompl\endgetvrt_DshLogistManag_AssessQltCompl.txt
+copy H:\OLAP\DshLogistManag_AssessQltCompl\null.txt H:\OLAP\DshLogistManag_AssessQltCompl\endgetfvrt_DshLogistManag_AssessQltCompl.txt
 
 goto _end
 
