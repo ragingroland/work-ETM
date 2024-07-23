@@ -11,7 +11,7 @@ on commit preserve rows;
 
 copy tmp_WMSInfoOper_Perf ( -- дальше копирование данных из файлов
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -27,7 +27,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -43,7 +43,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -59,7 +59,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -75,7 +75,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -91,7 +91,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -107,7 +107,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -123,7 +123,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
@@ -139,7 +139,7 @@ exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
-    DataInfo,
+    DataInfo format 'yyyy#mm#dd',
     EmpNum,
     WrkOp,
     WrkOpCount,
