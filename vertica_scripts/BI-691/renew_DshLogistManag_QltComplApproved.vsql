@@ -1,0 +1,4 @@
+insert into DataMart.DshLogistManag_QltComplApproved
+select
+    trunc(Stage_StartDate, 'MM') as DataInfo,
+    
