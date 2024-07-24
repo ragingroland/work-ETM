@@ -24,25 +24,23 @@ def get_ddl(): # функция, которая забирает DDL
         for row in result:
             text_field.insert(INSERT, row[0])
 
+def get_table_desc(): # функция, которая забирает описание таблицы
+    cur = conn.cursor()
+    target = combo_table.get()
+    cur.execute(f"""select
+                        remarks
+                    from v_catalog.all_tables
+                    where table_name = '{target}';""")
+    result = cur.fetchall()
+    text_field2.delete('1.0', END)
+    for row in result:
+        text_field2.insert(INSERT, row[0])
+
 def get_comms(): # функция, которая забирает информацию и таблицах и их столбцах
     try:
         cur = conn.cursor()
         cur.execute(f"""select
-                            '' table_name,
-                            at.remarks,
-                            '' as column_name,
-                            '' as data_type,
-                            '' as comment
-                        from v_catalog.all_tables at
-                        left join v_catalog.columns cl on at.table_name = cl.table_name
-                        left join v_catalog.comments cm on cl.table_schema = cm.object_schema
-                            and cl.table_name = cm.object_name
-                            and upper(cl.column_name) = upper(cm.child_object)
-                        where at.schema_name = '{combo_schema.get()}' and at.table_name = '{combo_table.get()}'
-                        union
-                        select
                             at.schema_name || '.' || at.table_name as table_name,
-                            '' as remarks,
                             cl.column_name,
                             cl.data_type,
                             cm.comment
@@ -51,8 +49,7 @@ def get_comms(): # функция, которая забирает информ�
                         left join v_catalog.comments cm on cl.table_schema = cm.object_schema
                             and cl.table_name = cm.object_name
                             and upper(cl.column_name) = upper(cm.child_object)
-                        where at.schema_name = '{combo_schema.get()}' and at.table_name = '{combo_table.get()}'
-                        order by 2;""")
+                        where at.schema_name = '{combo_schema.get()}' and at.table_name = '{combo_table.get()}';""")
         result = cur.fetchall()
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось забрать комментарии.')
@@ -64,36 +61,54 @@ def get_comms(): # функция, которая забирает информ�
 def get_schema(): # хватаем список схем
     try:
         cur = conn.cursor()
-        cur.execute(f"select distinct table_schema from tables where table_schema != 'v_%'")
+        cur.execute(""" select distinct
+                            table_schema
+                        from tables
+                        where table_schema != 'v_%'""")
     except Exception:
         messagebox.showwarning('Ошибка', 'Что-то не так, невозможно получить схемы.')
     finally:
         return [row[0] for row in cur.fetchall()]
 
 def get_tables(): # на основании схем хватаем список таблиц схемы
-    try:   
+    try:
         cur = conn.cursor()
-        cur.execute(f"select table_name from tables where table_schema = '{combo_schema.get()}'")
+        cur.execute(f"select table_name from tables where table_schema = '{combo_schema.get()}' order by 1")
         table_names = [row[0] for row in cur.fetchall()]
         combo_table['values'] = table_names  # обновляем список в combo_table при выборе схемы
     except Exception:
         messagebox.showwarning('Ошибка', 'Вы не выбрали схему?')
     finally:
         combo_table.current(0)
-        
-def keyword_search(): # поиск столбцов в других местах
+
+def tblname_search(): # поиск столбцов в других местах
     try:
-        pass
+        cur = conn.cursor()
+        cur.execute(f"""select
+                        table_schema || '.' || table_name as table_name
+                    from tables
+                    where table_name = '{search_entry.get()}'
+                    order by 1""")
     except Exception:
-        pass
+        messagebox.showwarning('Ошибка', 'Не получилось найти таблицу.')
     finally:
         pass
-    
+
+# window2 = Tk()
+# window2.title('Результаты поиска.')
+# window2.resizable(False, False)
+# window2.update()
+# window2.geometry(
+#                 "+{}+{}".format(
+#                     (window2.winfo_screenwidth() - window2.winfo_width()) // 2,
+#                     (window2.winfo_screenheight() - window2.winfo_height()) // 2))
+# window2.grid_rowconfigure(0, weight = 1)
+# window2.grid_columnconfigure(0, weight = 1)
 
 # основное окно
 window = Tk()
 window.title('ЭТМ-IT: Описание таблиц Vertica.')
-window.minsize(640, 480)
+window.resizable(False, False)
 window.update()
 window.geometry(
                 "+{}+{}".format(
@@ -104,18 +119,18 @@ window.grid_columnconfigure(0, weight = 1)
 # канвас для основного окна
 listbox = Listbox(window)
 listbox.pack(expand = True, fill = BOTH)
-scrollbar_y = Scrollbar(window, orient = 'vertical', command = listbox.yview)
-scrollbar_y.pack(side = RIGHT, fill = Y)
-listbox.bind("<MouseWheel>", lambda event: listbox.yview_scroll(-1 * int(event.delta / 120), "units"))
-listbox.config(yscrollcommand = scrollbar_y.set)
+# scrollbar_y = Scrollbar(window, orient = 'vertical', command = listbox.yview)
+# scrollbar_y.pack(side = RIGHT, fill = Y)
+# listbox.bind("<MouseWheel>", lambda event: listbox.yview_scroll(-1 * int(event.delta / 120), "units"))
+# listbox.config(yscrollcommand = scrollbar_y.set)
 # выпадающие списки для схем и таблиц
 # все виджеты размещаются в фрейме
-combo_schema = Combobox(listbox, state = 'readonly')
+combo_schema = Combobox(listbox, state = 'readonly', width = 50, justify = 'center')
 schema_names = get_schema()
 combo_schema['values'] = schema_names
 combo_schema.set('Схема')
 combo_schema.pack(pady = 5)
-combo_table = Combobox(listbox, state = 'readonly')
+combo_table = Combobox(listbox, state = 'readonly', width = 50, justify = 'center')
 combo_table.set('Таблица')
 combo_table.pack(pady = 5)
 combo_schema.bind('<<ComboboxSelected>>', lambda event: get_tables())
@@ -124,20 +139,18 @@ btn = Button(listbox,
             text = ' Получить информацию о таблице ',
             bg = 'white',
             fg = 'green',
-            command = lambda: [get_ddl(), get_comms()]
+            command = lambda: [get_ddl(), get_comms(), get_table_desc()]
             )
 btn.pack(pady = 5)
 # отображение таблицы
-tree = Treeview(listbox, 
-                columns = ('Table', 'Remarks', 'Column', 'Data Type', 'Comment'),
+tree = Treeview(listbox,
+                columns = ('Table', 'Column', 'Data Type', 'Comment'),
                 show = 'headings',
                 height = 13)
 tree.heading('Table', text = 'Таблица')
-tree.heading('Remarks', text = 'Опис.таблицы')
 tree.heading('Column', text = 'Столбец')
 tree.heading('Data Type', text = 'Тип данных')
-tree.heading('Comment', text = 'Опис.столбца')
-tree.config()
+tree.heading('Comment', text = 'Опис.столбца', )
 tree.pack(pady = 5)
 
 # горизонтальный скролл для дерева???
@@ -145,31 +158,45 @@ tree.pack(pady = 5)
 # отцентрировать содержимое???
 
 # поиск
-# search_entry = Entry(listbox)
-# search_entry.insert(0, ' Столбец для поиска ')
-# search_entry.pack(pady = 5)
-# search_entry.bind('<FocusIn>', lambda event: search_entry.delete(0, END))  # удаляем подсказку при фокусе
-# search_entry.bind('<FocusOut>', lambda event: search_entry.insert(0, ' Столбец для поиска ') if not search_entry.get() else None)  # возвращаем подсказку, если поле пустое
-# search_entry.bind('<KeyRelease>', keyword_search)
-# # волшебная кнопка для поиска в базе по столбцам
-# btn_srch = Button(window,
-#             text = ' Поиск столбца ',
-#             bg = 'white',
-#             fg = 'green',
-#             command = keyword_search
-#             )
-# btn_srch.pack(pady=5)
+search_entry = Entry(listbox)
+search_entry.insert(0, ' Поле для поиска... ')
+search_entry.place(x = 660, y = 5)
+search_entry.config(width = 50, justify = 'center')
+search_entry.bind('<FocusIn>', lambda event: search_entry.delete(0, END))  # удаляем подсказку при фокусе
+search_entry.bind('<FocusOut>', lambda event: search_entry.insert(0, ' Столбец для поиска ') if not search_entry.get() else None)  # возвращаем подсказку, если поле пустое
+search_entry.bind('<KeyRelease>', tblname_search)
+# волшебная кнопка для поиска в базе по столбцам
+btn_srch_tbl = Button(window,
+            text = ' Поиск столбца ',
+            bg = 'white',
+            fg = 'green',
+            command = tblname_search
+            )
+btn_srch_tbl.place(x = 662, y = 30)
+btn_srch_cmt = Button(window,
+            text = ' Поиск комментария ',
+            bg = 'white',
+            fg = 'green',
+            command = tblname_search
+            )
+btn_srch_cmt.place(x = 770, y = 30)
 
 # текстовое поле с DDL
-text_field = scrolledtext.ScrolledText(listbox, width = 120,height = 30)
+text_field = scrolledtext.ScrolledText(listbox, width = 120,height = 25)
 text_field.pack(pady = 5)
 text_field.configure(state = 'disabled')
 text_field.config(state = 'normal')
 
+text_field2 = scrolledtext.ScrolledText(listbox, width = 36, height = 5)
+text_field2.place(x = 1, y = 1)
+text_field2.configure(state = 'disabled')
+text_field2.config(state = 'normal')
+
+
 # content_window = listbox.create_window(0, 0, anchor = 'center', window = listbox)
-# listbox.bind('<Configure>', 
+# listbox.bind('<Configure>',
 #     lambda event: listbox.configure(scrollregion = listbox.bbox('all')))
-    
+
 window.focus_set()
 if __name__ == '__main__':
     try:

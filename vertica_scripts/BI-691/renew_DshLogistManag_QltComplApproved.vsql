@@ -1,4 +1,71 @@
-insert into DataMart.DshLogistManag_QltComplApproved
-select
-    trunc(Stage_StartDate, 'MM') as DataInfo,
-    
+create local temp table as tmp_local
+on commit preserve rows as
+    with
+        cte_132uniq as (
+            select distinct
+                Store_Class132_Code uniqcl132
+            from DataPrime.ElmaRootProc),
+        cte_rn as (
+            select
+                uniqcl132,
+                rdc.StoreCode,
+                rdc.TypeStore,
+                rdc.LogistikCentreName,
+                row_number() over(partition by uniqcl132) as rn
+            from cte_132uniq
+            left join DataPrime.StoreLinkClass132 cl132 on cl132.Class132_Code = cte_132uniq.uniqcl132
+            left join public.RegionDescCommon rdc on rdc.StoreCode = cl132.StoreCodeSymb
+            where rdc.TypeStore in ('ОП', 'ЛЦ', 'ЦРС', 'ПрямыеДоставки')),
+        cte_lc as (
+            select
+                StoreCode code,
+                LogistikCentreName lname
+            from public.RegionDescCommon
+            where TypeStore in ('ЛЦ', 'ЦРС'))
+        cte_main as (
+            select
+                RootProc_Id,
+                Stage_Code,
+                Reason_Code,
+                Stage_StartDate
+            from DataPrime.ElmaChildProc)
+        cte_compose_key as (
+            select distinct
+                RootProc_Id || ('_') || Stage_Code as compose_key
+            from cte_main),
+        cte_reas56 as (
+            select
+                Reason_Code
+            from cte_main
+            where Reason_Code in(5, 6)),
+        cte_root913 as (
+            select
+                RootProc_Id
+            from cte_main
+            where Stage_Code in('9', '13'))
+        cte_rootN913 as (
+            select
+                RootProc_Id
+            from cte_root913
+            where RootProc_Id not in(select
+                                        RootProc_Id
+                                    from cte_root913
+                                    where Stage_Code in ('9', '13')
+                                    group by 1
+                                    having count(distinct Stage_Code) >= 2))
+        
+-- select
+--     RootProc_Id,
+--     case when TypeStore in ('ЛЦ', 'ЦРС') then StoreCode else coalesce(LC.code,'') end as StoreCode_LC,
+--     coalesce(StoreCode,'') as StoreCode_OP,
+--     Proc_StartDate,
+--     Stage_Amount_Hours,
+--     Stage_Code,
+--     RootProc_Id || '_' || Stage_Code as compose_key
+-- from DataPrime.ElmaRootProc erp
+-- left join RN on RN.uniqcl132 = erp.Store_Class132_Code and rn = 1
+-- left join LC on LC.lname = RN.LogistikCentreName
+-- where (Proc_EndDate is null
+--         or Proc_EndDate >= trunc(ADD_MONTHS(CURRENT_DATE-1, -24), 'MM'))
+--     and (Stage_Code = 4
+--         or Stage_Code = 5)
