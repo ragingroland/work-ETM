@@ -118,14 +118,12 @@ on commit preserve rows as
     from tmp_local_grouped
     inner join DataPrime.InfoWrkDayAllMonth wd on wd.DataInfo = tmp_local_grouped.Proc_StartDate;
 
-select count(*) from tmp_local2; --317146
-
-truncate table DataMart.DshLogistManag_AssessQltCompl_rdc;
-insert into DataMart.DshLogistManag_AssessQltCompl_rdc
+truncate table DataMart.DshLogistManag_AssessQltCompl;
+insert into DataMart.DshLogistManag_AssessQltCompl
     select
         DataInfo::date,
-        StoreCode_OP,
         StoreCode_LC,
+        StoreCode_OP,
         sum(In24) as ComplaintCountIn24,
         sum(Over24) as ComplaintCountOver24
     from tmp_local2

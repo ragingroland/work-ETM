@@ -1,7 +1,7 @@
 --  15.07.2024 Подготовка витрин для дашборда "Уровень принятия решения за 24 часа" (Elma)
 -- https://utrack.etm.corp/issue/BI-684/BI-UL-podgotovka-vitrin-dlya-dashborda-Uroven-prinyatiya-resheniya-za-24-chasa-Elma
 
-create table DataMart.DshLogistManag_AssessQltCompl_rdc (
+create table DataMart.DshLogistManag_AssessQltCompl (
     DataInfo date,
     StoreCode_LC varchar(21),
     StoreCode_OP varchar(21),
@@ -12,16 +12,16 @@ order by
     StoreCode_OP,
     DataInfo
 segmented by hash (
-    DataMart.DshLogistManag_AssessQltCompl_rdc.StoreCode_LC,
-    DataMart.DshLogistManag_AssessQltCompl_rdc.StoreCode_OP
+    DataMart.DshLogistManag_AssessQltCompl.StoreCode_LC,
+    DataMart.DshLogistManag_AssessQltCompl.StoreCode_OP
     ) all nodes ksafe 1;
 
-comment on table DataMart.DshLogistManag_AssessQltCompl_rdc is 'Витрина для дашборда "Уровень принятия решения за 24 часа" (Elma)';
-comment on column DataMart.DshLogistManag_AssessQltCompl_rdc.DataInfo is 'Период (min гранулярность - месяц)';
-comment on column DataMart.DshLogistManag_AssessQltCompl_rdc.StoreCode_LC is 'ЛЦ - StoreCode из public.RegionDescCommon где TypeStore для StoreCode или LogistikCentreName будет в ЛЦ или ЦРС';
-comment on column DataMart.DshLogistManag_AssessQltCompl_rdc.StoreCode_OP is 'ОП - StoreCode из public.RegionDescCommon где TypeStore для StoreCode будет в ОП, ЛЦ, ЦРС или ПрямыеДоставки';
-comment on column DataMart.DshLogistManag_AssessQltCompl_rdc.ComplaintCountIn24 is 'Количество обращений в разрезе диапазонов до 24 часов';
-comment on column DataMart.DshLogistManag_AssessQltCompl_rdc.ComplaintCountOver24 is 'Количество обращений в разрезе диапазонов более 24 часов';
+comment on table DataMart.DshLogistManag_AssessQltCompl is 'Витрина для дашборда "Уровень принятия решения за 24 часа" (Elma)';
+comment on column DataMart.DshLogistManag_AssessQltCompl.DataInfo is 'Период (min гранулярность - месяц)';
+comment on column DataMart.DshLogistManag_AssessQltCompl.StoreCode_LC is 'ЛЦ - StoreCode из public.RegionDescCommon где TypeStore для StoreCode или LogistikCentreName будет в ЛЦ или ЦРС';
+comment on column DataMart.DshLogistManag_AssessQltCompl.StoreCode_OP is 'ОП - StoreCode из public.RegionDescCommon где TypeStore для StoreCode будет в ОП, ЛЦ, ЦРС или ПрямыеДоставки';
+comment on column DataMart.DshLogistManag_AssessQltCompl.ComplaintCountIn24 is 'Количество обращений в разрезе диапазонов до 24 часов';
+comment on column DataMart.DshLogistManag_AssessQltCompl.ComplaintCountOver24 is 'Количество обращений в разрезе диапазонов более 24 часов';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;

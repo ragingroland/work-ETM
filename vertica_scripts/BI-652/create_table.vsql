@@ -30,15 +30,18 @@ create table DataMart.DshSalesManag_LongTerm_TotDivMnth ( -- Витрина дл
     Class63_Code_3 varchar(12),
     Class79_Code varchar(6),
     Class72_Code varchar(4),
+    SalesChannel varchar(2),
     SumShipped float,
     LongTermGoalMnth float)
 order by
+    SalesChannel,
     Class72_Code,
     Class63_Code_2,
     Class63_Code_3,
     Class79_Code,
     DataInfo
 segmented by hash (
+    DataMart.DshSalesManag_LongTerm_TotDivMnth.SalesChannel,
     DataMart.DshSalesManag_LongTerm_TotDivMnth.Class72_Code,
     DataMart.DshSalesManag_LongTerm_TotDivMnth.Class63_Code_2,
     DataMart.DshSalesManag_LongTerm_TotDivMnth.Class63_Code_3,
@@ -74,12 +77,14 @@ create table DataMart.DshSalesManag_LongTerm_TotDivSpecMnth (
     DataInfo date,
     Class63_Code_2 varchar(8),
     Class63_Code_3 varchar(12),
+    SalesChannel varchar(2),
     SalesSubChannel varchar(8),
     Class79_Code varchar(6),
     Class72_Code varchar(4),
     SumShipped float,
     LongTermGoalMnth float)
 order by
+    SalesChannel,
     Class72_Code,
     Class63_Code_2,
     SalesSubChannel,
@@ -87,6 +92,7 @@ order by
     Class79_Code,
     DataInfo
 segmented by hash (
+    DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.SalesChannel,
     DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.Class72_Code,
     DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.Class63_Code_2,
     DataMart.DshSalesManag_LongTerm_TotDivSpecMnth.SalesSubChannel,

@@ -1,26 +1,43 @@
 create table DataMart.DshLogistManag_QltComplApproved (
     DataInfo date,
-    Class132_Code_Level2 varchar(8),
-    Class132_Code_Level4 varchar(20),
+    StoreCode_LC varchar(21),
     EmpPos varchar(50),
-    DocCount int,
-    DocWErrs int)
+    DocsCount int,
+    DocsWErrs int)
 order by
-    Class132_Code_Level2,
-    Class132_Code_Level4,
+    StoreCode_LC,
+    StoreCode_OP,
     DataInfo
 segmented by hash (
-    DataMart.DshLogistManag_QltComplApproved.Class132_Code_Level2,
-    DataMart.DshLogistManag_QltComplApproved.Class132_Code_Level4
+    DataMart.DshLogistManag_QltComplApproved.StoreCode_LC,
+    DataMart.DshLogistManag_QltComplApproved.StoreCode_OP
     ) all nodes ksafe 1;
-    
+
 comment on table DataMart.DshLogistManag_QltComplApproved is 'Витрина для дашборда "Доля подтвержденных ошибок" (Elma)';
 comment on column DataMart.DshLogistManag_QltComplApproved.DataInfo is 'Период (min гранулярность - месяц)';
-comment on column DataMart.DshLogistManag_QltComplApproved.Class132_Code_Level2 is 'ЛЦ - первые 4 символа кода 132-го склада';
-comment on column DataMart.DshLogistManag_QltComplApproved.Class132_Code_Level4 is 'ОП - первые 10 символов кода 132-го склада';
+comment on column DataMart.DshLogistManag_QltComplApproved.StoreCode_LC is 'ЛЦ - StoreCode из public.RegionDescCommon где TypeStore для StoreCode или LogistikCentreName будет в ЛЦ или ЦРС';
+comment on column DataMart.DshLogistManag_QltComplApproved.StoreCode_OP is 'ОП - StoreCode из public.RegionDescCommon где TypeStore для StoreCode будет в ОП, ЛЦ, ЦРС или ПрямыеДоставки';
 comment on column DataMart.DshLogistManag_QltComplApproved.EmpPos is 'Должность';
 comment on column DataMart.DshLogistManag_QltComplApproved.DocCount is 'Количество отгруженных документов';
 comment on column DataMart.DshLogistManag_QltComplApproved.DocWErrs is 'Количество документов с ошибками';
+
+create table DataMart.DshLogistManag_QltComplApproved_errs (
+    DataInfo date,
+    StoreCode_LC varchar(21),
+    EmpPos varchar(50),
+    DocsWErrs int)
+order by
+    StoreCode_LC,
+    DataInfo
+segmented by hash (
+    DataMart.DshLogistManag_QltComplApproved.StoreCode_LC,
+    ) all nodes ksafe 1;
+
+comment on table DataMart.DshLogistManag_QltComplApproved_errs is 'Витрина для дашборда "Доля подтвержденных ошибок" (Elma)';
+comment on column DataMart.DshLogistManag_QltComplApproved_errs.DataInfo is 'Период (min гранулярность - месяц)';
+comment on column DataMart.DshLogistManag_QltComplApproved_errs.StoreCode_LC is 'ЛЦ - StoreCode из public.RegionDescCommon где TypeStore для StoreCode или LogistikCentreName будет в ЛЦ или ЦРС';
+comment on column DataMart.DshLogistManag_QltComplApproved_errs.EmpPos is 'Должность';
+comment on column DataMart.DshLogistManag_QltComplApproved_errs.DocWErrs is 'Количество документов с ошибками';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;

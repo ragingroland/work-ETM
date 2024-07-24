@@ -1,15 +1,21 @@
 -- Витрина #4 для анализа в целом по дивизионам (без разбивки) с учетом месяцев
 
-create local temp table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact -- врем.таблица для факта го
-on commit preserve rows as
-    select * from DataMart.DshSalesManag_LongTerm_TotDivSpecMnth
-where DshSalesManag_LongTerm_TotDivSpecMnth.DataInfo = '0001-01-01';
+create local temp table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact ( -- врем.таблица для факта го
+    DataInfo date,
+    Class63_Code_2 varchar(8),
+    Class63_Code_3 varchar(12),
+    SalesChannel varchar(2),
+    SalesSubChannel varchar(8),
+    Class79_Code varchar(6),
+    Class72_Code varchar(4),
+    SumShipped float,
+    LongTermGoalMnth float)
+on commit preserve rows;
 truncate table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact;
 
 create local temp table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_dsc -- врем.таблица для дсц
 on commit preserve rows as
-    select * from DataMart.DshSalesManag_LongTerm_TotDivSpecMnth
-where DshSalesManag_LongTerm_TotDivSpecMnth.DataInfo = '0001-01-01';
+    select * from tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact;
 truncate table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_dsc;
 
 create local temp table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_7972 ( -- врем.таблица для 79 и 72
@@ -32,8 +38,7 @@ truncate table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_3763;
 
 create local temp table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_merge -- врем.таблица для слияния факта и дсц
 on commit preserve rows as
-    select * from DataMart.DshSalesManag_LongTerm_TotDivSpecMnth
-where DshSalesManag_LongTerm_TotDivSpecMnth.DataInfo = '0001-01-01';
+    select * from tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact;
 truncate table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_merge;
 
 
@@ -48,7 +53,6 @@ inner join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
 inner join public.KontragLinkclass79 klc79 on dk.CliCode = klc79.CliCode
     and klc79.class79_1 = 'G'
 order by 1;
-commit;
 
 insert into tmp_DshSalesManag_LongTerm_TotDivSpecMnth_3763
 select distinct 
@@ -65,13 +69,13 @@ left join public.classGroup cg on classTypeSrc = 37
     and classCodeSrc = left(klc37.class37_Code, 5)
     and classCodeGrp LIKE 'УП%'
 order by 1;
-commit;
 
 insert into tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact -- наполнение таблицы для факта
 select
     cbs.DataInfo,
     cla2.Class63_Code_2,
     cla2.Class63_Code_3,
+    coalesce(substring(max(sle.Class79_Code), 2, 1), '') as SalesChannel,
     cla2.SalesSubChannel,
     cla.Class79_Code,
     cl72.Class72_Code,
@@ -81,34 +85,39 @@ from public.CBStatTrader cbs
 left join tmp_DshSalesManag_LongTerm_TotDivSpecMnth_7972 cla on cbs.CustInn = cla.CliInn
 left join tmp_DshSalesManag_LongTerm_TotDivSpecMnth_3763 cla2 on cbs.CustInn = cla2.CliInn
     and cbs.DataInfo = cla2.DataInfo
+left join DataPrime.SegmentCRM_LegEnt sle on cbs.CustInn = sle.CliInn
+    and cbs.DataInfo = sle.DataInfo
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
 where
     cbs.class295_Code = '00001'
     and cbs.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
 group by 
     cbs.DataInfo, Class63_Code_2, Class63_Code_3, SalesSubChannel,
-    Class79_Code, cl72.Class72_Code;
-commit; 
+    cla.Class79_Code, cl72.Class72_Code;
 
 insert into tmp_DshSalesManag_LongTerm_TotDivSpecMnth_dsc -- наполнение таблицы для дсц
-with vw_ltgm as (
-    select
-        DataInfo, CliInn, LongTermGoalMnth1 as LongTermGoalMnth
-    from DataPrime.LongTermGoalTot_LegEnt
-        union
-    select
-        add_months(DataInfo, 1), CliInn, LongTermGoalMnth2 as LongTermGoalMnth
-    from DataPrime.LongTermGoalTot_LegEnt
-        union
-    select
-        add_months(DataInfo, 2), CliInn, LongTermGoalMnth3 as LongTermGoalMnth
-    from DataPrime.LongTermGoalTot_LegEnt)
+with
+    vw_ltgm as (
+        select
+            DataInfo, CliInn, LongTermGoalMnth1 as LongTermGoalMnth
+        from DataPrime.LongTermGoalTot_LegEnt
+            union
+        select
+            add_months(DataInfo, 1), CliInn, LongTermGoalMnth2 as LongTermGoalMnth
+        from DataPrime.LongTermGoalTot_LegEnt
+            union
+        select
+            add_months(DataInfo, 2), CliInn, LongTermGoalMnth3 as LongTermGoalMnth
+        from DataPrime.LongTermGoalTot_LegEnt),
+    vw_ltgmdistinn as (
+        select DataInfo, CliInn from vw_ltgm)
 select
     vw_ltgm.DataInfo,
     cla2.Class63_Code_2,
     cla2.Class63_Code_3,
+    coalesce(substring(max(sle.Class79_Code), 2, 1), '') as SalesChannel,
     cla2.SalesSubChannel,
-    Class79_Code,
+    cla.Class79_Code,
     Class72_Code,
     0 as SumShipped,
     sum(LongTermGoalMnth) as LongTermGoalMnth
@@ -117,18 +126,22 @@ left join tmp_DshSalesManag_LongTerm_TotDivSpecMnth_7972 cla on vw_ltgm.CliInn =
 left join tmp_DshSalesManag_LongTerm_TotDivSpecMnth_3763 cla2 on vw_ltgm.CliInn = cla2.CliInn
     and vw_ltgm.DataInfo = cla2.DataInfo
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
+left join vw_ltgmdistinn d on vw_ltgm.DataInfo = d.DataInfo
+    and vw_ltgm.CliInn = d.CliInn
+left join DataPrime.SegmentCRM_LegEnt sle on d.CliInn = sle.CliInn
+    and d.DataInfo = sle.DataInfo
 where
     vw_ltgm.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
 group by 
     vw_ltgm.DataInfo, Class63_Code_2, Class63_Code_3, SalesSubChannel,
-    Class79_Code, cl72.Class72_Code;
-commit; 
+    cla.Class79_Code, cl72.Class72_Code;
    
 insert into tmp_DshSalesManag_LongTerm_TotDivSpecMnth_merge -- слияние врем.таблиц выше
 select
     coalesce(dsc.DataInfo, fact.DataInfo) as DataInfo,
     coalesce(dsc.Class63_Code_2, fact.Class63_Code_2) as Class63_Code_2,
     coalesce(dsc.Class63_Code_3, fact.Class63_Code_3) as Class63_Code_3,
+    coalesce(dsc.SalesChannel, fact.SalesChannel) as SalesChannel,
     coalesce(dsc.SalesSubChannel, fact.SalesSubChannel) as SalesSubChannel,
     coalesce(dsc.Class79_Code, fact.Class79_Code) as Class79_Code,
     coalesce(dsc.Class72_Code, fact.Class72_Code) as Class72_Code,
@@ -138,16 +151,18 @@ from tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact fact
 full join tmp_DshSalesManag_LongTerm_TotDivSpecMnth_dsc dsc on fact.DataInfo = dsc.DataInfo
     and fact.Class63_Code_2 = dsc.Class63_Code_2
     and fact.Class63_Code_3 = dsc.Class63_Code_3
+    and fact.SalesChannel = dsc.SalesChannel
     and fact.SalesSubChannel = dsc.SalesSubChannel
     and fact.Class79_Code = dsc.Class79_Code
 group by
     coalesce(dsc.DataInfo, fact.DataInfo),
     coalesce(dsc.Class63_Code_2, fact.Class63_Code_2),
     coalesce(dsc.Class63_Code_3, fact.Class63_Code_3),
+    coalesce(dsc.SalesChannel, fact.SalesChannel),
     coalesce(dsc.SalesSubChannel, fact.SalesSubChannel),
     coalesce(dsc.Class79_Code, fact.Class79_Code),
     coalesce(dsc.Class72_Code, fact.Class72_Code);
-commit;
+
 
 delete from tmp_DshSalesManag_LongTerm_TotDivSpecMnth_merge
 where DataInfo < '2024-01-01'::date;
@@ -157,9 +172,3 @@ truncate table DataMart.DshSalesManag_LongTerm_TotDivSpecMnth;
 insert into DataMart.DshSalesManag_LongTerm_TotDivSpecMnth
 select * from tmp_DshSalesManag_LongTerm_TotDivSpecMnth_merge;
 commit;
-
-drop table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_fact;
-drop table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_dsc;
-drop table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_merge;
-drop table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_7972;
-drop table tmp_DshSalesManag_LongTerm_TotDivSpecMnth_3763;
