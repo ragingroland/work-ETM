@@ -125,7 +125,11 @@ group by
     vw_ltgm.DataInfo, Class63_Code_2, Class63_Code_3,
     cla.Class79_Code, sle.Class79_Code, cl72.Class72_Code;
 commit;
+<<<<<<< Updated upstream
 select * from DataMart.DshSalesManag_LongTerm_TotDivMnth;
+=======
+
+>>>>>>> Stashed changes
 
 insert into tmp_DshSalesManag_LongTerm_TotDivMnth_merge -- слияние врем.таблиц выше
 select
@@ -151,7 +155,11 @@ group by
     coalesce(dsc.Class72_Code, fact.Class72_Code),
     coalesce(dsc.SalesChannel, fact.SalesChannel);
 commit;
+<<<<<<< Updated upstream
 
+=======
+select * from tmp_DshSalesManag_LongTerm_TotDivMnth_merge;
+>>>>>>> Stashed changes
 delete from tmp_DshSalesManag_LongTerm_TotDivMnth_merge
 where DataInfo < '2024-01-01'::date;
 commit;
@@ -167,7 +175,13 @@ select
     case
         when SalesChannel = 'S'
             then 'КПП'
+<<<<<<< Updated upstream
         else 'КОК'
+=======
+        when SalesChannel = 'B'
+            then 'КОК'
+        else ''
+>>>>>>> Stashed changes
     end as SalesChanenel,
     SumShipped,
     LongTermGoalMnth

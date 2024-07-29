@@ -188,7 +188,13 @@ select
     case
         when SalesChannel = 'S'
             then 'КПП'
+<<<<<<< Updated upstream
         else 'КОК'
+=======
+        when SalesChannel = 'B'
+            then 'КОК'
+        else ''
+>>>>>>> Stashed changes
     end as SalesChanenel,
     SalesSubChannel,
     Class79_Code,
