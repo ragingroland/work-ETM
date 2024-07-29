@@ -1,3 +1,5 @@
+-- витрина для анализа по срезам "день"
+
 create local temp table tmp_interval (
     targetdate date)
 on commit preserve rows;
