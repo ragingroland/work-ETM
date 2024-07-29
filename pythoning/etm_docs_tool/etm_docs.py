@@ -83,15 +83,11 @@ def tblname_search(): # поиск столбцов в других местах
         cur.execute(f"""
                     select
                         at.schema_name || '.' || at.table_name as table_name,
-                        cl.column_name,
-                        cl.data_type,
                         cm.comment
                     from v_catalog.all_tables at
-                    left join v_catalog.columns cl on at.table_name = cl.table_name
-                    left join v_catalog.comments cm on cl.table_schema = cm.object_schema
-                        and cl.table_name = cm.object_name
-                        and upper(cl.column_name) = upper(cm.child_object)
-                    where lower(at.table_name) = lower('{search_entry.get()}');""")
+                    left join v_catalog.comments cm on at.schema_name = cm.object_schema
+                        and at.table_name = cm.object_name
+                    where lower(at.table_name) like (lower('{search_entry.get()}%'));""")
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось найти такую таблицу.')
     finally:
@@ -145,7 +141,7 @@ def comment_search(): # поиск по комментариям
                     left join v_catalog.comments cm on cl.table_schema = cm.object_schema
                         and cl.table_name = cm.object_name
                         and upper(cl.column_name) = upper(cm.child_object)
-                    where lower(cm.comment) like '%{target}%';
+                    where lower(cm.comment) like '{target}%';
                     """)
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось найти такой комментарий.')
