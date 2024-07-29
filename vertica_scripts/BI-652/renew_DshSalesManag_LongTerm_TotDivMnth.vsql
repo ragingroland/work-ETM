@@ -42,6 +42,7 @@ inner join public.Class72 cl72 on dk.Class72_Code = cl72.Class72_Code
 inner join public.KontragLinkClass79 klc79 on dk.CliCode = klc79.CliCode
     and klc79.Class79_1 = 'G'
 order by 1;
+commit;
 
 insert into tmp_DshSalesManag_LongTerm_TotDivMnth_fact -- наполнение таблицы для факта
 select
@@ -50,25 +51,31 @@ select
     coalesce(left(cg.ClassCodeGrp, 6), '') as Class63_Code_3,
     cla.Class79_Code,
     cl72.Class72_Code,
-    coalesce(substring(max(sle.Class79_Code), 2, 1), '') as SalesChannel,
+    coalesce(substring(sle.Class79_Code, 2, 1), '') as SalesChannel,
     sum(cbs.SumShipped) as SumShipped,
     0 as LongTermGoalMnth
 from public.CBStatTrader cbs
 left join tmp_DshSalesManag_LongTerm_TotDivMnth_7972 cla on cbs.CustInn = cla.CliInn
-inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
-left join DataPrime.SegmentCRM_LegEnt sle on cbs.CustInn = sle.CliInn
-    and cbs.DataInfo = sle.DataInfo
-left join public.ClassGroup cg on 
-    ClassTypeSrc = 14 
-    and ClassTypeGrp = 63 
-    and ClassCodeSrc = left(cbs.CustInn, 4) 
+left join Class72 cl72 on cla.MaxRang = cl72.RangValue
+left join (select DataPrime.SegmentCRM_LegEnt.DataInfo,
+                  DataPrime.SegmentCRM_LegEnt.CliInn,
+                  MAX(DataPrime.SegmentCRM_LegEnt.Class79_Code) AS  Class79_Code
+                  from  DataPrime.SegmentCRM_LegEnt 
+            GROUP BY DataPrime.SegmentCRM_LegEnt.DataInfo,
+                  DataPrime.SegmentCRM_LegEnt.CliInn      
+            ) sle on cbs.DataInfo = sle.DataInfo and cbs.CustInn = sle.CliInn
+left join public.ClassGroup cg on
+    ClassTypeSrc = 14
+    and ClassTypeGrp = 63
+    and ClassCodeSrc = left(cbs.CustInn, 4)
     and ClassCodeGrp LIKE 'УП%'
 where
     cbs.Class295_Code = '00001'
     and cbs.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
-group by 
+group by
     cbs.DataInfo, Class63_Code_2, Class63_Code_3,
-    cla.Class79_Code, cl72.Class72_Code; 
+    cla.Class79_Code, sle.Class79_Code, cl72.Class72_Code;
+commit;
 
 insert into tmp_DshSalesManag_LongTerm_TotDivMnth_dsc -- наполнение таблицы для дсц
 with
@@ -92,7 +99,7 @@ select
     coalesce(left(cg.ClassCodeGrp, 6), '') as Class63_Code_3,
     cla.Class79_Code,
     Class72_Code,
-    coalesce(substring(max(sle.Class79_Code), 2, 1), '') as SalesChannel,
+    coalesce(substring(sle.Class79_Code, 2, 1), '') as SalesChannel,
     0 as SumShipped,
     sum(LongTermGoalMnth) as LongTermGoalMnth
 from vw_ltgm
@@ -100,19 +107,26 @@ left join tmp_DshSalesManag_LongTerm_TotDivMnth_7972 cla on vw_ltgm.CliInn = cla
 inner join Class72 cl72 on cla.MaxRang = cl72.RangValue
 left join vw_ltgmdistinn d on vw_ltgm.DataInfo = d.DataInfo
     and vw_ltgm.CliInn = d.CliInn
-left join DataPrime.SegmentCRM_LegEnt sle on d.CliInn = sle.CliInn
-    and d.DataInfo = sle.DataInfo
-left join public.ClassGroup cg on 
-    ClassTypeSrc = 14 
-    and ClassTypeGrp = 63 
+left join (select DataPrime.SegmentCRM_LegEnt.DataInfo,
+                  DataPrime.SegmentCRM_LegEnt.CliInn,
+                  MAX(DataPrime.SegmentCRM_LegEnt.Class79_Code) AS  Class79_Code
+                  from  DataPrime.SegmentCRM_LegEnt 
+            GROUP BY DataPrime.SegmentCRM_LegEnt.DataInfo,
+                  DataPrime.SegmentCRM_LegEnt.CliInn      
+            ) sle on vw_ltgm.DataInfo = sle.DataInfo and vw_ltgm.CliInn = sle.CliInn
+left join public.ClassGroup cg on
+    ClassTypeSrc = 14
+    and ClassTypeGrp = 63
     and ClassCodeSrc = left(vw_ltgm.CliInn, 4) 
     and ClassCodeGrp LIKE 'УП%'
 where
     vw_ltgm.DataInfo >= ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'YEAR'), -12)
-group by 
+group by
     vw_ltgm.DataInfo, Class63_Code_2, Class63_Code_3,
-    cla.Class79_Code, cl72.Class72_Code;
-   
+    cla.Class79_Code, sle.Class79_Code, cl72.Class72_Code;
+commit;
+select * from DataMart.DshSalesManag_LongTerm_TotDivMnth;
+
 insert into tmp_DshSalesManag_LongTerm_TotDivMnth_merge -- слияние врем.таблиц выше
 select
     coalesce(dsc.DataInfo, fact.DataInfo) as DataInfo,
@@ -136,6 +150,7 @@ group by
     coalesce(dsc.Class79_Code, fact.Class79_Code),
     coalesce(dsc.Class72_Code, fact.Class72_Code),
     coalesce(dsc.SalesChannel, fact.SalesChannel);
+commit;
 
 delete from tmp_DshSalesManag_LongTerm_TotDivMnth_merge
 where DataInfo < '2024-01-01'::date;
@@ -143,5 +158,18 @@ commit;
 
 truncate table DataMart.DshSalesManag_LongTerm_TotDivMnth;
 insert into DataMart.DshSalesManag_LongTerm_TotDivMnth
-    select * from tmp_DshSalesManag_LongTerm_TotDivMnth_merge;
+select
+    DataInfo,
+    Class63_Code_2,
+    Class63_Code_3,
+    Class79_Code,
+    Class72_Code,
+    case
+        when SalesChannel = 'S'
+            then 'КПП'
+        else 'КОК'
+    end as SalesChanenel,
+    SumShipped,
+    LongTermGoalMnth
+from tmp_DshSalesManag_LongTerm_TotDivMnth_merge;
 commit;

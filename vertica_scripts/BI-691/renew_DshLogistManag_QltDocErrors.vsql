@@ -1,0 +1,95 @@
+CREATE LOCAL TEMP TABLE tmp ON COMMIT PRESERVE ROWS
+AS SELECT * FROM DataMart.DshLogistManag_QltDocErrors 
+WHERE DataInfo = '0001-01-01';
+TRUNCATE TABLE tmp;
+
+INSERT INTO tmp
+WITH
+StartDate as (
+   select ADD_MONTHS(trunc(CURRENT_DATE - 1 , 'MM'), -24) as td --плавающие два года
+),
+--собираем уникальные 132е из элмы-рут
+Uniq132 as (
+    select
+        distinct Store_Class132_Code uniqcl132
+    from DataPrime.ElmaRootProc
+),
+--к уникальным 132ым из элмы-рут джойним наши две таблицы, чтобы вытащить сторкод
+--попутно складываем тип и имя рядом
+StoreCodeLC as (
+    select
+         uniqcl132
+        ,rdc.StoreCode
+        ,rdc.TypeStore
+        ,rdc.LogistikCentreName
+    from Uniq132
+    left join DataPrime.StoreLinkClass132 cl132 on cl132.Class132_Code = Uniq132.uniqcl132
+    left join public.RegionDescCommon rdc on rdc.StoreCode = cl132.StoreCodeSymb
+    where rdc.TypeStore in ('ОП', 'ЛЦ', 'ЦРС', 'ПрямыеДоставки')
+),
+--сюда собираем альтернативный сторкод и имя ЛЦ
+LC as (
+    select StoreCode code, LogistikCentreName lname from public.RegionDescCommon where TypeStore in ('ЛЦ', 'ЦРС')
+),
+--все из элмы-чайлд
+RowAll as (
+select 
+     c.RootProc_Id
+    ,coalesce(DescMan.ManPosition,'') as ManPosition
+    ,trunc(r.Proc_StartDate, 'MM')::date as DataInfo
+    ,c.RootProc_Id || '_' || c.Stage_Code as key
+    ,coalesce(StoreCodeLC.StoreCode,'') as StoreCode_LC
+from StartDate, DataPrime.ElmaChildProc c
+join DataPrime.ElmaRootProc r on r.RootProc_Id = c.RootProc_Id
+left join StoreCodeLC on StoreCodeLC.uniqcl132 = r.Store_Class132_Code and StoreCodeLC.TypeStore = 'ЛЦ'
+left join LC on LC.lname = StoreCodeLC.LogistikCentreName
+left join public.DescMan on lower(DescMan.UserLoginAd) = lower(c.Stage_Performer)
+where c.Reason_Code in ('5','6')
+and c.Stage_Code in ('13')
+and NOT exists (select 1 from DataPrime.ElmaChildProc tt where tt.Stage_Code='9' and tt.RootProc_Id = c.RootProc_Id)
+-- and c.RootProc_Id NOT IN (
+--     SELECT RootProc_Id
+--     FROM DataPrime.ElmaChildProc
+--     WHERE Stage_Code = '9'
+--     INTERSECT
+--     SELECT RootProc_Id
+--     FROM DataPrime.ElmaChildProc
+--     WHERE Stage_Code = '13')
+and r.Proc_StartDate >= td
+),
+--уникальные строки
+RowUniq as (
+select distinct
+     DataInfo
+    ,StoreCode_LC
+    ,key
+    ,ManPosition
+from RowAll
+),
+--кол-во документов с ошибками
+NumDocErrors as (
+select
+     RootProc_Id
+    ,Proc_StartDate
+    ,Store_Class132_Code
+    ,count(RootProc_Id) over (partition by Proc_StartDate,Store_Class132_Code) as cnt
+from StartDate, DataPrime.ElmaRootProc
+where Proc_StartDate >= td
+group by RootProc_Id, Proc_StartDate, Store_Class132_Code
+)
+select
+     DataInfo
+    ,StoreCode_LC
+    ,ManPosition
+    ,cnt as QltDocErr
+from RowUniq
+inner join NumDocErrors on NumDocErrors.RootProc_Id = SPLIT_PART(RowUniq.key,'_',1)
+order by DataInfo, StoreCode_LC, ManPosition, cnt
+;
+COMMIT;
+
+TRUNCATE TABLE DataMart.DshLogistManag_QltDocErrors;
+
+INSERT INTO DataMart.DshLogistManag_QltDocErrors
+SELECT * FROM tmp; 
+COMMIT;
