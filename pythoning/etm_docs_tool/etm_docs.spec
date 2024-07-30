@@ -5,7 +5,7 @@ a = Analysis(
     ['etm_docs.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('icon.jpg', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['my_app_icon.ico'],
+    icon=['icon.jpg'],
 )
