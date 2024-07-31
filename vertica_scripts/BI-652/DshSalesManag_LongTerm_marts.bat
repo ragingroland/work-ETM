@@ -14,6 +14,11 @@ del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_DivSpecMnth
 del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_DivSpecMnth.exc
 del  H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivSpecMnth.txt
 
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_DivSpecInnMnth.vout
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_DivSpecInnMnth.rej
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_DivSpecInnMnth.exc
+del  H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivSpecInnMnth.txt
+
 del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivMnth.vout
 del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivMnth.rej
 del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivMnth.exc
@@ -24,6 +29,11 @@ del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecM
 del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecMnth.exc
 del  H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecMnth.txt
 
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecInnMnth.vout
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecInnMnth.rej
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecInnMnth.exc
+del  H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecInnMnth.txt
+
 :_beg
 
 ping -n 100 relay.etm.spb.ru > nul
@@ -33,6 +43,8 @@ if not EXIST H:\OLAP\GrpLegEntPersForCRM\endgetfvrt.txt goto _beg
 if not EXIST H:\OLAP\CBStatTrader\endgetfvrt.txt goto _beg
 if not EXIST H:\OLAP\LongTermGoalDiv_LegEnt\endgetfvrt.txt goto _beg
 if not EXIST H:\OLAP\LongTermGoalTot_LegEnt\endgetfvrt.txt goto _beg
+if not EXIST H:\OLAP\KontragLinkClass37Hist_channels\endgetfvrt_everday.txt goto _beg
+
 
 path=%path%;C:\Program Files\Vertica Systems\VSQL64
 
@@ -49,6 +61,12 @@ chcp 866
 copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivSpecMnth.txt
 
 chcp 65001
+vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f H:\OLAP\DshSalesManag_LongTerm\SCRIPTS\renew_DshSalesManag_LongTerm_DivSpecInnMnth.vsql  -A -q -o H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_DivSpecInnMnth.vout
+chcp 866 
+
+copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivSpecInnMnth.txt
+
+chcp 65001
 vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f H:\OLAP\DshSalesManag_LongTerm\SCRIPTS\renew_DshSalesManag_LongTerm_TotDivMnth.vsql  -A -q -o H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivMnth.vout
 chcp 866 
 
@@ -59,6 +77,12 @@ vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -
 chcp 866 
 
 copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecMnth.txt
+
+chcp 65001
+vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f H:\OLAP\DshSalesManag_LongTerm\SCRIPTS\renew_DshSalesManag_LongTerm_TotDivSpecInnMnth.vsql  -A -q -o H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecInnMnth.vout
+chcp 866 
+
+copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecInnMnth.txt
 
 goto _end
 
