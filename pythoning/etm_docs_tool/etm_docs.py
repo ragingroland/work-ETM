@@ -1,7 +1,8 @@
-from tkinter import Tk, Button, scrolledtext, INSERT, END, messagebox, Entry, X, Listbox, BOTH, BOTTOM
+from tkinter import Tk, Button, scrolledtext, INSERT, END, messagebox, Entry, X, Y, RIGHT, LEFT, Listbox, BOTH, BOTTOM, Frame, VERTICAL, HORIZONTAL, Canvas,TOP
 from tkinter.ttk import Combobox, Treeview, Scrollbar
 import vertica_python
-
+from tkintertable import TableModel, TableCanvas
+# подключение к вертике
 conn_info = {'host': '172.24.2.140',
              'port': 5433,
              'user': 'user_finebi_jdbc',
@@ -37,6 +38,7 @@ def get_table_desc(): # функция, которая забирает опис
         text_field2.insert(INSERT, row[0])
 
 def get_comms(): # функция, которая забирает информацию о таблицах и их столбцах
+    # cur2 = conn.cursor('dict')
     try:
         cur.execute(f"""select
                             at.schema_name || '.' || at.table_name as table_name,
@@ -54,9 +56,10 @@ def get_comms(): # функция, которая забирает информ�
         messagebox.showwarning('Ошибка', 'Не получилось забрать комментарии.')
     finally:
         result = cur.fetchall()
-        tree.delete(*tree.get_children())
-        for row in result:
-            tree.insert('', 'end', values=row)
+        for i in range(len(result)):
+            table.insert("cell_1", i, result[0])
+        # tree.delete(*tree.get_children())
+            # tree.insert('', 'end', values=row)
 
 def get_schema(): # хватаем список схем
     try:
@@ -168,6 +171,24 @@ def comment_search(): # поиск по комментариям
         for row in result:
             tree.insert('', 'end', values=row)
 
+def remarks_search(): # поиск по описанию таблицы
+    search = search_entry.get()
+    try:
+        cur.execute(f"""
+                    select
+                    	at.schema_name || '.' || at.table_name as table_name,
+                        at.remarks
+                    from v_catalog.all_tables at
+                    where lower(at.remarks) like lower('{search}%');
+                    """)
+    except Exception:
+        messagebox.showwarning('Ошибка', 'Не получилось найти такую таблицу.')
+    finally:
+        result = cur.fetchall()
+        tree.delete(*tree.get_children())
+        for row in result:
+            tree.insert('', 'end', values=row)
+
 def tree2click(event): # двойной клик для поиска таблицы в виджете Treeview
     try:
         item = tree.selection()[0]
@@ -242,29 +263,30 @@ combo_schema.bind('<<ComboboxSelected>>', lambda event: get_tables())
 # волшебная кнопка для поиска информации по таблицам
 btn = Button(listbox,
             text = ' Получить информацию о таблице ',
-            bg = 'white',
-            fg = 'green',
+            bg = 'yellow',
+            fg = 'black',
             command = lambda: [get_ddl(), get_comms(), get_table_desc()]
             )
 btn.pack(pady = 5)
 
 # отображение таблицы
-hor_scrollbar = Scrollbar(listbox, orient = "horizontal")
-hor_scrollbar.pack(side = BOTTOM, fill = X)
-tree = Treeview(listbox,
-                columns = ('Table', 'Column', 'Data Type', 'Comment'),
-                show = 'headings',
-                height = 13,
-                selectmode = 'browse',
-                xscrollcommand = hor_scrollbar.set)
-hor_scrollbar.config(command = tree.xview)
-tree.heading('Table', text = '')
-tree.heading('Column', text = '')
-tree.heading('Data Type', text = '')
-tree.heading('Comment', text = '', )
-tree.bind("<Double-1>", tree2click)
-tree.xview('scroll', 1, 'units')
-tree.pack(pady = 5)
+frame = Frame(listbox)
+frame.pack(expand = True, fill = BOTH)
+table = TableCanvas(frame, cols = 4)
+table.addRow(["Table", "Column", "Data Type", "Comment"])
+table.show()
+
+# tree = Treeview(frame,
+#                 columns = ('Table', 'Column', 'Data Type', 'Comment'),
+#                 show = 'headings',
+#                 height = 13,
+#                 selectmode = 'browse')
+# tree.heading('Table', text = '')
+# tree.heading('Column', text = '')
+# tree.heading('Data Type', text = '')
+# tree.heading('Comment', text = '')
+# tree.bind("<Double-1>", tree2click)
+# tree.pack(expand=True, fill="both")
 
 # поиск
 search_entry = Entry(listbox)
@@ -272,25 +294,32 @@ search_entry.insert(0, 'Поле для поиска...')
 search_entry.place(x = 660, y = 5)
 search_entry.config(width = 50, justify = 'center')
 search_entry.bind('<FocusIn>', lambda event: search_entry.delete(0, END))  # удаляем подсказку при фокусе
-search_entry.bind('<FocusOut>', lambda event: search_entry.insert(0, 'Поле для поиска...') if not search_entry.get() else None)  # возвращаем подсказку, если поле пустое
+search_entry.bind('<FocusOut>', lambda event: search_entry.insert(0, 'Поле для поиска...' if not search_entry.get() else None))  # возвращаем подсказку, если поле пустое
 search_field = search_entry.get()
 
 # волшебная кнопка для поиска в базе по столбцам
 btn_srch_tbl = Button(window,
             text = ' Поиск таблицы ',
-            bg = 'white',
-            fg = 'green',
+            bg = 'green',
+            fg = 'white',
             command = tblname_search
             # command = lambda: [tblname_search(), tblname_search_ddl(), tblname_search_table_desc()]
             )
 btn_srch_tbl.place(x = 662, y = 30)
 btn_srch_cmt = Button(window,
             text = ' Поиск комментария ',
-            bg = 'white',
-            fg = 'green',
+            bg = 'green',
+            fg = 'white',
             command = comment_search
             )
 btn_srch_cmt.place(x = 770, y = 30)
+btn_srch_remrks = Button(window,
+            text = ' Поиск по описанию таблицы ',
+            bg = 'green',
+            fg = 'white',
+            command = remarks_search
+            )
+btn_srch_remrks.place(x = 662, y = 60)
 
 # текстовое поле с DDL
 text_field = scrolledtext.ScrolledText(listbox, width = 120,height = 25)
