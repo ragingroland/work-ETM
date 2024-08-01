@@ -43,7 +43,6 @@ inner join public.KontragLinkClass79 klc79 on dk.CliCode = klc79.CliCode
 order by 1;
 commit;
 
-truncate table tmp_DshSalesManag_LongTerm_TotDivMnth_fact;
 insert into tmp_DshSalesManag_LongTerm_TotDivMnth_fact -- наполнение таблицы для факта
 select
     cbs.DataInfo,

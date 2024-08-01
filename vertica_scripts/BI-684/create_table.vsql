@@ -3,23 +3,23 @@
 
 create table DataMart.DshLogistManag_AssessQltCompl (
     DataInfo date,
-    Class132_Code_Level2 varchar(8),
-    Class132_Code_Level4 varchar(20),
+    StoreCode_LC varchar(21),
+    StoreCode_OP varchar(21),
     ComplaintCountIn24 int,
     ComplaintCountOver24 int)
 order by
-    Class132_Code_Level2,
-    Class132_Code_Level4,
+    StoreCode_LC,
+    StoreCode_OP,
     DataInfo
 segmented by hash (
-    DataMart.DshLogistManag_AssessQltCompl.Class132_Code_Level2,
-    DataMart.DshLogistManag_AssessQltCompl.Class132_Code_Level4
+    DataMart.DshLogistManag_AssessQltCompl.StoreCode_LC,
+    DataMart.DshLogistManag_AssessQltCompl.StoreCode_OP
     ) all nodes ksafe 1;
 
 comment on table DataMart.DshLogistManag_AssessQltCompl is 'Витрина для дашборда "Уровень принятия решения за 24 часа" (Elma)';
 comment on column DataMart.DshLogistManag_AssessQltCompl.DataInfo is 'Период (min гранулярность - месяц)';
-comment on column DataMart.DshLogistManag_AssessQltCompl.Class132_Code_Level2 is 'ЛЦ - первые 4 символа кода 132-го склада';
-comment on column DataMart.DshLogistManag_AssessQltCompl.Class132_Code_Level4 is 'ОП - первые 10 символов кода 132-го склада';
+comment on column DataMart.DshLogistManag_AssessQltCompl.StoreCode_LC is 'ЛЦ - StoreCode из public.RegionDescCommon где TypeStore для StoreCode или LogistikCentreName будет в ЛЦ или ЦРС';
+comment on column DataMart.DshLogistManag_AssessQltCompl.StoreCode_OP is 'ОП - StoreCode из public.RegionDescCommon где TypeStore для StoreCode будет в ОП, ЛЦ, ЦРС или ПрямыеДоставки';
 comment on column DataMart.DshLogistManag_AssessQltCompl.ComplaintCountIn24 is 'Количество обращений в разрезе диапазонов до 24 часов';
 comment on column DataMart.DshLogistManag_AssessQltCompl.ComplaintCountOver24 is 'Количество обращений в разрезе диапазонов более 24 часов';
 

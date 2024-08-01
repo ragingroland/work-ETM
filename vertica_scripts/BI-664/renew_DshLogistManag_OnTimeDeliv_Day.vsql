@@ -56,7 +56,7 @@ insert into tmp_tcl (
             then null 
             else tcl.LateCode 
             end as LateCode
-    from tmp_interval, DataPrime.DshLogistManag_TypeCodeLate tcl, DataPrime.CliDelivCtrl cdc 
+    from tmp_interval, DataMart.DshLogistManag_TypeCodeLate tcl, DataPrime.CliDelivCtrl cdc 
     where total_minutes > LowBound and total_minutes <= UpBound
         and cdc.DataInfo >= targetdate);
 commit;
