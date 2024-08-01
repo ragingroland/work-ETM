@@ -1,7 +1,9 @@
 from tkinter import Tk, Button, scrolledtext, INSERT, END, messagebox, Entry, X, Y, RIGHT, LEFT, Listbox, BOTH, BOTTOM, Frame, VERTICAL, HORIZONTAL, Canvas,TOP
 from tkinter.ttk import Combobox, Treeview, Scrollbar
 import vertica_python
-from tkintertable import TableModel, TableCanvas
+from tkintertable import TableCanvas, TableModel
+# from tkintertable import TableModel, TableCanvas
+
 # подключение к вертике
 conn_info = {'host': '172.24.2.140',
              'port': 5433,
@@ -55,11 +57,18 @@ def get_comms(): # функция, которая забирает информ�
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось забрать комментарии.')
     finally:
-        result = cur.fetchall()
-        for i in range(len(result)):
-            table.insert("cell_1", i, result[0])
+        data = cur.fetchall()
+        result = {}
+        for row in data:
+            model.insert_row(model.get_index(), row)
+
+
+
         # tree.delete(*tree.get_children())
-            # tree.insert('', 'end', values=row)
+        # for row in result:
+        #     tree.insert('', 'end', values=row)
+
+# [['DataPrime.ArrivalCliFunds', 'DataInfo', 'date', 'Дата среза'], ['DataPrime.ArrivalCliFunds', 'FirmCode', 'int', 'Код фирмы'], ['DataPrime.ArrivalCliFunds', 'CliCode', 'int', 'Код контрагента'], ['DataPrime.ArrivalCliFunds', 'Class37_Code', 'varchar(18)', 'Источник денег из проводки (код класса 37-го классификатора не выше уровня ОП, чтобы можно было скомпановать в управленческую структуру 63 УП)'], ['DataPrime.ArrivalCliFunds', 'TypeMove', 'varchar(20)', 'Тип движения (Расч/сч либо Касса)'], ['DataPrime.ArrivalCliFunds', 'IncomeSum', 'float', 'Сумма приходов'], ['DataPrime.ArrivalCliFunds', 'OutcomeSum', 'float', 'Сумма расходов']]
 
 def get_schema(): # хватаем список схем
     try:
@@ -232,6 +241,7 @@ def tree2click(event): # двойной клик для поиска табли�
 # основное окно
 window = Tk()
 window.title('ЭТМ-IT: Описание таблиц Vertica.')
+# window.geometry('1200x768')
 window.resizable(False, False)
 window.update()
 window.geometry(
@@ -272,8 +282,8 @@ btn.pack(pady = 5)
 # отображение таблицы
 frame = Frame(listbox)
 frame.pack(expand = True, fill = BOTH)
-table = TableCanvas(frame, cols = 4)
-table.addRow(["Table", "Column", "Data Type", "Comment"])
+model = TableModel()
+table = TableCanvas(frame, model, rowheaderwidth=100, showkeynamesinheader=True, cols = 4, rows = 1)
 table.show()
 
 # tree = Treeview(frame,

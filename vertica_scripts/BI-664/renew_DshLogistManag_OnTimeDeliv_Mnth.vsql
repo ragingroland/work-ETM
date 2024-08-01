@@ -1,4 +1,4 @@
--- витрина для анализа по срезам "день"
+-- витрина для анализа по срезам "месяц"
 
 create local temp table tmp_interval (
     targetdate date)
@@ -54,7 +54,7 @@ insert into tmp_tcl (
         end as total_minutes,
         cdc.DataInfo || ' ' || cdc.CliCode || ' ' || cdc.UsrInvNumReqDelivNum as compose_key,
         case when delta is not null then tcl.LateCode else null end as LateCode
-    from tmp_interval, DataPrime.DshLogistManag_TypeCodeLate tcl, DataPrime.CliDelivCtrl cdc 
+    from tmp_interval, DataMart.DshLogistManag_TypeCodeLate tcl, DataPrime.CliDelivCtrl cdc 
     where total_minutes > LowBound and total_minutes <= UpBound
         and cdc.DataInfo >= targetdate);
 commit;

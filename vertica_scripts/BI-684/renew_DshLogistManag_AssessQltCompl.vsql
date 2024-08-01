@@ -1,14 +1,42 @@
 create local temp table tmp_local
 on commit preserve rows as
+WITH 
+--собираем уникальные 132е из элмы
+Uniq132 as (
+    select
+        distinct Store_Class132_Code uniqcl132
+    from DataPrime.ElmaRootProc
+),
+--к уникальным 132ым из элмы джойним наши три таблицы, чтобы вытащить сторкод
+--попутно складываем тип и имя рядом
+--и нумеруем сторкоды в окне 132ого, чтобы потом взять только один единственный сторкод
+RN as (
+    select
+         uniqcl132
+        ,rdc.StoreCode
+        ,rdc.TypeStore
+        ,rdc.LogistikCentreName
+        ,ROW_NUMBER() OVER (PARTITION BY uniqcl132) as rn
+    from Uniq132
+    left join DataPrime.StoreLinkClass132 cl132 on cl132.Class132_Code = Uniq132.uniqcl132
+    left join public.RegionDescCommon rdc on rdc.StoreCode = cl132.StoreCodeSymb
+    where rdc.TypeStore in ('ОП', 'ЛЦ', 'ЦРС', 'ПрямыеДоставки')
+),
+--сюда собираем сторкод и имя для тех, у кого тип будет не ЛЦ/ЦРС на момент определения столбца ЛЦ
+LC as (
+    select StoreCode code, LogistikCentreName lname from public.RegionDescCommon where TypeStore in ('ЛЦ', 'ЦРС')
+)
     select
         RootProc_Id,
-        left(Store_Class132_Code, 4) as Class132_Code2,
-        left(Store_Class132_Code, 10) as Class132_Code4,
+        coalesce(StoreCode,'') as StoreCode_OP,
+        case when TypeStore in ('ЛЦ', 'ЦРС') then StoreCode else coalesce(LC.code,'') end as StoreCode_LC,
         Proc_StartDate,
         Stage_Amount_Hours,
         Stage_Code,
         RootProc_Id || '_' || Stage_Code as compose_key
     from DataPrime.ElmaRootProc erp
+    left join RN on RN.uniqcl132 = erp.Store_Class132_Code and rn = 1
+    left join LC on LC.lname = RN.LogistikCentreName
     where (Proc_EndDate is null
             or Proc_EndDate >= trunc(ADD_MONTHS(CURRENT_DATE-1, -24), 'MM'))
         and (Stage_Code = 4
@@ -18,8 +46,8 @@ create local temp table tmp_local_max
 on commit preserve rows as
     select distinct
         RootProc_Id,
-        Class132_Code2,
-        Class132_Code4,
+        StoreCode_OP,
+        StoreCode_LC,
         Proc_StartDate,
         Stage_Code,
         compose_key,
@@ -30,8 +58,8 @@ create local temp table tmp_local_sum
 on commit preserve rows as
     select
         RootProc_Id,
-        Class132_Code2,
-        Class132_Code4,
+        StoreCode_OP,
+        StoreCode_LC,
         Proc_StartDate,
         Stage_Amount_Hours_MAX,
         Stage_Code,
@@ -43,8 +71,8 @@ create local temp table tmp_local_grouped
 on commit preserve rows as
     select
         RootProc_Id,
-        Class132_Code2,
-        Class132_Code4,
+        StoreCode_OP,
+        StoreCode_LC,
         Proc_StartDate,
         Stage_Amount_Hours_SUM
     from tmp_local_sum
@@ -54,8 +82,8 @@ create local temp table tmp_local2
 on commit preserve rows as
     select
         RootProc_Id,
-        Class132_Code2,
-        Class132_Code4,
+        StoreCode_OP,
+        StoreCode_LC,
         Proc_StartDate,
         Stage_Amount_Hours_SUM,
         case
@@ -94,8 +122,8 @@ truncate table DataMart.DshLogistManag_AssessQltCompl;
 insert into DataMart.DshLogistManag_AssessQltCompl
     select
         DataInfo::date,
-        Class132_Code2 as Class132_Code_Level2,
-        Class132_Code4 as Class132_Code_Level4,
+        StoreCode_LC,
+        StoreCode_OP,
         sum(In24) as ComplaintCountIn24,
         sum(Over24) as ComplaintCountOver24
     from tmp_local2

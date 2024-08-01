@@ -102,7 +102,7 @@ group by
     vw_ltgm.DataInfo, Class63_Code_2, Class63_Code_3, Class294_Code_,
     Class79_Code_, Class72_Code_;
 commit;
-   
+
 insert into tmp_DshSalesManag_LongTerm_DivMnth_merge -- слияние врем.таблиц выше
 select
     coalesce(dsc.DataInfo, fact.DataInfo) as DataInfo,
@@ -139,7 +139,7 @@ truncate table DataMart.DshSalesManag_LongTerm_DivMnth;
 insert into DataMart.DshSalesManag_LongTerm_DivMnth
 select * from tmp_DshSalesManag_LongTerm_DivMnth_merge;
 commit;
---
+
 drop table tmp_DshSalesManag_LongTerm_DivMnth_fact;
 drop table tmp_DshSalesManag_LongTerm_DivMnth_dsc;
 drop table tmp_DshSalesManag_LongTerm_DivMnth_merge;

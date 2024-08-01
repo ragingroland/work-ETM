@@ -72,7 +72,6 @@ left join public.classGroup cg on classTypeSrc = 37
 order by 1;
 commit;
 
-truncate table tmp_DshSalesManag_LongTerm_TotDivSpecInnMnth_fact;
 insert into tmp_DshSalesManag_LongTerm_TotDivSpecInnMnth_fact -- наполнение таблицы для факта
 select
     cbs.DataInfo,
@@ -105,7 +104,6 @@ group by
     Class79_Code_, Class72_Code_;
 commit;
 
-truncate table tmp_DshSalesManag_LongTerm_TotDivMnth_dsc;
 insert into tmp_DshSalesManag_LongTerm_TotDivSpecInnMnth_dsc -- наполнение таблицы для дсц
 with
     vw_ltgm as (
