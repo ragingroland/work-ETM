@@ -34,6 +34,11 @@ del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecI
 del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_TotDivSpecInnMnth.exc
 del  H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecInnMnth.txt
 
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_SpecInn.vout
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_SpecInn.rej
+del  H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_SpecInn.exc
+del  H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_SpecInn.txt
+
 :_beg
 
 ping -n 100 relay.etm.spb.ru > nul
@@ -83,6 +88,12 @@ vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -
 chcp 866 
 
 copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecInnMnth.txt
+
+chcp 65001
+vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f H:\OLAP\DshSalesManag_LongTerm\SCRIPTS\renew_DshSalesManag_LongTerm_SpecInn.vsql  -A -q -o H:\OLAP\DshSalesManag_LongTerm\RUN\renew_DshSalesManag_LongTerm_SpecInn.vout
+chcp 866 
+
+copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_SpecInn.txt
 
 goto _end
 

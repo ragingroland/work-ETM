@@ -53,11 +53,13 @@ RowAll as (
 select
 	r.DataInfo,
     r.StoreCode as StoreCode_LC,
-    coalesce(DescMan.ManPosition,'') as ManPosition,
+    coalesce(ece.Position, '') as ManPosition,
+    -- coalesce(DescMan.ManPosition,'') as ManPosition,
     count(distinct ecp.RootProc_Id) as QltDocErr
 from StartDate, DataPrime.ElmaChildProc ecp
 inner join cte_root r on ecp.RootProc_Id = r.RootProc_Id
-left join public.DescMan on lower(DescMan.UserLoginAd) = lower(ecp.Stage_Performer)
+left join DataPrime.ElmaChildEmplErrorCode ece on ecp.Code_PosEmpl = ece.Code and "Use" = 1
+-- left join public.DescMan on lower(DescMan.UserLoginAd) = lower(ecp.Stage_Performer)
 where ecp.Reason_Code in(5, 6)
     and ecp.Stage_Code ='13'
         and not exists (

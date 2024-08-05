@@ -1,0 +1,51 @@
+create local temp table tmp_local
+on commit preserve rows as
+select distinct
+	CliInn,
+    DataInfo,
+    Class294_Code,
+    SalesSubChannel,
+    Class79_Code,
+    Class72_Code,
+    max(SumShipped) over(partition by DataInfo, CliInn, Class294_Code) as SumShipped_,
+    max(LongTermGoalMnth) over(partition by DataInfo, CliInn, Class294_Code) as LongTermGoalMnth_
+from DataMart.DshSalesManag_LongTerm_DivSpecInnMnth;
+
+truncate table DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj1;
+insert into DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj1
+select
+	DataInfo,
+	CliInn,
+    Class294_Code,
+    SalesSubChannel,
+    Class79_Code,
+    Class72_Code,
+    SumShipped_,
+    LongTermGoalMnth_
+from tmp_local;
+commit;
+
+create local temp table tmp_local2
+on commit preserve rows as
+select distinct
+	CliInn,
+    DataInfo,
+    SalesSubChannel,
+    Class79_Code,
+    Class72_Code,
+    max(SumShipped) over(partition by DataInfo, CliInn) as SumShipped_,
+    max(LongTermGoalMnth) over(partition by DataInfo, CliInn) as LongTermGoalMnth_
+from DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth;
+
+truncate table DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj1;
+insert into DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj1
+select
+	DataInfo,
+	CliInn,
+    SalesSubChannel,
+    Class79_Code,
+    Class72_Code,
+    SumShipped_,
+    LongTermGoalMnth_
+from tmp_local2;
+commit;

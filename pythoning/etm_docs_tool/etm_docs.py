@@ -1,8 +1,7 @@
-from tkinter import Tk, Button, scrolledtext, INSERT, END, messagebox, Entry, X, Y, RIGHT, LEFT, Listbox, BOTH, BOTTOM, Frame, VERTICAL, HORIZONTAL, Canvas,TOP
-from tkinter.ttk import Combobox, Treeview, Scrollbar
+from tkinter import Tk, Button, scrolledtext, INSERT, END, messagebox, Entry, Listbox, BOTH, Frame
+from tkinter.ttk import Combobox
 import vertica_python
 from tkintertable import TableCanvas, TableModel
-# from tkintertable import TableModel, TableCanvas
 
 # подключение к вертике
 conn_info = {'host': '172.24.2.140',
@@ -40,7 +39,6 @@ def get_table_desc(): # функция, которая забирает опис
         text_field2.insert(INSERT, row[0])
 
 def get_comms(): # функция, которая забирает информацию о таблицах и их столбцах
-    # cur2 = conn.cursor('dict')
     try:
         cur.execute(f"""select
                             at.schema_name || '.' || at.table_name as table_name,
@@ -57,18 +55,19 @@ def get_comms(): # функция, которая забирает информ�
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось забрать комментарии.')
     finally:
-        data = cur.fetchall()
-        result = {}
-        for row in data:
-            model.insert_row(model.get_index(), row)
-
-
-
-        # tree.delete(*tree.get_children())
-        # for row in result:
-        #     tree.insert('', 'end', values=row)
-
-# [['DataPrime.ArrivalCliFunds', 'DataInfo', 'date', 'Дата среза'], ['DataPrime.ArrivalCliFunds', 'FirmCode', 'int', 'Код фирмы'], ['DataPrime.ArrivalCliFunds', 'CliCode', 'int', 'Код контрагента'], ['DataPrime.ArrivalCliFunds', 'Class37_Code', 'varchar(18)', 'Источник денег из проводки (код класса 37-го классификатора не выше уровня ОП, чтобы можно было скомпановать в управленческую структуру 63 УП)'], ['DataPrime.ArrivalCliFunds', 'TypeMove', 'varchar(20)', 'Тип движения (Расч/сч либо Касса)'], ['DataPrime.ArrivalCliFunds', 'IncomeSum', 'float', 'Сумма приходов'], ['DataPrime.ArrivalCliFunds', 'OutcomeSum', 'float', 'Сумма расходов']]
+        result = cur.fetchall()
+        data = {}
+        for i, row in enumerate(result):
+            data[i] = {
+                'table_name': row[0],
+                'column_name': row[1],
+                'data_type': row[2],
+                'comment': row[3]
+            }
+        model.deleteRows()
+        model.importDict(data)
+        table.redrawTable()
+        table.adjustColumnWidths()
 
 def get_schema(): # хватаем список схем
     try:
@@ -101,7 +100,6 @@ def get_tables(): # на основании схем хватаем список
 
 def tblname_search(): # поиск таблицы
     search = search_entry.get()
-    tree.delete(*tree.get_children())
     text_field.delete('1.0', END)
     text_field2.delete('1.0', END)
     try:
@@ -117,9 +115,18 @@ def tblname_search(): # поиск таблицы
         messagebox.showwarning('Ошибка', 'Не получилось найти такую таблицу.')
     finally:
         result = cur.fetchall()
-        tree.delete(*tree.get_children())
-        for row in result:
-            tree.insert('', 'end', values=row)
+        data = {}
+        for i, row in enumerate(result):
+            data[i] = {
+                'table_name': row[0],
+                'column_name': '',
+                'data_type': '',
+                'comment': row[1]
+            }
+        model.deleteRows()
+        model.importDict(data)
+        table.redrawTable()
+        table.adjustColumnWidths()
 
 def tblname_search_ddl(): # функция, которая забирает DDL при поиске по названию таблицы
     try:
@@ -176,9 +183,18 @@ def comment_search(): # поиск по комментариям
         messagebox.showwarning('Ошибка', 'Не получилось найти такой комментарий.')
     finally:
         result = cur.fetchall()
-        tree.delete(*tree.get_children())
-        for row in result:
-            tree.insert('', 'end', values=row)
+        data = {}
+        for i, row in enumerate(result):
+            data[i] = {
+                'table_name': row[0],
+                'column_name': row[1],
+                'data_type': row[2],
+                'comment': row[3]
+            }
+        model.deleteRows()
+        model.importDict(data)
+        table.redrawTable()
+        table.adjustColumnWidths()
 
 def remarks_search(): # поиск по описанию таблицы
     search = search_entry.get()
@@ -194,14 +210,56 @@ def remarks_search(): # поиск по описанию таблицы
         messagebox.showwarning('Ошибка', 'Не получилось найти такую таблицу.')
     finally:
         result = cur.fetchall()
-        tree.delete(*tree.get_children())
-        for row in result:
-            tree.insert('', 'end', values=row)
+        data = {}
+        for i, row in enumerate(result):
+            data[i] = {
+                'table_name': row[0],
+                'column_name': '',
+                'data_type': '',
+                'comment': row[1]
+            }
+        model.deleteRows()
+        model.importDict(data)
+        table.redrawTable()
+        table.adjustColumnWidths()
+        
+def tags_search(): # поиск по описанию таблицы
+    search = search_entry.get()
+    try:
+        cur.execute(f"""
+                    select
+                    	at.schema_name || '.' || at.table_name as table_names,
+                        at.remarks,
+                        c.tag
+                    from v_catalog.all_tables at
+                    inner join DataPrime.DWHCatalog c on at.schema_name || '.' || at.table_name = c.objname
+                    where c.tag like lower('{search}%');
+                    """)
+    except Exception:
+        messagebox.showwarning('Ошибка', 'Не получилось найти тэг.')
+    finally:
+        result = cur.fetchall()
+        data = {}
+        for i, row in enumerate(result):
+            data[i] = {
+                'table_name': row[0],
+                'column_name': '',
+                'tag': row[2],
+                'comment': row[1]
+            }
+        model.deleteRows()
+        model.importDict(data)
+        table.redrawTable()
+        table.adjustColumnWidths()
+        model.deleteColumn(2)
 
 def tree2click(event): # двойной клик для поиска таблицы в виджете Treeview
     try:
-        item = tree.selection()[0]
-        fullname = tree.item(item, 'values')[0]
+        item = table.get_row_clicked(event)
+        if item is None:
+            pass
+        row = table.model.getRecordAtRow(item)
+        fullname = row['table_name']
         schema_name, table_name = fullname.split('.')
         ddls = fullname
         cur.execute(f"""select
@@ -228,9 +286,18 @@ def tree2click(event): # двойной клик для поиска табли�
     except Exception:
         messagebox.showwarning('Ошибка', 'Не удалось получить информацию')
     finally:
-        tree.delete(*tree.get_children())
-        for row in result:
-            tree.insert('', 'end', values=row)
+        data = {}
+        for i, row in enumerate(result):
+            data[i] = {
+                'table_name': row[0],
+                'column_name': row[1],
+                'data_type': row[2],
+                'comment': row[3]
+            }
+        model.deleteRows()
+        model.importDict(data)
+        table.redrawTable()
+        table.adjustColumnWidths()
         text_field.delete('1.0', END)
         for row in result2:
             text_field.insert(INSERT, row[0])
@@ -241,7 +308,6 @@ def tree2click(event): # двойной клик для поиска табли�
 # основное окно
 window = Tk()
 window.title('ЭТМ-IT: Описание таблиц Vertica.')
-# window.geometry('1200x768')
 window.resizable(False, False)
 window.update()
 window.geometry(
@@ -283,20 +349,9 @@ btn.pack(pady = 5)
 frame = Frame(listbox)
 frame.pack(expand = True, fill = BOTH)
 model = TableModel()
-table = TableCanvas(frame, model, rowheaderwidth=100, showkeynamesinheader=True, cols = 4, rows = 1)
+table = TableCanvas(frame, read_only = True, model=model)
+table.bind("<Double-1>", tree2click)
 table.show()
-
-# tree = Treeview(frame,
-#                 columns = ('Table', 'Column', 'Data Type', 'Comment'),
-#                 show = 'headings',
-#                 height = 13,
-#                 selectmode = 'browse')
-# tree.heading('Table', text = '')
-# tree.heading('Column', text = '')
-# tree.heading('Data Type', text = '')
-# tree.heading('Comment', text = '')
-# tree.bind("<Double-1>", tree2click)
-# tree.pack(expand=True, fill="both")
 
 # поиск
 search_entry = Entry(listbox)
@@ -304,7 +359,7 @@ search_entry.insert(0, 'Поле для поиска...')
 search_entry.place(x = 660, y = 5)
 search_entry.config(width = 50, justify = 'center')
 search_entry.bind('<FocusIn>', lambda event: search_entry.delete(0, END))  # удаляем подсказку при фокусе
-search_entry.bind('<FocusOut>', lambda event: search_entry.insert(0, 'Поле для поиска...' if not search_entry.get() else None))  # возвращаем подсказку, если поле пустое
+search_entry.bind('<FocusOut>', lambda event: search_entry.insert(0, 'Поле для поиска...') if not search_entry.get() else None)  # возвращаем подсказку, если поле пустое
 search_field = search_entry.get()
 
 # волшебная кнопка для поиска в базе по столбцам
@@ -324,12 +379,19 @@ btn_srch_cmt = Button(window,
             )
 btn_srch_cmt.place(x = 770, y = 30)
 btn_srch_remrks = Button(window,
-            text = ' Поиск по описанию таблицы ',
+            text = ' Поиск по описанию таблицы',
             bg = 'green',
             fg = 'white',
             command = remarks_search
             )
 btn_srch_remrks.place(x = 662, y = 60)
+btn_srch_tags = Button(window,
+            text = 'Поиск по тегу таблицы',
+            bg = 'green',
+            fg = 'white',
+            command = tags_search
+            )
+btn_srch_tags.place(x = 842, y = 60)
 
 # текстовое поле с DDL
 text_field = scrolledtext.ScrolledText(listbox, width = 120,height = 25)
