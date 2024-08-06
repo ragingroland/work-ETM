@@ -177,7 +177,7 @@ def comment_search(): # поиск по комментариям
                     left join v_catalog.comments cm on cl.table_schema = cm.object_schema
                         and cl.table_name = cm.object_name
                         and upper(cl.column_name) = upper(cm.child_object)
-                    where lower(cm.comment) like lower('{search}%');
+                    where lower(cm.comment) like lower('%{search}%');
                     """)
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось найти такой комментарий.')
@@ -204,7 +204,7 @@ def remarks_search(): # поиск по описанию таблицы
                     	at.schema_name || '.' || at.table_name as table_name,
                         at.remarks
                     from v_catalog.all_tables at
-                    where lower(at.remarks) like lower('{search}%');
+                    where lower(at.remarks) like lower('%{search}%');
                     """)
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось найти такую таблицу.')
@@ -233,7 +233,7 @@ def tags_search(): # поиск по описанию таблицы
                         c.tag
                     from v_catalog.all_tables at
                     inner join DataPrime.DWHCatalog c on at.schema_name || '.' || at.table_name = c.objname
-                    where c.tag like lower('{search}%');
+                    where c.tag like lower('%{search}%');
                     """)
     except Exception:
         messagebox.showwarning('Ошибка', 'Не получилось найти тэг.')
