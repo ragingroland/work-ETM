@@ -22,8 +22,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\EKB.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\EKB.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\EKB.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -38,8 +38,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\KZN.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\KZN.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\KZN.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -54,8 +54,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\MSK.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\MSK.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\MSK.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -70,8 +70,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\MY.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\MY.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\MY.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -86,8 +86,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\NSK.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\NSK.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\NSK.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -102,8 +102,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\RND.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\RND.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\RND.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -118,8 +118,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\SAM.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\SAM.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\SAM.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -134,8 +134,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\SPB.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\SPB.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\SPB.exc' direct skip 1;
 
 copy tmp_WMSInfoOper_Perf (
     StoreCode,
@@ -150,8 +150,8 @@ from local 'H:\OLAP\WMSInfoOper_Perf\DATA\VRN.vcsv'
     delimiter ';'  
     null '' 
     enclosed by '"' 
-rejected data 'H:\OLAP\WMSInfoOper_Perf\DATA\VRN.rej'
-exceptions 'H:\OLAP\WMSInfoOper_Perf\DATA\VRN.exc' direct skip 1;
+rejected data 'H:\OLAP\WMSInfoOper_Perf\RUN\VRN.rej'
+exceptions 'H:\OLAP\WMSInfoOper_Perf\RUN\VRN.exc' direct skip 1;
 
 -- обновление справочников
 insert into DataPrime.WMSInfoOper_Perf_pos -- должности
