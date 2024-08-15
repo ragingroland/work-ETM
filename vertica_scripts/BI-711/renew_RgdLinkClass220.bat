@@ -10,19 +10,26 @@ del H:\OLAP\RgdLinkClass220\DATA\*.csv
 del H:\OLAP\RgdLinkClass220\RUN\*.rej
 del H:\OLAP\RgdLinkClass220\RUN\*.exc
 
-:_beg
+cd /d H:\OLAP\RgdLinkClass220\TEMP
+
+:_begget
 
 ping -n 100 relay.etm.spb.ru >nul
- 
-if not EXIST \\cpfs1.etm.corp\DataLoadVertica\RgdLinkClass220\RgdLinkClass220.csv goto _beg
 
-copy \\cpfs1.etm.corp\DataLoadVertica\RgdLinkClass220\RgdLinkClass220.csv H:\OLAP\RgdLinkClass220\DATA\RgdLinkClass220.csv
+ftp -n -v -i -s:H:\OLAP\RgdLinkClass220\RUN\ftp_check_flg.in
 
-rem for %%f in (*.csv) do (
-rem     echo Converting %%f to %%~nf.vcsv...
-rem     powershell.exe -Command "Get-Content '%%f' | Set-Content -Encoding utf8 '%%~nf.vcsv'"
-rem )
-rem echo Done!
+if not EXIST H:\OLAP\RgdLinkClass220\TEMP\end.flg goto _begget
+
+ftp -n -v -i -s:H:\OLAP\RgdLinkClass220\RUN\ftp.in
+
+goto _endget
+:_endget
+
+copy /Y H:\OLAP\RgdLinkClass220\TEMP\RgdLinkClass220.csv H:\OLAP\RgdLinkClass220\DATA\RgdLinkClass220.csv /B
+
+del H:\OLAP\RgdLinkClass220\TEMP\end.flg
+
+cd /d H:\OLAP\RgdLinkClass220\RUN
 
 path=%path%;C:\Program Files\Vertica Systems\VSQL64
 
@@ -31,9 +38,5 @@ vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C  
 chcp 866
 
 copy H:\OLAP\RgdLinkClass220\null.txt H:\OLAP\RgdLinkClass220\endgetfvrt.txt
-
-goto _end
-
-:_end
 
 exit 0

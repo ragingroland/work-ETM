@@ -10,8 +10,8 @@ from local 'H:\OLAP\RgdLinkClass220\DATA\RgdLinkClass220.csv'
     delimiter '|'
     null ''
     enclosed by '"'
-rejected data 'H:\OLAP\RgdLinkClass220\DATA\RgdLinkClass220.rej'
-exceptions 'H:\OLAP\RgdLinkClass220\DATA\RgdLinkClass220.exc' direct skip 1;
+rejected data 'H:\OLAP\RgdLinkClass220\RUN\RgdLinkClass220.rej'
+exceptions 'H:\OLAP\RgdLinkClass220\RUN\RgdLinkClass220.exc' direct;
 
 truncate table DataPrime.RgdLinkClass220;
 insert into DataPrime.RgdLinkClass220

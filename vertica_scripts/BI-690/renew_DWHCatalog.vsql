@@ -44,4 +44,15 @@ when not matched then insert values (
     temp.objname,
     temp.tag);
 
+delete from DataPrime.DWHCatalog
+where objname not in (
+	select distinct projection_schema || '.' || anchor_table_name as objname
+	from v_catalog.projections) and tag in ('fact', 'refr');
+
+delete from DataPrime.DWHCatalog
+where objname not in (
+    select distinct table_schema || '.' || table_name as objname
+    from v_catalog.views
+    where table_schema != 'public') and tag = 'view';
+
 commit; -- тут коммит
