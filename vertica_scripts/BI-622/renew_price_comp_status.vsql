@@ -1,0 +1,30 @@
+create local temp table tmp_local ( -- создать врем.таблицу и
+    company_name varchar(60),       -- наполнить её из файлов
+    status varchar(20),
+    Class33_Code_2 varchar(20),
+    NetNum varchar(100))
+on commit preserve rows;
+
+copy tmp_local ( -- дальше копирование данных из файлов
+    company_name,
+    status,
+    Class33_Code_2,
+    NetNum)
+from local 'H:\OLAP\price_comp_status\DATA\price_comp_status.vcsv'
+    delimiter ';'  
+    null '' 
+    enclosed by '"' 
+rejected data 'H:\OLAP\price_comp_status\RUN\price_comp_status.rej'
+exceptions 'H:\OLAP\price_comp_status\RUN\price_comp_status.exc' direct skip 1;
+
+-- загрузить данные в основу
+truncate table DataPrime.price_comp_status;
+insert into DataPrime.price_comp_status
+select
+    company_name,
+    left(NetNum, 2) as NetNum,
+    status,
+    left(Class33_Code_2, 2) as Class33_Code_2
+from tmp_local;
+
+commit;
