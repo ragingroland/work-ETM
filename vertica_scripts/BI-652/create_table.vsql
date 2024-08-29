@@ -269,6 +269,7 @@ create table DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2 (
     DataInfo date,
     CliInn varchar(24),
     SalesSubChannel varchar(8),
+    Class63_Code_2 varchar(8),
     Class63_Code_3 varchar(12),
     Class79_Code varchar(6),
     Class72_Code varchar(4),
@@ -292,6 +293,7 @@ comment on table DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2 is 'Ви
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.DataInfo is 'Дата';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.CliInn is 'ИНН клиента';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.SalesSubChannel is 'Специализация (на основе public.KontragLinkClass37Hist.SalesSubChannel)';
+comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.Class63_Code_2 is '63-й классификатор ветки УП (управленческая структура) уровень региона';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.Class63_Code_3 is '63-й классификатор ветки УП (управленческая структура) уровень ДП';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.Class79_Code is 'код 79-го классификатора ветки G';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj2.Class72_Code is 'Потенциал';
@@ -330,6 +332,47 @@ comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj3.Class79
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj3.Class72_Code is 'Потенциал';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj3.SumShipped is 'ГО ЭТМ';
 comment on column DataMart.DshSalesManag_LongTerm_TotDivSpecInnMnth_Prj3.LongTermGoalMnth is 'это ДСЦ в рамках каждого из месяцев квартала из таблицы DataPrime.LongTermGoalTot_LegEnt';
+
+create table DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2 (
+    DataInfo date,
+    CliInn varchar(24),
+    Class63_Code_2 varchar(8),
+    Class63_Code_3 varchar(12),
+    Class294_Code varchar(4),
+    SalesSubChannel varchar(8),
+    Class79_Code varchar(6),
+    Class72_Code varchar(4),
+    SumShipped float,
+    LongTermGoalMnth float)
+order by
+    Class294_Code,
+    Class72_Code,
+    Class63_Code_2,
+    SalesSubChannel,
+    Class63_Code_3,
+    Class79_Code,
+    CliInn,
+    DataInfo
+segmented by hash (
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class294_Code,
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class72_Code,
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class63_Code_2,
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.SalesSubChannel,
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class63_Code_3,
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class79_Code,
+    DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.CliInn) all nodes ksafe 1;
+
+comment on table DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2 is 'Витрина для анализа по дивизионам с учетом месяцев расшитая до ИНН';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.DataInfo is 'Дата';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.CliInn is 'ИНН клиента';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class63_Code_2 is '63-й классификатор ветки УП (управленческая структура) уровень региона';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class63_Code_3 is '63-й классификатор ветки УП (управленческая структура) уровень ДП';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class294_Code is 'Код 294-го классификатора 1-го уровня (дивизион)';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.SalesSubChannel is 'Специализация (на основе public.KontragLinkClass37Hist.SalesSubChannel)';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class79_Code is 'код 79-го классификатора ветки G';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.Class72_Code is 'Потенциал';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.SumShipped is 'ГО ЭТМ';
+comment on column DataMart.DshSalesManag_LongTerm_DivSpecInnMnth_Prj2.LongTermGoalMnth is 'это ДСЦ в рамках каждого из месяцев квартала из таблицы DataPrime.LongTermGoalTot_LegEnt';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
