@@ -46,3 +46,5 @@ insert into DataMart.DshMCB_GeneralSheet_MCBCCBFact
 select * from tmp_local;
 
 commit;
+
+select analyze_statistics('DataMart.DshMCB_GeneralSheet_MCBCCBFact');

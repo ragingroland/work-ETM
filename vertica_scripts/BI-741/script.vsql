@@ -1,0 +1,33 @@
+create local temp table tmp_local
+on commit preserve rows as
+select
+	trunc(DataInfo, 'q')::date as DataInfo,
+	CustInn,
+	Class294_Code,
+	sum(SumShipped) as SumShipped
+from public.CBStatTrader cbs
+where (trunc(DataInfo, 'q')::date between add_months(trunc(current_date, 'q')::date, - 15) and add_months(trunc(current_date, 'q')::date, - 4))
+group by trunc(DataInfo, 'q')::date, CustInn, Class294_Code;
+
+drop table tmp_local2;
+create local temp table tmp_local2
+on commit preserve rows as
+select
+		case
+		when add_months(trunc(current_date, 'q')::date, - 15) = DataInfo
+			then 1
+		when add_months(trunc(current_date, 'q')::date, - 12) = DataInfo
+			then 2
+		when add_months(trunc(current_date, 'q')::date, - 9) = DataInfo
+			then 3
+		else 4
+	end as nmrs,
+	DataInfo,
+	CustInn,
+	Class294_Code,
+	case
+		when SumShipped < 0 then 0 else SumShipped
+		when SumShipped then SumShipped
+	end as SumShipped
+from tmp_local
+order by CustInn;
