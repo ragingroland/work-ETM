@@ -1,0 +1,1 @@
+COPY: Input record 1 has been rejected (Too many columns found).  Please see C:\Users\ivanov_vvx\work\vertica_scripts\BI-757\test.rej, record 1 for the rejected record. This record was record 1 from C:\Users\ivanov_vvx\work\vertica_scripts\BI-757\test.vcsv

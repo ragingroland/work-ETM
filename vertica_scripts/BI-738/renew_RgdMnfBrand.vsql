@@ -1,0 +1,24 @@
+CREATE LOCAL TEMP TABLE tmp
+ON COMMIT PRESERVE ROWS AS
+COPY tmp
+FROM LOCAL 'H:\OLAP\RgdMnfBrand\DATA\RgdMnfBrand.vcsv' DELIMITER '|'
+                            NULL '' 
+                            ENCLOSED BY '"'
+                            REJECTMAX 1
+                            REJECTED DATA 'H:\OLAP\RgdMnfBrand\RUN\RgdMnfBrand.rej'
+                            EXCEPTIONS 'H:\OLAP\RgdMnfBrand\RUN\RgdMnfBrand.exc' DIRECT
+                            SKIP 1;
+
+
+
+--почистить в исходных табличках срезы
+TRUNCATE TABLE DataPrime.RgdMnfBrand;
+COMMIT;
+
+--Очищает все проекции указанной таблицы
+SELECT PURGE_TABLE('DataPrime.RgdMnfBrand');
+
+--загрузить в таблички
+INSERT INTO DataPrime.RgdMnfBrand
+SELECT * FROM tmp;
+COMMIT;
