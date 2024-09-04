@@ -4,7 +4,7 @@ with
 c79 as (
 	select
 		cbs.CustInn,
-		Class79_Code,
+		left(Class79_Code, 2) as Class79_Code,
 		cbs.CustCode,
 		row_number() over(partition by CustInn, CustCode) as rn
 	from public.CBStatTrader cbs
@@ -17,7 +17,7 @@ select
 	coalesce(left(cg.ClassCodeGrp, 4), '') as Class63_Code_2,
 	coalesce(left(cg.ClassCodeGrp, 6), '') as Class63_Code_3,
     left(cbs.Class294_Code, 2) as Class294_Code,
-    Class295_Code as Code_QuasiBrand,
+    coalesce(cg298.ClassCodeGrp, '99999') as Code_QuasiBrand,
 	coalesce(Class296_Code, '') as Class296_Code,
 	coalesce(c79.Class79_Code, '') as Class79_Code,
     case
@@ -32,6 +32,10 @@ left join public.ClassGroup cg on
     ClassTypeSrc = 14
     and ClassTypeGrp = 63
     and ClassCodeSrc = left(cbs.CustInn, 4)
+left join public.ClassGroup cg298 on
+    cg298.ClassTypeSrc = 295
+    and cg298.ClassTypeGrp = 298
+    and cg298.ClassCodeSrc = cbs.Class295_Code
 left join KontragLinkClass296 klc296 on cbs.CustCode = klc296.CliCode
 	and left(cbs.Class294_Code, 2) = left(klc296.Class294_Code, 2)
 where cbs.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
@@ -41,5 +45,6 @@ truncate table DataMart.DshMCB_GeneralSheet_MCBTrnFact;
 SELECT PURGE_TABLE('DataMart.DshMCB_GeneralSheet_MCBTrnFact');
 insert into DataMart.DshMCB_GeneralSheet_MCBTrnFact
 select * from tmp_local;
-
 commit;
+
+select analyze_statistics('DataMart.DshMCB_GeneralSheet_MCBTrnFact');
