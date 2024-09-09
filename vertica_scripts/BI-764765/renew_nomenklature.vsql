@@ -1,0 +1,22 @@
+drop table tmp_local;
+create local temp table tmp_local
+on commit preserve rows as
+select * from DataPrime.nomenklature where CounterID = 0;
+truncate table tmp_local;
+
+copy tmp_local
+from local 'H:\OLAP\CH\DATA\nomenklature.vcsv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data 'H:\OLAP\CH\RUN\nomenklature.rej'
+exceptions 'H:\OLAP\CH\RUN\nomenklature.exc' direct skip 1;
+
+truncate table DataPrime.nomenklature;
+insert into DataPrime.nomenklature
+select
+    *
+from tmp_local;
+commit;

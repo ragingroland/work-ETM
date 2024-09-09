@@ -90,6 +90,16 @@ where Clust_Code is not null;
 
 truncate table DataPrime.Params4StockByRgdClust;
 insert into DataPrime.Params4StockByRgdClust 
-select * from tmp_local2;
+select
+    Class_Type,
+    upper(Class_Code),
+    MnfCode,
+    K_1,
+    K_2,
+    K_3,
+    K_4,
+    Price_Type,
+    Clust_Code::int
+from tmp_local2;
 
 commit;

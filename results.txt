@@ -1,0 +1,1644 @@
+Файл: o-abcfmr.bat
+Папка: H:\\ABCFMR\RUN
+Строка: copy I:\abcfmr_vrt\null.txt I:\abcfmr_vrt\endgetfvrt.txt
+
+Файл: o-acgplanop.bat
+Папка: H:\\AcgPlanOp\RUN
+Строка: copy I:\acgplanop_sql\null.txt  I:\acgplanop_sql\endgetfsql.txt
+
+Файл: renew_ArrivalCliFunds.bat
+Папка: H:\\ArrivalCliFunds\RUN
+Строка: copy H:\OLAP\ArrivalCliFunds\null.txt  H:\OLAP\ArrivalCliFunds\endgetfvrt.txt
+
+Файл: renew_AverQrtCustDemDiv_LegEnt.bat
+Папка: H:\\AverQrtCustDemDiv_LegEnt\RUN\TEST
+Строка: rem copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_DebtInv.txt
+
+Файл: renew_AverQrtCustDemTot_Indiv.bat
+Папка: H:\\AverQrtCustDemTot_Indiv\RUN\TEST
+Строка: copy H:\OLAP\AverQrtCustDemTot_Indiv\null.txt  H:\OLAP\AverQrtCustDemTot_Indiv\endgetfvrt.txt
+
+Файл: renew_AverQrtCustDemTot_LegEnt.bat
+Папка: H:\\AverQrtCustDemTot_LegEnt\RUN\TEST
+Строка: copy H:\OLAP\AverQrtCustDemTot_LegEnt\null.txt H:\OLAP\AverQrtCustDemTot_LegEnt\endgetvrt_AverQrtCustDemTot_LegEnt.txt
+
+Файл: o-bdgpln-sumcltrndtl.bat
+Папка: H:\\BdgPlSumCliTrnDtl_OperRes\RUN
+Строка: copy H:\OLAP\BdgPlSumCliTrnDtl_OperRes\null.txt H:\OLAP\BdgPlSumCliTrnDtl_OperRes\endgetfvrt.txt
+
+Файл: run_renew_BudgExpenses.bat
+Папка: H:\\BudgExpenses\RUN
+Строка: copy H:\OLAP\BudgExpenses\null.txt  H:\OLAP\BudgExpenses\endgetfvrt_BudgExpensesPlan.txt
+
+Файл: run_renew_BudgExpenses.bat
+Папка: H:\\BudgExpenses\RUN
+Строка: copy H:\OLAP\BudgExpenses\null.txt  H:\OLAP\BudgExpenses\endgetfvrt_BudgExpensesFact.txt
+
+Файл: run_renew_BudgIncome.bat
+Папка: H:\\BudgIncome\RUN
+Строка: copy H:\OLAP\BudgIncome\null.txt H:\OLAP\BudgIncome\endgetfvrt_BudgIncomeGoPlan.txt
+
+Файл: run_renew_BudgIncome.bat
+Папка: H:\\BudgIncome\RUN
+Строка: copy H:\OLAP\BudgIncome\null.txt H:\OLAP\BudgIncome\endgetfvrt_BudgIncomeToPlan.txt
+
+Файл: run_renew_BudgIncome.bat
+Папка: H:\\BudgIncome\RUN
+Строка: copy H:\OLAP\BudgIncome\null.txt H:\OLAP\BudgIncome\endgetfvrt_BudgIncomeToFact.txt
+
+Файл: renew_var2.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\Last4QrtStatTrader_LegEnt\null.txt  H:\OLAP\Last4QrtStatTrader_LegEnt\endgetfvrt_Last4QrtStatTrader_LegEnt.txt
+
+Файл: renew_var2.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\Last4QrtStatTrader_LegEnt\null.txt  H:\OLAP\Last4QrtStatTrader_LegEnt\endgetfvrt_Last4QrtStatTraderETM_LegEnt.txt
+
+Файл: renew_var2.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\AverQrtCustDemDiv_LegEnt\null.txt H:\OLAP\AverQrtCustDemDiv_LegEnt\endgetfvrt.txt
+
+Файл: renew_var2.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\LongTermGoalTot_Indiv\null.txt  H:\OLAP\LongTermGoalTot_Indiv\endgetfvrt.txt
+
+Файл: renew_var2.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy  H:\OLAP\LongTermGoalDiv_LegEnt\null.txt H:\OLAP\LongTermGoalDiv_LegEnt\endgetfvrt.txt
+
+Файл: renew_var2.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy  H:\OLAP\LongTermGoalTot_LegEnt\null.txt H:\OLAP\LongTermGoalTot_LegEnt\endgetfvrt.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\Last4QrtStatTrader_LegEnt\null.txt  H:\OLAP\Last4QrtStatTrader_LegEnt\endgetfvrt_Last4QrtStatTrader_LegEnt_3.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\Last4QrtStatTrader_LegEnt\null.txt  H:\OLAP\Last4QrtStatTrader_LegEnt\endgetfvrt_Last4QrtStatTraderETM_LegEnt_3.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\AverQrtCustDemTot_Indiv\null.txt  H:\OLAP\AverQrtCustDemTot_Indiv\endgetfvrt_3.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: rem copy H:\OLAP\AverQrtCustDemDiv_LegEnt\null.txt H:\OLAP\AverQrtCustDemDiv_LegEnt\endgetfvrt_3.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\AverQrtCustDemTot_LegEnt\null.txt H:\OLAP\AverQrtCustDemTot_LegEnt\endgetfvrt_3.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\SegmentCRM_Indiv\null.txt H:\OLAP\SegmentCRM_Indiv\endgetfvrt.txt
+
+Файл: renew_var3.bat
+Папка: H:\\Calc_CRM\RUN
+Строка: copy H:\OLAP\SegmentCRM_LegEnt\null.txt H:\OLAP\SegmentCRM_LegEnt\endgetfvrt.txt
+
+Файл: renew_var1.bat
+Папка: H:\\Calc_CRM\TEST
+Строка: copy H:\OLAP\AverQrtCustDemTot_Indiv\null.txt  H:\OLAP\AverQrtCustDemTot_Indiv\endgetfvrt_1.txt
+
+Файл: renew_var1.bat
+Папка: H:\\Calc_CRM\TEST
+Строка: copy H:\OLAP\AverQrtCustDemTot_LegEnt\null.txt H:\OLAP\AverQrtCustDemTot_LegEnt\endgetfvrt_1.txt
+
+Файл: copy_flags.bat
+Папка: H:\\CBStatTrader\RUN
+Строка: if not EXIST H:\OLAP\CBStatTrader\endgetfvrt.txt  copy H:\OLAP\CBStatTrader\null.txt H:\OLAP\CBStatTrader\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\CBStatTrader\RUN
+Строка: if not EXIST I:\stat_traders_vrt\endgetfvrt_cbsttrd.txt.txt copy I:\stat_traders_vrt\null.txt I:\stat_traders_vrt\endgetfvrt_cbsttrd.txt
+
+Файл: copy_flags.bat
+Папка: H:\\CBStatTrader\RUN
+Строка: if not EXIST I:\stat_traders_qrt_vrt\endgetfvrt_cbsttrd.txt.txt copy I:\stat_traders_qrt_vrt\null.txt I:\stat_traders_qrt_vrt\endgetfvrt_cbsttrd.txt
+
+Файл: run-process.bat
+Папка: H:\\CBStatTrader\RUN
+Строка: copy H:\OLAP\CBStatTrader\null.txt H:\OLAP\CBStatTrader\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CBStatTrader\RUN
+Строка: copy I:\stat_traders_vrt\null.txt I:\stat_traders_vrt\endgetfvrt_cbsttrd.txt
+
+Файл: run-process.bat
+Папка: H:\\CBStatTrader\RUN
+Строка: copy I:\stat_traders_qrt_vrt\null.txt I:\stat_traders_qrt_vrt\endgetfvrt_cbsttrd.txt
+
+Файл: run_CCbTrnPlan.bat
+Папка: H:\\CCbTrnPlan\RUN
+Строка: copy H:\OLAP\CCbTrnPlan\null.txt H:\OLAP\CCbTrnPlan\endgetfvrt.txt
+
+Файл: run-old.bat
+Папка: H:\\CCB_CliTrn\RUN
+Строка: copy null >> H:\OLAP\CCB_CliTrn\endgetfvrt_ccb.txt
+
+Файл: run-old.bat
+Папка: H:\\CCB_CliTrn\RUN
+Строка: copy null >> H:\OLAP\CCB_CliTrn\endgetfvrt_ccb_grp.txt
+
+Файл: run-process.bat
+Папка: H:\\CCB_Ot\RUN
+Строка: copy null >> H:\OLAP\CCB_Ot\endgetfvrt_ccb.txt
+
+Файл: run-process.bat
+Папка: H:\\CCB_Ot\RUN
+Строка: copy null >> H:\OLAP\CCB_Ot\endgetfvrt_ccb_grp.txt
+
+Файл: renew_Cl98OverrideSlChan.bat
+Папка: H:\\Cl98OverrideSlChan\RUN
+Строка: copy H:\OLAP\Cl98OverrideSlChan\null.txt  H:\OLAP\Cl98OverrideSlChan\endgetfvrt.txt
+
+Файл: o-cl37curr.bat
+Папка: H:\\class37curr\RUN
+Строка: copy H:\OLAP\class37curr\null.txt  H:\OLAP\class37curr\endgetfvrt.txt
+
+Файл: test.bat
+Папка: H:\\class37history
+Строка: copy I:\manufact_sql\null.txt I:\manufact_sql\endgetfsqlcl37h.txt
+
+Файл: test.bat
+Папка: H:\\class37history
+Строка: copy H:\OLAP\OtResumeMan\null.txt H:\OLAP\OtResumeMan\endgetfsqlcl37h.txt
+
+Файл: o-cl37hist.bat
+Папка: H:\\class37history\RUN
+Строка: copy H:\OLAP\class37history\null.txt  H:\OLAP\H:\OLAP\class37history\endgetfvrt.txt
+
+Файл: o-cl37hist.bat
+Папка: H:\\class37history\RUN
+Строка: copy I:\manufact_vrt\null.txt I:\manufact_vrt\endgetfvrtcl37h.txt
+
+Файл: o-cl37hist.bat
+Папка: H:\\class37history\RUN
+Строка: copy H:\OLAP\OtResumeMan\null.txt H:\OLAP\OtResumeMan\endgetfvrtcl37h.txt
+
+Файл: o-cl37hist.bat
+Папка: H:\\class37history\RUN
+Строка: copy I:\manufact_budg_mobile_vrt\null.txt I:\manufact_budg_mobile_vrt\endgetfvrtcl37h.txt
+
+Файл: o-cl37plan.bat
+Папка: H:\\class37plan\RUN
+Строка: copy I:\manufact_vrt\null.txt I:\manufact_vrt\endgetfvrtcl37p.txt
+
+Файл: o-cl37plan.bat
+Папка: H:\\class37plan\RUN
+Строка: copy I:\manufact_budg_mobile_vrt\null.txt I:\manufact_budg_mobile_vrt\endgetfvrtcl37p.txt
+
+Файл: o-cli-act-arbitr.bat
+Папка: H:\\CliActualArbitr\RUN
+Строка: copy H:\OLAP\CliActualArbitr\null.txt  H:\OLAP\CliActualArbitr\endgetfvrt.txt
+
+Файл: CliDelivCtrl_parse.bat
+Папка: H:\\CliDelivCtrl\RUN
+Строка: copy H:\OLAP\CliDelivCtrl\null.txt H:\OLAP\CliDelivCtrl\endgetfvrt_CliDelivCtrl.txt
+
+Файл: run-process.bat
+Папка: H:\\ClientsMCBHistory\RUN
+Строка: copy H:\OLAP\ClientsMCBHistory\null.txt H:\OLAP\ClientsMCBHistory\endgetvrt.txt
+
+Файл: o-cliincmndtl.bat
+Папка: H:\\CliIncMoneyDtl\RUN
+Строка: copy H:\OLAP\CliIncMoneyDtl\null.txt  H:\OLAP\CliIncMoneyDtl\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliPayedMoneyRsmCl37\RUN
+Строка: copy H:\OLAP\CliPayedMoneyRsmCl37\null.txt H:\OLAP\CliPayedMoneyRsmCl37\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliPayedMoneyRsmCl37Man\RUN
+Строка: copy H:\OLAP\CliPayedMoneyRsmCl37Man\null.txt H:\OLAP\CliPayedMoneyRsmCl37Man\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliPayedMoneyRsmCl37ManCli\RUN
+Строка: copy H:\OLAP\CliPayedMoneyRsmCl37ManCli\null.txt H:\OLAP\CliPayedMoneyRsmCl37ManCli\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliPayedMoneyRsmCli\RUN
+Строка: copy H:\OLAP\CliPayedMoneyRsmCli\null.txt H:\OLAP\CliPayedMoneyRsmCli\endgetfvrt.txt
+
+Файл: renew_plan.bat
+Папка: H:\\CliTrnBudgPlan\RUN
+Строка: copy H:\OLAP\CliTrnBudgPlan\null.txt  H:\OLAP\CliTrnBudgPlan\endgetfvrt.txt
+
+Файл: o-clitrndtl-subprj.bat
+Папка: H:\\CliTrnDtlSubPrj\RUN
+Строка: copy H:\OLAP\CliTrnDtlSubPrj\null.txt  H:\OLAP\CliTrnDtlSubPrj\endgetfsql.txt
+
+Файл: o-clitrndtl-subprj.bat
+Папка: H:\\CliTrnDtlSubPrj\RUN
+Строка: copy H:\OLAP\CliTrnDtlSubPrj\null.txt  H:\OLAP\CliTrnDtlSubPrj\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliTrnRsmCl37\RUN
+Строка: copy H:\OLAP\CliTrnRsmCl37\null.txt H:\OLAP\CliTrnRsmCl37\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliTrnRsmCl37Man\RUN
+Строка: copy H:\OLAP\CliTrnRsmCl37Man\null.txt H:\OLAP\CliTrnRsmCl37Man\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliTrnRsmCl37ManCli\RUN
+Строка: copy H:\OLAP\CliTrnRsmCl37ManCli\null.txt H:\OLAP\CliTrnRsmCl37ManCli\endgetfvrt.txt
+
+Файл: renew-window.bat
+Папка: H:\\CliTrnRsmCli\RUN
+Строка: copy H:\OLAP\CliTrnRsmCli\null.txt H:\OLAP\CliTrnRsmCli\endgetfvrt_window.txt
+
+Файл: renew-window.bat
+Папка: H:\\CliTrnRsmCliObjCls33\RUN
+Строка: copy H:\OLAP\CliTrnRsmCliObjCls33\null.txt H:\OLAP\CliTrnRsmCliObjCls33\endgetfvrt.txt
+
+Файл: renew-window.bat
+Папка: H:\\CliTrnRsmObjCls3\RUN
+Строка: copy H:\OLAP\CliTrnRsmObjCls3\null.txt H:\OLAP\CliTrnRsmObjCls3\endgetfvrt_window.txt
+
+Файл: run-process.bat
+Папка: H:\\CliTrnRsmPrjMnf\RUN
+Строка: copy H:\OLAP\CliTrnRsmPrjMnf\null.txt H:\OLAP\CliTrnRsmPrjMnf\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\CliTrnRsmPrjMnfCl33\RUN
+Строка: copy H:\OLAP\CliTrnRsmPrjMnfCl33\null.txt H:\OLAP\CliTrnRsmPrjMnfCl33\endgetfvrt.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy I:\go_common\null.txt I:\go_common\endgetfvrt.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy I:\go_cli_vrt\null.txt I:\go_cli_vrt\endgetfvrt.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy I:\go_rgd_vrt\null.txt I:\go_rgd_vrt\endgetfvrt.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy I:\go_ass_cli_vrt\null.txt  I:\go_ass_cli_vrt\endgetfvrt.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy I:\go_ass_cli_rgd_vrt\null.txt  I:\go_ass_cli_rgd_vrt\endgetfvrt.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy H:\OLAP\CliTrnRsmObjCls3\null.txt H:\OLAP\CliTrnRsmObjCls3\endgetfvrt_go.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN
+Строка: copy H:\OLAP\CliTrnRsmObjCls3\null.txt H:\OLAP\CliTrnRsmCli\endgetfvrt_go.txt
+
+Файл: o-cliturnover.bat
+Папка: H:\\CliTurnover\RUN_TEST_ESCHEDULER
+Строка: copy null >> endgetfvrt.txt
+
+Файл: statday-cltrdt-kurnos.bat
+Папка: H:\\CliTurnover_DayStat\RUN
+Строка: copy H:\OLAP\CliTurnover_DayStat\null.txt H:\OLAP\CliTurnover_DayStat\endgetfvrt.txt
+
+Файл: statday-cltrdt-kurnos.bat
+Папка: H:\\CliTurnover_DayStat\RUN
+Строка: copy H:\OLAP\CliTurnover_DayStat\null.txt H:\OLAP\CliPrlng949\endgetfvrt_daystat.txt
+
+Файл: run-process.bat
+Папка: H:\\CliUnlcMoneyRsmCli\RUN
+Строка: copy H:\OLAP\CliUnlcMoneyRsmCli\null.txt H:\OLAP\CliUnlcMoneyRsmCli\endgetfvrt.txt
+
+Файл: o-commspr-file.bat
+Папка: H:\\common-spr\RUN
+Строка: copy I:\common-spr\null.txt I:\common-spr\endgetfvrt.txt
+
+Файл: run-renew-DayIncomRgd.bat
+Папка: H:\\DayIncomRgd\RUN
+Строка: copy H:\OLAP\DayIncomRgd\null.txt H:\OLAP\DayIncomRgd\endgetfvrt.txt
+
+Файл: GetFtpInfoLack.bat
+Папка: H:\\DayLackAssrtLcDC\RUN
+Строка: copy H:\OLAP\DayLackAssrtLcDC\null.txt H:\OLAP\DayLackAssrtLcDC\endgetftp_lack.txt
+
+Файл: GetFtpInfoLackReason.bat
+Папка: H:\\DayLackAssrtLcDC\RUN
+Строка: copy H:\OLAP\DayLackAssrtLcDC\null.txt H:\OLAP\DayLackAssrtLcDC\endgetftp_reason.txt
+
+Файл: o-day-lack-assrt-lcdc.bat
+Папка: H:\\DayLackAssrtLcDC\RUN
+Строка: copy H:\OLAP\DayLackAssrtLcDC\null.txt H:\OLAP\DayLackAssrtLcDC\endgetfvrt.txt
+
+Файл: o-day-lack-assrt-lcdc.bat
+Папка: H:\\DayLackAssrtLcDC\RUN
+Строка: copy H:\OLAP\DayLackAssrtLcDC\null.txt H:\OLAP\DayLackAssrtLcDC\endgetfvrt_reason.txt
+
+Файл: run-process.bat
+Папка: H:\\DayOperFrcInvManag\RUN
+Строка: copy H:\OLAP\DayOperFrcInvManag\null.txt H:\OLAP\DayOperFrcInvManag\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DayOperFrcInvManagMnf\RUN
+Строка: copy H:\OLAP\DayOperFrcInvManagMnf\null.txt H:\OLAP\DayOperFrcInvManagMnf\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DayOperPlanInvManag\RUN
+Строка: copy H:\OLAP\DayOperPlanInvManag\null.txt H:\OLAP\DayOperPlanInvManag\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DayOperPlanInvManagMnf\RUN
+Строка: copy H:\OLAP\DayOperPlanInvManagMnf\null.txt H:\OLAP\DayOperPlanInvManagMnf\endgetfvrt.txt
+
+Файл: run-renew-DayRgdRem1f.bat
+Папка: H:\\DayRgdRem1f\RUN
+Строка: copy H:\OLAP\DayRgdRem1f\null.txt H:\OLAP\DayRgdRem1f\endgetfvrt.txt
+
+Файл: o-debtinv.bat
+Папка: H:\\Debitorka\RUN
+Строка: copy I:\debtinv_vrt\null.txt  I:\debtinv_vrt\endgetfvrt.txt
+
+Файл: o-debtinv.bat
+Папка: H:\\Debitorka\RUN
+Строка: copy I:\debtinvprj_vrt\null.txt  I:\debtinvprj_vrt\endgetfvrt.txt
+
+Файл: o-debtinv.bat
+Папка: H:\\Debitorka\RUN
+Строка: copy H:\OLAP\DebtInvRsmCliMnLst\null.txt H:\OLAP\DebtInvRsmCliMnLst\endgetfvrt_debt.txt
+
+Файл: o-debtaccrgd.bat
+Папка: H:\\DebtAccRgd\RUN
+Строка: copy H:\OLAP\DebtAccRgd\null.txt  H:\OLAP\DebtAccRgd\endgetfvrt.txt
+
+Файл: test-vrt.bat
+Папка: H:\\DebtAccRgd\RUN
+Строка: copy I:\reservrgd_vrt\null.txt  I:\reservrgd_vrt\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DebtInvRsmCl37\RUN
+Строка: copy H:\OLAP\DebtInvRsmCl37\null.txt H:\OLAP\DebtInvRsmCl37\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DebtInvRsmCl37Man\RUN
+Строка: copy H:\OLAP\DebtInvRsmCl37Man\null.txt H:\OLAP\DebtInvRsmCl37Man\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DebtInvRsmCl37ManCli\RUN
+Строка: copy H:\OLAP\DebtInvRsmCl37ManCli\null.txt H:\OLAP\DebtInvRsmCl37ManCli\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\DebtInvRsmCli\RUN
+Строка: copy H:\OLAP\DebtInvRsmCli\null.txt H:\OLAP\DebtInvRsmCli\endgetfvrt.txt
+
+Файл: renew-window.bat
+Папка: H:\\DebtInvRsmCliMnLst\RUN
+Строка: copy H:\OLAP\DebtInvRsmCliMnLst\null.txt H:\OLAP\DebtInvRsmCliMnLst\endgetfvrt_window.txt
+
+Файл: o-stock.bat
+Папка: H:\\DescStock\RUN
+Строка: copy H:\OLAP\DescStock\null.txt  H:\OLAP\DescStock\endgetfvrt.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoHeadDeal.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoHeadDealNormAgr.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoHeadDealOpLvAgr.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoHeadDealOpLvAgrMain.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoHeadDealNormAgrDeal.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoHeadDealNormAgrDealGrpNmLvlAgr.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoAgrLengDeal.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoAgrLengDealManAgr.txt
+
+Файл: renew_DshAgrDeal_Mart.bat
+Папка: H:\\DshAgrDeal_Mart\RUN
+Строка: copy H:\OLAP\DshAgrDeal_Mart\null.txt H:\OLAP\DshAgrDeal_Mart\endgetvrt_DshAgrDeal_InfoAgrLengLvlManAgr.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_TrnKPISheet.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_OtKPISheet.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_TrnDivSheet.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_OtDivSheet.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_TrnCl33DivSheet.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_OtCl33DivSheet.txt
+
+Файл: run_DshCommrcManag_mart.bat
+Папка: H:\\DshCommrcManag\RUN
+Строка: copy H:\OLAP\DshCommrcManag\null.txt H:\OLAP\DshCommrcManag\endgetvrt_DshCommrcManag_CCBTrnFact.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_position.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_unit.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_EmpDisLd.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_EmpDisReas.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_calendar_empl_dismiss.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_dismiss_id.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: rem copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_pos_uniq.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: rem copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_unit_uniq.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_puid_uid_name.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_pos_unit_region.txt
+
+Файл: run_DshEmpDism_OneC_Mart.bat
+Папка: H:\\DshEmpDism_OneC_Mart\RUN
+Строка: copy H:\OLAP\DshEmpDism_OneC_Mart\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_RegionAllInfByOrder.txt
+
+Файл: run_DshGenerManag_mart_debt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_DebtInv.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_TrnDelivTime.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_CCBTrnFact.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_TrnFact.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_TrnPlan.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_ArrCliFnd.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_OtFact.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_CCBOt.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_InfoOt_RtnSheet.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_Exp_ExpSheet.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_Budg2KPISheet.txt
+
+Файл: run_DshGenerManag_mart_whtdebt.bat
+Папка: H:\\DshGenerManag\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt H:\OLAP\DshGenerManag\endgetvrt_DshGenerManag_TrnBudgPlan.txt
+
+Файл: DshLogistManag_AssessQltCompl.bat
+Папка: H:\\DshLogistManag_AssessQltCompl\RUN
+Строка: copy H:\OLAP\DshLogistManag_AssessQltCompl\null.txt H:\OLAP\DshLogistManag_AssessQltCompl\endgetfvrt_DshLogistManag_AssessQltCompl.txt
+
+Файл: DshLogistManag_OnTimeDeliv_marts.bat
+Папка: H:\\DshLogistManag_OnTimeDeliv_day_mnth\RUN
+Строка: copy H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth\null.txt H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth\endgetfvrt_DshLogistManag_OnTimeDeliv_Day.txt
+
+Файл: DshLogistManag_OnTimeDeliv_marts.bat
+Папка: H:\\DshLogistManag_OnTimeDeliv_day_mnth\RUN
+Строка: copy H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth\null.txt H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth\endgetfvrt_DshLogistManag_OnTimeDeliv_Mnth.txt
+
+Файл: DshLogistManag_OnTimeDeliv_marts_vip.bat
+Папка: H:\\DshLogistManag_OnTimeDeliv_day_mnth_vip\RUN
+Строка: copy H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth_vip\null.txt H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth_vip\endgetfvrt_DshLogistManag_OnTimeDeliv_Day_vip.txt
+
+Файл: DshLogistManag_OnTimeDeliv_marts_vip.bat
+Папка: H:\\DshLogistManag_OnTimeDeliv_day_mnth_vip\RUN
+Строка: copy H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth_vip\null.txt H:\OLAP\DshLogistManag_OnTimeDeliv_day_mnth_vip\endgetfvrt_DshLogistManag_OnTimeDeliv_Mnth_vip.txt
+
+Файл: renew_DshLogistManag_QltDocErrTrn.bat
+Папка: H:\\DshLogistManag_QltDocErrTrn\RUN
+Строка: copy H:\OLAP\DshLogistManag_QltDocErrTrn\null.txt H:\OLAP\DshLogistManag_QltDocErrTrn\endgetfvrt.txt
+
+Файл: run_DshLogistManag_SheetWMS.bat
+Папка: H:\\DshLogistManag_SheetWMS\RUN
+Строка: copy H:\OLAP\DshLogistManag_SheetWMS\null.txt H:\OLAP\DshLogistManag_SheetWMS\endgetvrt_DshLogistManag_SheetWMS_RsmDtl.txt
+
+Файл: DshMCB_GeneralSheet.bat
+Папка: H:\\DshMCB_GeneralSheet\RUN
+Строка: copy H:\OLAP\DshMCB_GeneralSheet\null.txt H:\OLAP\DshMCB_GeneralSheet\endgetvrt_DshMCB_GeneralSheet_MCBCCBFact.txt
+
+Файл: DshMCB_GeneralSheet.bat
+Папка: H:\\DshMCB_GeneralSheet\RUN
+Строка: copy H:\OLAP\DshMCB_GeneralSheet\null.txt H:\OLAP\DshMCB_GeneralSheet\endgetfvrt_DshMCB_GeneralSheet_MCBTrnFact.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_ACbTrnFact.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_ACbTrnFact_Chan.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CBSheet_CCbTrnFact.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CBSheet_CCbTrnFact_Chan.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CCbTrnFact_Chan_Div.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CCbTrnPlanHalfYear.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CCbTrnPlanMonth.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CCbTrnPlanQuarter.txt
+
+Файл: run_DshSalesManag_CBSheet.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CCbTrnPlanYear.txt
+
+Файл: run_DshSalesManag_CBSheet_040624.bat
+Папка: H:\\DshSalesManag_CBSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_CBSheet\null.txt H:\OLAP\DshSalesManag_CBSheet\endgetfvrt_CBSheet_CCbTrnFact_Chan.txt
+
+Файл: run_DshSalesManag_CliTrnFPFrc_mart.bat
+Папка: H:\\DshSalesManag_CliTrnFPFrc\RUN
+Строка: copy H:\OLAP\DshSalesManag_CliTrnFPFrc\null.txt H:\OLAP\DshSalesManag_CliTrnFPFrc\endgetvrt_DshSalesManag_CliTrnFPFrc.txt
+
+Файл: renew_DshSalesManag_EfDSMSheet_SalePlanFact.bat
+Папка: H:\\DshSalesManag_EfDSMSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_EfDSMSheet\null.txt H:\OLAP\DshSalesManag_EfDSMSheet\endgetvrt_DshSalesManag_EfDSMSheet_SalePlanFact.txt H:\OLAP\DshSalesManag_EfDSMSheet\endgetvrt_DshSalesManag_EfDSMSheet_PlanStaffAll.txt
+
+Файл: renew_DshSalesManag_EfDSMSheet_SalePlanFact_old.bat
+Папка: H:\\DshSalesManag_EfDSMSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_EfDSMSheet\null.txt H:\OLAP\DshSalesManag_EfDSMSheet\endgetvrt_DshSalesManag_EfDSMSheet_SalePlanFact.txt
+
+Файл: run_DshSalesManag_KPISheet_mart_debt.bat
+Папка: H:\\DshSalesManag_KPISheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_KPISheet\null.txt H:\OLAP\DshSalesManag_KPISheet\endgetvrt_DshSalesManag_KPISheet_DebtInv.txt
+
+Файл: run_DshSalesManag_KPISheet_mart_whtdebt.bat
+Папка: H:\\DshSalesManag_KPISheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_KPISheet\null.txt H:\OLAP\DshSalesManag_KPISheet\endgetvrt_DshSalesManag_KPISheet_CCBTrnFact.txt
+
+Файл: run_DshSalesManag_KPISheet_mart_whtdebt.bat
+Папка: H:\\DshSalesManag_KPISheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_KPISheet\null.txt H:\OLAP\DshSalesManag_KPISheet\endgetvrt_DshSalesManag_KPISheet_CliTrn.txt
+
+Файл: run_DshSalesManag_KPISheet_mart_whtdebt.bat
+Папка: H:\\DshSalesManag_KPISheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_KPISheet\null.txt H:\OLAP\DshSalesManag_KPISheet\endgetvrt_DshSalesManag_KPISheet_Ot.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivMnth.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivSpecMnth.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_DivSpecInnMnth.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivMnth.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecMnth.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_TotDivSpecInnMnth.txt
+
+Файл: DshSalesManag_LongTerm_marts.bat
+Папка: H:\\DshSalesManag_LongTerm\RUN
+Строка: copy H:\OLAP\DshSalesManag_LongTerm\null.txt H:\OLAP\DshSalesManag_LongTerm\endgetvrt_DshSalesManag_LongTerm_SpecInn.txt
+
+Файл: run_DshSalesManag_OtSheet_mart.bat
+Папка: H:\\DshSalesManag_OtSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_OtSheet\null.txt H:\OLAP\DshSalesManag_OtSheet\endgetvrt_DshSalesManag_OtSheet_Ot.txt
+
+Файл: run_DshSalesManag_Ot_FP.bat
+Папка: H:\\DshSalesManag_Ot_FP\RUN
+Строка: copy H:\OLAP\DshSalesManag_Ot_FP\null.txt H:\OLAP\DshSalesManag_Ot_FP\endgetvrt_DshSalesManag_OtSheet_Ot.txt
+
+Файл: run_DshSalesManag_TrnSheet_mart.bat
+Папка: H:\\DshSalesManag_TrnSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_TrnSheet\null.txt H:\OLAP\DshSalesManag_TrnSheet\endgetvrt_DshSalesManag_TrnSheet_CCBTrnFact.txt
+
+Файл: run_DshSalesManag_TrnSheet_mart.bat
+Папка: H:\\DshSalesManag_TrnSheet\RUN
+Строка: copy H:\OLAP\DshSalesManag_TrnSheet\null.txt H:\OLAP\DshSalesManag_TrnSheet\endgetvrt_DshSalesManag_TrnSheet_CliTrn.txt
+
+Файл: renew_DshStaff_PosSheet.bat
+Папка: H:\\DshStaff_PosSheet\RUN
+Строка: copy H:\OLAP\DshStaff_PosSheet\null.txt H:\OLAP\DshStaff_PosSheet\endgetvrt_PosSheet_EmplDismPosUnTpDay.txt
+
+Файл: renew_DshStaff_PosSheet.bat
+Папка: H:\\DshStaff_PosSheet\RUN
+Строка: copy H:\OLAP\DshStaff_PosSheet\null.txt H:\OLAP\DshStaff_PosSheet\endgetvrt_PosSheet_StaffTablePosUnTpDay.txt
+
+Файл: renew_DshStaff_PosSheet.bat
+Папка: H:\\DshStaff_PosSheet\RUN
+Строка: copy H:\OLAP\DshStaff_PosSheet\null.txt H:\OLAP\DshStaff_PosSheet\endgetvrt_PosSheet_StaffTableUnMnth.txt
+
+Файл: renew_DshStaff_PosSheet.bat
+Папка: H:\\DshStaff_PosSheet\RUN
+Строка: copy H:\OLAP\DshStaff_PosSheet\null.txt H:\OLAP\DshStaff_PosSheet\endgetvrt_DshStaff_PosSheet_RfBk_position.txt
+
+Файл: renew_DshStaff_SheetCSC.bat
+Папка: H:\\DshStaff_SheetCSC\RUN
+Строка: copy H:\OLAP\DshStaff_SheetCSC\null.txt H:\OLAP\DshStaff_SheetCSC\endgetvrt_CSCSheet_StaffTablePosTpCatUnDay.txt
+
+Файл: renew_DshStaff_SheetCSC.bat
+Папка: H:\\DshStaff_SheetCSC\RUN
+Строка: copy H:\OLAP\DshStaff_SheetCSC\null.txt H:\OLAP\DshStaff_SheetCSC\endgetvrt_CSCSheet_EmplDismPosTpUnDay.txt
+
+Файл: renew_DshStaff_SheetCSC.bat
+Папка: H:\\DshStaff_SheetCSC\RUN
+Строка: copy H:\OLAP\DshStaff_SheetCSC\null.txt H:\OLAP\DshStaff_SheetCSC\endgetvrt_CSCSheet_EmplDismPosTpUnMnth.txt
+
+Файл: renew_DshStaff_SheetCSC.bat
+Папка: H:\\DshStaff_SheetCSC\RUN
+Строка: copy H:\OLAP\DshStaff_SheetCSC\null.txt H:\OLAP\DshStaff_SheetCSC\endgetvrt_CSCSheet_StaffTablePosTpUnMnth.txt
+
+Файл: renew_DshStaff_SheetCSC.bat
+Папка: H:\\DshStaff_SheetCSC\RUN
+Строка: copy H:\OLAP\DshStaff_SheetCSC\null.txt H:\OLAP\DshStaff_SheetCSC\endgetvrt_CSCSheet_Reference.txt
+
+Файл: renew_DshStaff_SheetDsm.bat
+Папка: H:\\DshStaff_SheetDsm\RUN
+Строка: copy H:\OLAP\DshStaff_SheetDsm\null.txt H:\OLAP\DshStaff_SheetDsm\endgetvrt_SheetDsm_EmplDismSpStUnDay.txt
+
+Файл: renew_DshStaff_SheetDsm.bat
+Папка: H:\\DshStaff_SheetDsm\RUN
+Строка: copy H:\OLAP\DshStaff_SheetDsm\null.txt H:\OLAP\DshStaff_SheetDsm\endgetvrt_SheetDsm_StaffTableSpStUnDay.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtCliTrnDayMnf.bat
+Папка: H:\\DshUTZOper_ShtCliTrn_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtCliTrn_Mart\null.txt H:\OLAP\DshUTZOper_ShtCliTrn_Mart\endgetfvrt_ShtCliTrnDayMnf.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtCliTrnDayMnfCl33.bat
+Папка: H:\\DshUTZOper_ShtCliTrn_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtCliTrn_Mart\null.txt H:\OLAP\DshUTZOper_ShtCliTrn_Mart\endgetfvrt_ShtCliTrnDayMnfCl33.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtCliTrnMnthMnf.bat
+Папка: H:\\DshUTZOper_ShtCliTrn_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtCliTrn_Mart\null.txt H:\OLAP\DshUTZOper_ShtCliTrn_Mart\endgetfvrt_ShtCliTrnMnthMnf.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtCliTrnMnthMnf.bat
+Папка: H:\\DshUTZOper_ShtCliTrn_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtCliTrn_Mart\null.txt H:\OLAP\DshUTZOper_ShtCliTrn_Mart\endgetfvrt_ShtCliTrnDescMnf.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtCliTrnMnthMnfCl33.bat
+Папка: H:\\DshUTZOper_ShtCliTrn_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtCliTrn_Mart\null.txt H:\OLAP\DshUTZOper_ShtCliTrn_Mart\endgetfvrt_ShtCliTrnMnthMnfCl33.txt
+
+Файл: run-process.bat
+Папка: H:\\DshUTZOper_ShtCliTrn_Mart\RUN
+Строка: copy H:\OLAP\DtMart_DshUTZ\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_ClusterInv.txt
+
+Файл: run_DshUtzOper_ShtIncAppl.bat
+Папка: H:\\DshUtzOper_ShtIncAppl\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt del  H:\OLAP\DshUtzOper_ShtIncAppl\endgetvrt_DshUtzOper_ShtIncAppl_DateDelivMnf.txt
+
+Файл: run_DshUtzOper_ShtIncAppl.bat
+Папка: H:\\DshUtzOper_ShtIncAppl\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt del  H:\OLAP\DshUtzOper_ShtIncAppl\endgetvrt_DshUtzOper_ShtIncAppl_DateDelivMnfCl33.txt
+
+Файл: run_DshUtzOper_ShtIncAppl.bat
+Папка: H:\\DshUtzOper_ShtIncAppl\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt del  H:\OLAP\DshUtzOper_ShtIncAppl\endgetvrt_DshUtzOper_ShtIncAppl_WriteOffMnf.txt
+
+Файл: run_DshUtzOper_ShtIncAppl.bat
+Папка: H:\\DshUtzOper_ShtIncAppl\RUN
+Строка: copy H:\OLAP\DshGenerManag\null.txt del  H:\OLAP\DshUtzOper_ShtIncAppl\endgetvrt_DshUtzOper_ShtIncAppl_WriteOffMnfCl33.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtIncDayMnf.bat
+Папка: H:\\DshUTZOper_ShtInc_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtInc_Mart\null.txt H:\OLAP\DshUTZOper_ShtInc_Mart\endgetfvrt_ShtIncDayMnf.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtIncMnthMnf.bat
+Папка: H:\\DshUTZOper_ShtInc_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtInc_Mart\null.txt H:\OLAP\DshUTZOper_ShtInc_Mart\endgetfvrt_ShtIncMnthMnf.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtIncMnthMnf.bat
+Папка: H:\\DshUTZOper_ShtInc_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtInc_Mart\null.txt H:\OLAP\DshUTZOper_ShtInc_Mart\endgetfvrt_ShtIncDescMnf.txt
+
+Файл: renew_dtmart_DshUtzOper_ShtIncMnthMnfCl33.bat
+Папка: H:\\DshUTZOper_ShtInc_Mart\RUN
+Строка: copy H:\OLAP\DshUTZOper_ShtInc_Mart\null.txt H:\OLAP\DshUTZOper_ShtInc_Mart\endgetfvrt_ShtIncMnthMnfCl33.txt
+
+Файл: run_DshUtzTpQlt_Mart.bat
+Папка: H:\\DshUtzTpQlt_Mart\RUN
+Строка: copy H:\OLAP\DshUtzTpQlt_Mart\null.txt H:\OLAP\DshUtzTpQlt_Mart\endgetvrt_DshUtzTpQlt_MartLv1.txt
+
+Файл: run_DshUtzTpQlt_Mart.bat
+Папка: H:\\DshUtzTpQlt_Mart\RUN
+Строка: copy H:\OLAP\DshUtzTpQlt_Mart\null.txt H:\OLAP\DshUtzTpQlt_Mart\endgetvrt_DshUtzTpQlt_MartLv2.txt
+
+Файл: run_DshUtzTp_Mart.bat
+Папка: H:\\DshUtzTp_Mart\RUN
+Строка: copy H:\OLAP\DshUtzTp_Mart\null.txt H:\OLAP\DshUtzTp_Mart\endgetvrt_DshUtzTp_MartLv1.txt
+
+Файл: run_DshUtzTp_Mart.bat
+Папка: H:\\DshUtzTp_Mart\RUN
+Строка: copy H:\OLAP\DshUtzTp_Mart\null.txt H:\OLAP\DshUtzTp_Mart\endgetvrt_DshUtzTp_MartLv2.txt
+
+Файл: run_DtMart_Calend2YearAndCurrByMnth.bat
+Папка: H:\\DtMart_Calendars\RUN
+Строка: copy H:\OLAP\DtMart_Calendars\null.txt H:\OLAP\DtMart_Calendars\endgetfvrt_Calend2YearAndCurrByMnth.txt
+
+Файл: run_DtMart_Calend2YearAndCurrByMnth.bat
+Папка: H:\\DtMart_Calendars\RUN
+Строка: copy H:\OLAP\DtMart_Calendars\null.txt H:\OLAP\DtMart_Calendars\endgetfvrt_Calend2YearAndCurrByMnthFull.txt
+
+Файл: run_dtmart_DshUtzStrat_DayFactPlanFrc.bat
+Папка: H:\\DtMart_DshStrat\RUN
+Строка: copy H:\OLAP\DtMart_DshStrat\null.txt H:\OLAP\DtMart_DshStrat\endgetfvrt_DayFactPlanFrc.txt
+
+Файл: run_dtmart_DshUtzStrat_LackAssort.bat
+Папка: H:\\DtMart_DshStrat\RUN
+Строка: copy H:\OLAP\DtMart_DshStrat\null.txt H:\OLAP\DtMart_DshStrat\endgetfvrt_LackAssort.txt
+
+Файл: run_dtmart_DshUtzStrat_MnthClTrnRemPlanFrc.bat
+Папка: H:\\DtMart_DshStrat\RUN
+Строка: copy H:\OLAP\DtMart_DshStrat\null.txt H:\OLAP\DtMart_DshStrat\endgetfvrt_MnthClTrnRemPlanFrc.txt
+
+Файл: run_dtmart_DshUtzStrat_MnthIncomPlanFrc.bat
+Папка: H:\\DtMart_DshStrat\RUN
+Строка: copy H:\OLAP\DtMart_DshStrat\null.txt H:\OLAP\DtMart_DshStrat\endgetfvrt_MnthIncomPlanFrc.txt
+
+Файл: run_dtmart_DshUtzStrat_PaysToSuppl.bat
+Папка: H:\\DtMart_DshStrat\RUN
+Строка: copy H:\OLAP\DtMart_DshStrat\null.txt H:\OLAP\DtMart_DshStrat\endgetfvrt_PaysToSuppl.txt
+
+Файл: run_dtmart_DshUtzOper_DayLackAssort.bat
+Папка: H:\\DtMart_DshUTZ\RUN
+Строка: copy H:\OLAP\DtMart_DshUTZ\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_DayLackAssort.txt
+
+Файл: run_dtmart_DshUtzOper_DayLackAssort.bat
+Папка: H:\\DtMart_DshUTZ\RUN
+Строка: copy H:\OLAP\DtMart_DshUTZ\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_MnthLackAssort.txt
+
+Файл: run_dtmart_DshUtzOper_NlkPenny.bat
+Папка: H:\\DtMart_DshUTZ\RUN
+Строка: copy H:\OLAP\DtMart_DshUTZ\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_NlkPenny.txt
+
+Файл: run_dtmart_DshUtzOper_RsmCliTrnRem.bat
+Папка: H:\\DtMart_DshUTZ\RUN
+Строка: copy H:\OLAP\DtMart_DshUTZ\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_RsmCliTrnRem.txt
+
+Файл: run_dtmart_DshUtzOper_TrnRemPlanFact.bat
+Папка: H:\\DtMart_DshUTZ\RUN
+Строка: copy H:\OLAP\DtMart_DshUTZ\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_TrnRemPlanFact.txt
+
+Файл: run_Class55Code4FilterDB.bat
+Папка: H:\\DtMart_Filters\RUN
+Строка: copy H:\OLAP\DtMart_Filters\null.txt H:\OLAP\DshEmpDism_OneC_Mart\endgetvrt_H:\OLAP\DtMart_Filters\endgetvrt_Class55Code4FilterDB.txt
+
+Файл: renew_dtmart_DescKontragMart.bat
+Папка: H:\\DtMart_Spr\RUN
+Строка: copy H:\OLAP\DtMart_Spr\null.txt H:\OLAP\DtMart_Spr\endgetfvrt_DescKontragMart.txt
+
+Файл: renew_dtmart_DescRdgMart.bat
+Папка: H:\\DtMart_Spr\RUN
+Строка: copy H:\OLAP\DtMart_Spr\null.txt H:\OLAP\DtMart_Spr\endgetfvrt_DescRdgMart.txt
+
+Файл: renew_dtmart_MngStrctMart.bat
+Папка: H:\\DtMart_Spr\RUN
+Строка: copy H:\OLAP\DtMart_Spr\null.txt H:\OLAP\DtMart_Spr\endgetfvrt_MngStrctMart.txt
+
+Файл: renew_DWHCatalog.bat
+Папка: H:\\DWHCatalog\RUN
+Строка: copy H:\OLAP\DWHCatalog\null.txt H:\OLAP\DWHCatalog\endgetfvrt_DWHCatalog.txt
+
+Файл: renew_elma.bat
+Папка: H:\\Elma_Complaints\RUN
+Строка: copy H:\OLAP\Elma_Complaints\null.txt H:\OLAP\Elma_Complaints\endgetfvrt.txt
+
+Файл: o-fp-to-suppl.bat
+Папка: H:\\FactPaysToSuppliers\RUN
+Строка: copy H:\OLAP\FactPaysToSuppliers\null.txt H:\OLAP\FactPaysToSuppliers\endgetfvrt.txt
+
+Файл: o-otoo-flags.bat
+Папка: H:\\File2SQL
+Строка: copy I:\itogi_sql\null.txt I:\itogi_sql\endgetfsql.txt
+
+Файл: o-otoo-flags.bat
+Папка: H:\\File2SQL
+Строка: copy I:\itogi_sql\null.txt I:\itogicls83_sql\endgetfsql.txt
+
+Файл: o-otoo-flags.bat
+Папка: H:\\File2SQL
+Строка: copy I:\itogi_sql\null.txt I:\itogicls83_mobile_sql\endgetfsql.txt
+
+Файл: o-otoo-flags.bat
+Папка: H:\\File2SQL
+Строка: copy I:\itogi_sql\null.txt I:\itogimnfplan_sql\endgetfsql.txt
+
+Файл: o-otoo-flags.bat
+Папка: H:\\File2SQL
+Строка: copy I:\itogi_sql\null.txt I:\itogi_imarket_sql\endgetfsql.txt
+
+Файл: o-otoo-flags.bat
+Папка: H:\\File2SQL
+Строка: copy I:\itogi_sql\null.txt H:\OLAP\mark-new-clients\endgetfsql_itogi.txt
+
+Файл: o-obsum-sql.bat
+Папка: H:\\File2SQL\SAVE
+Строка: copy I:\oborot\null.txt I:\oborot\endgetfsql.txt
+
+Файл: renew_GrpIndivForCRM.bat
+Папка: H:\\GrpIndivForCRM\RUN
+Строка: copy H:\OLAP\GrpIndivForCRM\null.txt  H:\OLAP\GrpIndivForCRM\endgetfvrt.txt
+
+Файл: renew_GrpLegEntPersForCRM.bat
+Папка: H:\\GrpLegEntPersForCRM\RUN
+Строка: copy H:\OLAP\GrpLegEntPersForCRM\null.txt  H:\OLAP\GrpLegEntPersForCRM\endgetfvrt.txt
+
+Файл: o-cl33cl37-psale.bat
+Папка: H:\\GrpRgdPlanSaleTerr\RUN
+Строка: copy I:\itogigrprgdplan_vrt\null.txt  I:\itogigrprgdplan_vrt\endgetfvrt.txt
+
+Файл: o-incomrgd.bat
+Папка: H:\\incoutc_rgd\RUN
+Строка: copy I:\incoutc_rgd_vrt\null.txt I:\incoutc_rgd_vrt\endgetfvrt.txt
+
+Файл: o-indoperman.bat
+Папка: H:\\IndOperManag\RUN
+Строка: copy H:\OLAP\IndOperManag\null.txt H:\OLAP\IndOperManag\endgetfvrt.txt
+
+Файл: run_renew_InfoByersContracts.bat
+Папка: H:\\InfoByersContracts\RUN
+Строка: copy H:\OLAP\InfoByersContracts\null.txt  H:\OLAP\InfoByersContracts\endgetfvrt_InfoByersContracts.txt
+
+Файл: run_renew_InfoByersContracts.bat
+Папка: H:\\InfoByersContracts\RUN
+Строка: copy H:\OLAP\InfoByersContracts\null.txt  H:\OLAP\InfoByersContracts\endgetfvrt_InfoByersContractsAddit.txt
+
+Файл: renew_InfoDateDelivOnApplToSuppl.bat
+Папка: H:\\InfoDateDelivOnApplToSuppl\RUN
+Строка: copy H:\OLAP\InfoDateDelivOnApplToSuppl\null.txt  H:\OLAP\InfoDateDelivOnApplToSuppl\endgetfvrt.txt
+
+Файл: renew_InfoDealAgreem.bat
+Папка: H:\\InfoDealAgreem\RUN
+Строка: copy H:\OLAP\InfoDealAgreem\null.txt  H:\OLAP\InfoDealAgreem\endgetfvrt.txt
+
+Файл: renew_InfoIssTravelDoc.bat
+Папка: H:\\InfoIssAccTravelDoc\RUN
+Строка: copy H:\OLAP\InfoIssAccTravelDoc\null.txt H:\OLAP\InfoIssAccTravelDoc\endgetfvrt.txt
+
+Файл: o-r-man-sg1049.bat
+Папка: H:\\InfoManSg1049\RUN
+Строка: copy H:\OLAP\InfoManSg1049\null.txt H:\OLAP\InfoManSg1049\endgetfvrt.txt
+
+Файл: o-r-man-sg604.bat
+Папка: H:\\InfoManSg604\RUN
+Строка: copy H:\OLAP\InfoManSg604\null.txt H:\OLAP\InfoManSg604\endgetfvrt.txt
+
+Файл: calc-clusters-ktz.bat
+Папка: H:\\InfoRgdClustersInvRat\RUN
+Строка: copy I:\InfoRgdClustersInvRat_vrt\null.txt I:\InfoRgdClustersInvRat_vrt\endgetfvrt.txt
+
+Файл: renew_InfoWriteOffApplByInc.bat
+Папка: H:\\InfoWriteOffApplByInc\RUN
+Строка: copy H:\OLAP\InfoWriteOffApplByInc\null.txt  H:\OLAP\InfoWriteOffApplByInc\endgetfvrt.txt
+
+Файл: o-info-sales-funnel.bat
+Папка: H:\\Info_Sales_Funnel\RUN
+Строка: copy H:\OLAP\Info_Sales_Funnel\null.txt H:\OLAP\Info_Sales_Funnel\endgetfvrt.txt
+
+Файл: o-info-sales-funnel.bat
+Папка: H:\\Info_Sales_Funnel\RUN1
+Строка: copy H:\OLAP\Info_Sales_Funnel\null.txt H:\OLAP\Info_Sales_Funnel\RUN1\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\Itogi\null.txt I:\itogi_common\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\Itogi\null.txt I:\itogi_cli_vrt\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\Itogi\null.txt I:\itogimnfplan_vrt\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\Itogi\null.txt H:\OLAP\mark-new-clients\endgetfvrt_itogi.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: rem copy H:\OLAP\CliTrn6Mnth\null.txt  H:\OLAP\CliTrn6Mnth\endgetfsql_itogi.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\CliTrn6Mnth\null.txt  H:\OLAP\CliTrn6Mnth\endgetfvrt_itogi.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy I:\itogi_budg_mobile_vrt\null.txt I:\itogi_budg_mobile_vrt\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy I:\itogi_ass_cli_vrt\null.txt I:\itogi_ass_cli_vrt\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy I:\itogi_ass_cli_rgd_vrt\null.txt I:\itogi_ass_cli_rgd_vrt\endgetfvrt.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\OtRsmObjCls3\null.txt H:\OLAP\OtRsmObjCls3\endgetfvrt_ot.txt
+
+Файл: copy_flags.bat
+Папка: H:\\Itogi\RUN_LOAD
+Строка: copy H:\OLAP\OtRsmCli\null.txt H:\OLAP\OtRsmCli\endgetfvrt_ot.txt
+
+Файл: o-koeffCls33_2-for-fct.bat
+Папка: H:\\KoeffCls33_2ForClTrnDtl\RUN
+Строка: copy H:\OLAP\KoeffCls33_2ForClTrnDtl\null.txt  H:\OLAP\KoeffCls33_2ForClTrnDtl\endgetfvrt.txt
+
+Файл: o-koeffCls33_2-for-fct.bat
+Папка: H:\\KoeffCls33_2ForOt\RUN
+Строка: copy H:\OLAP\KoeffCls33_2ForOt\null.txt  H:\OLAP\KoeffCls33_2ForOt\endgetfvrt.txt
+
+Файл: o-koeff-seas-crm.bat
+Папка: H:\\KoeffSeasCRM\RUN
+Строка: copy H:\OLAP\KoeffSeasCRM\null.txt  H:\OLAP\KoeffSeasCRM\endgetfvrt.txt
+
+Файл: o-koeffwrkday-arrclifnd-gendsh.bat
+Папка: H:\\KoeffWrkDayArrCliFndGeneral\RUN
+Строка: copy H:\OLAP\KoeffWrkDayArrCliFndGeneral\null.txt  H:\OLAP\KoeffWrkDayArrCliFndGeneral\endgetfvrt.txt
+
+Файл: o-koeffwrkday-clitrndtl.bat
+Папка: H:\\KoeffWrkDayCliTrndtl\RUN
+Строка: copy H:\OLAP\KoeffWrkDayCliTrndtl\null.txt  H:\OLAP\KoeffWrkDayCliTrndtl\endgetfvrt.txt
+
+Файл: o-koeffwrkday-clitrndtl-oprs.bat
+Папка: H:\\KoeffWrkDayCliTrndtlOpRs\RUN
+Строка: copy H:\OLAP\KoeffWrkDayCliTrndtlOpRs\null.txt  H:\OLAP\KoeffWrkDayCliTrndtlOpRs\endgetfvrt.txt
+
+Файл: o-koeffwrkday-clitrndtl-gendsh.bat
+Папка: H:\\KoeffWrkDayCliTrnGeneral\RUN
+Строка: copy H:\OLAP\KoeffWrkDayCliTrnGeneral\null.txt  H:\OLAP\KoeffWrkDayCliTrnGeneral\endgetfvrt.txt
+
+Файл: o-koeffwrkday-ot-oprs.bat
+Папка: H:\\KoeffWrkDayOtOpRs\RUN
+Строка: copy H:\OLAP\KoeffWrkDayOtOpRs\null.txt  H:\OLAP\KoeffWrkDayOtOpRs\endgetfvrt.txt
+
+Файл: o-trmcompl.bat
+Папка: H:\\Kompl\RUN
+Строка: copy I:\kompl_vrt\null.txt I:\kompl_vrt\endgetfvrt.txt
+
+Файл: only-sql.bat
+Папка: H:\\Kompl\RUN\FOR-TEST
+Строка: copy I:\kompl_sql\null.txt I:\kompl_sql\endgetfsql.txt
+
+Файл: o-compl-lnk296.bat
+Папка: H:\\KontragLinkClass296\RUN_ADD
+Строка: copy H:\OLAP\KontragLinkClass296\null.txt  H:\OLAP\KontragLinkClass296\endgetfvrt_add.txt
+
+Файл: o-compl-lnk296.bat
+Папка: H:\\KontragLinkClass296\RUN_ADD
+Строка: copy I:\stat_traders_vrt\null.txt I:\stat_traders_vrt\endgetfvrt_lnk296.txt
+
+Файл: o-compl-lnk296.bat
+Папка: H:\\KontragLinkClass296\RUN_ADD
+Строка: copy I:\stat_traders_qrt_vrt\null.txt I:\stat_traders_qrt_vrt\endgetfvrt_lnk296.txt
+
+Файл: o-clc-lnk296.bat
+Папка: H:\\KontragLinkClass296\RUN_MAIN
+Строка: copy H:\OLAP\KontragLinkClass296\null.txt  H:\OLAP\KontragLinkClass296\endgetfvrt_main.txt
+
+Файл: o-clc-lnk296.bat
+Папка: H:\\KontragLinkClass296\RUN_MAIN
+Строка: copy I:\stat_traders_vrt\null.txt I:\stat_traders_vrt\endgetfvrt_lnk296.txt
+
+Файл: o-clc-lnk296.bat
+Папка: H:\\KontragLinkClass296\RUN_MAIN
+Строка: copy I:\stat_traders_qrt_vrt\null.txt I:\stat_traders_qrt_vrt\endgetfvrt_lnk296.txt
+
+Файл: o-clc-lnk296.bat
+Папка: H:\\KontragLinkClass296_CliInn\RUN
+Строка: copy H:\OLAP\KontragLinkClass296_CliInn\null.txt  H:\OLAP\KontragLinkClass296_CliInn\endgetfvrt.txt
+
+Файл: run_closedmnth_KontragLinkClass37Hist_channels.bat
+Папка: H:\\KontragLinkClass37Hist_channels\RUN
+Строка: copy H:\OLAP\KontragLinkClass37Hist_channels\null.txt H:\OLAP\KontragLinkClass37Hist_channels\endgetfvrt_closedmnth.txt
+
+Файл: run_everyday_KontragLinkClass37Hist_channels.bat
+Папка: H:\\KontragLinkClass37Hist_channels\RUN
+Строка: copy H:\OLAP\KontragLinkClass37Hist_channels\null.txt H:\OLAP\KontragLinkClass37Hist_channels\endgetfvrt_everday.txt
+
+Файл: renew_Last4QrtStatTrader_LegEnt.bat
+Папка: H:\\Last4QrtStatTrader_LegEnt\RUN\RUN
+Строка: copy H:\OLAP\Last4QrtStatTrader_LegEnt\null.txt  H:\OLAP\Last4QrtStatTrader_LegEnt\endgetvrt_Last4QrtStatTrader_LegEnt.txt
+
+Файл: renew_Last4QrtStatTrader_LegEnt.bat
+Папка: H:\\Last4QrtStatTrader_LegEnt\RUN\RUN
+Строка: copy H:\OLAP\Last4QrtStatTrader_LegEnt\null.txt  H:\OLAP\Last4QrtStatTrader_LegEnt\endgetvrt_Last4QrtStatTraderETM_LegEnt.txt
+
+Файл: o-lastclosemnthbudgdata.bat
+Папка: H:\\LastCloseMnthBudgData\RUN
+Строка: copy H:\OLAP\LastCloseMnthBudgData\null.txt H:\OLAP\LastCloseMnthBudgData\endgetfvrt.txt
+
+Файл: renew_LongTermGoalTot_Indiv.bat
+Папка: H:\\LongTermGoalTot_Indiv\RUN\TEST
+Строка: copy H:\OLAP\del H:\OLAP\LongTermGoalTot_Indiv\endgetfvrt.txt\null.txt  H:\OLAP\del H:\OLAP\LongTermGoalTot_Indiv\endgetfvrt.txt
+
+Файл: o-lostrtn.bat
+Папка: H:\\LOSTRTN\RUN
+Строка: copy I:\lostrtnrgd_vrt\null.txt  I:\lostrtnrgd_vrt\endgetfvrt.txt
+
+Файл: o-manclimnfct.bat
+Папка: H:\\manclimnfct\RUN
+Строка: copy I:\manufact_vrt\null.txt I:\manufact_vrt\endgetfvrtmnf.txt
+
+Файл: o-manclimnfct.bat
+Папка: H:\\manclimnfct\RUN
+Строка: copy I:\itogi_cbi_mgpp_vrt\null.txt I:\itogi_cbi_mgpp_vrt\endgetfvrtmnf.txt
+
+Файл: o-manclimnfct.bat
+Папка: H:\\manclimnfct\RUN
+Строка: copy I:\itogi_cbi_sbyt_vrt\null.txt I:\itogi_cbi_sbyt_vrt\endgetfvrtmnf.txt
+
+Файл: o-manclimnfct.bat
+Папка: H:\\manclimnfct\RUN
+Строка: copy I:\manufact_budg_mobile_vrt\null.txt I:\manufact_budg_mobile_vrt\endgetfvrtmnf.txt
+
+Файл: o-mllnfrcmnth-load.bat
+Папка: H:\\MlFrcMnthLoadVrt\RUN
+Строка: copy H:\OLAP\MlFrcMnthLoadVrt\null.txt H:\OLAP\MlFrcMnthLoadVrt\endgetfvrt.txt
+
+Файл: o-mnfinfcnt.bat
+Папка: H:\\MnfCntSuppStore\RUN
+Строка: copy I:\rgd_profit_vrt\null.txt  I:\rgd_profit_vrt\endgetfvrt.txt
+
+Файл: o-mnfturnov-sum-sql.bat
+Папка: H:\\MnfTurnoverSum\RUN
+Строка: copy I:\manuf_profit_sql\null.txt  I:\manuf_profit_sql\endgetfsql_sum.txt
+
+Файл: run-process.bat
+Папка: H:\\MnthOperFrcInvManag\RUN
+Строка: copy H:\OLAP\MnthOperFrcInvManag\null.txt H:\OLAP\MnthOperFrcInvManag\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\MnthOperFrcInvManagMnf\RUN
+Строка: copy H:\OLAP\MnthOperFrcInvManagMnf\null.txt H:\OLAP\MnthOperFrcInvManagMnf\endgetfvrt.txt
+
+Файл: o-nelikvid.bat
+Папка: H:\\Nelikvid\RUN
+Строка: copy I:\nelikvid_vrt\null.txt  I:\nelikvid_vrt\endgetfvrt.txt
+
+Файл: o-nelikvid.bat
+Папка: H:\\Nelikvid\RUN
+Строка: copy null >> H:\OLAP\PennyRsrvNlkRgd\endgetfvrt_nlk.txt
+
+Файл: only-sql.bat
+Папка: H:\\Nelikvid\RUN\FOR-TEST
+Строка: copy I:\nelikvid_sql\null.txt  I:\nelikvid_sql\endgetfsql.txt
+
+Файл: o-debtinvprj.bat
+Папка: H:\\NO-USED\DebtInvPrj\RUN
+Строка: copy I:\debtinvprj_sql\null.txt  I:\debtinvprj_sql\endgetfsql.txt
+
+Файл: o-debtinvtndr.bat
+Папка: H:\\NO-USED\DebtInvTndr\RUN
+Строка: copy I:\debtinvtndr_sql\null.txt  I:\debtinvtndr_sql\endgetfsql.txt
+
+Файл: o-eventman.bat
+Папка: H:\\NO-USED\EventMan\RUN
+Строка: copy I:\eventman_sql\null.txt  I:\eventman_sql\endgetfsql.txt
+
+Файл: o-inficc-file.bat
+Папка: H:\\NO-USED\IndicOperManag\RUN
+Строка: copy H:\OLAP\IndicOperManag\RUN\null.txt  H:\OLAP\IndicOperManag\RUN\endgeticc.txt
+
+Файл: o-nomovedinv.bat
+Папка: H:\\NO-USED\NoMovedInv\RUN
+Строка: copy I:\nomovedinv_sql\null.txt  I:\nomovedinv_sql\endgetfsql.txt
+
+Файл: o-otgruzcl.bat
+Папка: H:\\NO-USED\otgruzcl\RUN
+Строка: copy I:\otgruzcl_sql\null.txt I:\otgruzcl_sql\endgetfsql.txt
+
+Файл: o-otgruzicc.bat
+Папка: H:\\NO-USED\OtgruzICC\RUN
+Строка: copy I:\otgruzicc_sql\null.txt  I:\otgruzicc_sql\endgetfsql.txt
+
+Файл: GetFtpOtgruzRgd.bat
+Папка: H:\\NO-USED\otgruzki\RUN
+Строка: if %errorlevel%==0 copy I:\otgruzki_sql\null.txt I:\otgruzki_sql\endgetfsql.txt
+
+Файл: o-raiselvrgd.bat
+Папка: H:\\NO-USED\RaiselvRgd\RUN
+Строка: copy I:\raiselvrgd_sql\null.txt  I:\raiselvrgd_sql\endgetfsql.txt
+
+Файл: o-raiselvrgd.bat
+Папка: H:\\NO-USED\RaiselvRgd\RUN
+Строка: copy I:\raiselvrgd_mobile_sql\null.txt  I:\raiselvrgd_mobile_sql\endgetfsql.txt
+
+Файл: o-statcompetit.bat
+Папка: H:\\NO-USED\StatCompetitor\RUN
+Строка: copy I:\stat_competit_sql\null.txt  I:\stat_competit_sql\endgetfsql.txt
+
+Файл: o-norm2part.bat
+Папка: H:\\Norm2PartRgd\RUN
+Строка: rem copy H:\OLAP\Norm2PartRgd\null.txt H:\OLAP\Norm2PartRgd\endgetfsql.txt
+
+Файл: o-norm2part.bat
+Папка: H:\\Norm2PartRgd\RUN
+Строка: copy H:\OLAP\Norm2PartRgd\null.txt H:\OLAP\Norm2PartRgd\endgetfvrt.txt
+
+Файл: o-normoutc.bat
+Папка: H:\\NormAndOutcRgd\RUN
+Строка: copy I:\normandoutc_vrt\null.txt  I:\normandoutc_vrt\endgetfvrt.txt
+
+Файл: o-normoutc.bat
+Папка: H:\\NormAndOutcRgd\RUN
+Строка: copy H:\OLAP\NormAndOutcRgd\null.txt H:\OLAP\NormAndOutcRgd\endgetfvrt.txt
+
+Файл: test-sql.bat
+Папка: H:\\NormAndOutcRgd\RUN
+Строка: copy I:\normandoutc_sql\null.txt  I:\normandoutc_sql\endgetfsql.txt
+
+Файл: o-normreq-nochkmvjb.bat
+Папка: H:\\NormAndReqRgd\RUN
+Строка: copy I:\normandreq_vrt\null.txt  I:\normandreq_vrt\endgetfvrt.txt
+
+Файл: test-sql.bat
+Папка: H:\\NormAndReqRgd\RUN\FOR-TEST
+Строка: copy I:\normandreq_sql\null.txt  I:\normandreq_sql\endgetfsql.txt
+
+Файл: o-norm-deal-agreem.bat
+Папка: H:\\NormDealAgreem\RUN
+Строка: copy H:\OLAP\cNormDealAgreem\null.txt  H:\OLAP\class37curr\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\NoSaledAssrtOp\RUN
+Строка: copy H:\OLAP\NoSaledAssrtOp\null.txt H:\OLAP\NoSaledAssrtOp\endgetfvrt.txt
+
+Файл: o-notreatinv.bat
+Папка: H:\\NoTreatedInv\RUN
+Строка: copy I:\notreatedinv_vrt\null.txt  I:\notreatedinv_vrt\endgetfvrt.txt
+
+Файл: o-obj.bat
+Папка: H:\\Objects\RUN
+Строка: copy H:\OLAP\Objects\null.txt  H:\OLAP\Objects\endgetfvrt.txt
+
+Файл: renew_OneC_Dismissal.bat
+Папка: H:\\OneC_Dismissal\RUN
+Строка: copy H:\OLAP\OneC_Dismissal\null.txt   H:\OLAP\OneC_Dismissal\endgetfvrt.txt
+
+Файл: renew_OneC_Employment.bat
+Папка: H:\\OneC_Employment\RUN
+Строка: copy H:\OLAP\OneC_Employment\null.txt   H:\OLAP\OneC_Employment\endgetfvrt.txt
+
+Файл: renew_OneC_NumerEmpl.bat
+Папка: H:\\OneC_NumberEmpl\RUN
+Строка: copy H:\OLAP\OneC_NumberEmpl\null.txt  H:\OLAP\OneC_NumberEmpl\endgetfvrt.txt
+
+Файл: renew_emp_status_specialization.bat
+Папка: H:\\OneC_RfBk\RUN
+Строка: copy H:\OLAP\OneC_RfBk\null.txt H:\OLAP\OneC_RfBk\endgetvrt_emp_status.txt
+
+Файл: renew_emp_status_specialization.bat
+Папка: H:\\OneC_RfBk\RUN
+Строка: copy H:\OLAP\OneC_RfBk\null.txt H:\OLAP\OneC_RfBk\endgetvrt_emp_specialization.txt
+
+Файл: renew_OneC_RfBk.bat
+Папка: H:\\OneC_RfBk\RUN
+Строка: copy H:\OLAP\OneC_RfBk\null.txt  H:\OLAP\OneC_RfBk\endgetfvrt_RfBk.txt
+
+Файл: renew_type_employ.bat
+Папка: H:\\OneC_RfBk\RUN
+Строка: copy H:\OLAP\OneC_RfBk\null.txt H:\OLAP\OneC_RfBk\endgetvrt_empl_type.txt
+
+Файл: renew_OneC_StaffSchedPlan.bat
+Папка: H:\\OneC_StaffSchedPlan\RUN
+Строка: copy H:\OLAP\OneC_StaffSchedPlan\null.txt  H:\OLAP\OneC_StaffSchedPlan\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\OneC_StaffTurnoverKPI\RUN
+Строка: copy null >> H:\OLAP\OneC_StaffTurnoverKPI\endgetfvrt_KPI.txt
+
+Файл: renew_OneC_Workers.bat
+Папка: H:\\OneC_Workers\RUN
+Строка: copy H:\OLAP\OneC_Workers\null.txt H:\OLAP\OneC_Workers\endgetfvrt.txt
+
+Файл: renew_OneC_WorkingHours.bat
+Папка: H:\\OneC_WorkingHours\RUN
+Строка: copy H:\OLAP\OneC_WorkingHours\null.txt H:\OLAP\OneC_WorkingHours\endgetfvrt.txt
+
+Файл: o-oprpl-invmng.bat
+Папка: H:\\OperPlanInvManag\RUN
+Строка: copy H:\OLAP\OperPlanInvManag\null.txt  H:\OLAP\OperPlanInvManag\endgetfvrt.txt
+
+Файл: o-oprpl-invmng.bat
+Папка: H:\\OperPlanInvManag\RUN
+Строка: copy H:\OLAP\OperPlanInvManag\null.txt H:\OLAP\OperPlanInvManag\endgetfvrt.txt
+
+Файл: o-oprpl-invmng-mnf.bat
+Папка: H:\\OperPlanInvManagMnf\RUN
+Строка: copy H:\OLAP\OperPlanInvManagMnf\null.txt  H:\OLAP\OperPlanInvManagMnf\endgetfvrt.txt
+
+Файл: load-facts.bat
+Папка: H:\\OperResDB\RUN
+Строка: copy H:\OLAP\OperResDB\null.txt H:\OLAP\OperResDB\endgetfvrt.txt
+
+Файл: run-one-measure.bat
+Папка: H:\\OperResDB_Ver6\RUN
+Строка: copy H:\OLAP\OperResDB_Ver6\null.txt H:\OLAP\OperResDB_Ver6\endgetfvrt.txt
+
+Файл: run-v3.bat
+Папка: H:\\OperResDB_Ver6\RUN
+Строка: rem copy H:\OLAP\OperResDB_Ver6\null.txt H:\OLAP\OperResDB_Ver6\endgetfvrt.txt
+
+Файл: o-oppln-sumcltrndtl.bat
+Папка: H:\\OpPlSumCliTrnDtl_OperRes\RUN
+Строка: copy H:\OLAP\OpPlSumCliTrnDtl_OperRes\null.txt H:\OLAP\OpPlSumCliTrnDtl_OperRes\endgetfvrt.txt
+
+Файл: o-estacc-frcmnth.bat
+Папка: H:\\OptimFrcMnth\RUN
+Строка: copy H:\OLAP\OptimFrcMnth\null.txt H:\OLAP\OptimFrcMnth\endgetfvrt.txt
+
+Файл: renew_plan.bat
+Папка: H:\\OtBudgPlan\RUN
+Строка: copy H:\OLAP\OtBudgPlan\null.txt  H:\OLAP\OtBudgPlan\endgetfvrt.txt
+
+Файл: o-rsm-otgcl-dbt.bat
+Папка: H:\\OtgCliDebtResume\RUN
+Строка: rem copy H:\OLAP\OtgCliDebtResume\null.txt H:\OLAP\OtgCliDebtResume\endgetfsql.txt
+
+Файл: o-rsm-otgcl-dbt.bat
+Папка: H:\\OtgCliDebtResume\RUN
+Строка: copy H:\OLAP\OtgCliDebtResume\null.txt H:\OLAP\OtgCliDebtResume\endgetfvrt.txt
+
+Файл: o-otgruzrgd-asrt.bat
+Папка: H:\\OtgruzAssrtRgd\RUN
+Строка: copy H:\OLAP\OtgruzAssrtRgd\null.txt  I:\go_assrt_mobile_vrt\endgetfvrt.txt
+
+Файл: o-otresumecli.bat
+Папка: H:\\OtResumeCli\RUN
+Строка: copy H:\OLAP\OtResumeCli\null.txt  I:\itogi_cbi_mgpp_vrt\endgetfvrtotrscl.txt
+
+Файл: o-otresumecli.bat
+Папка: H:\\OtResumeCli\RUN
+Строка: copy H:\OLAP\OtResumeCli\null.txt  I:\itogi_cbi_sbyt_vrt\endgetfvrtotrscl.txt
+
+Файл: o-otresumeclihd.bat
+Папка: H:\\OtResumeCliHd\RUN
+Строка: copy H:\OLAP\OtResumeCliHd\null.txt I:\itogi_cbi_mgpp_vrt\endgetfvrtotrsclhd.txt
+
+Файл: o-otresumeclihd.bat
+Папка: H:\\OtResumeCliHd\RUN
+Строка: copy H:\OLAP\OtResumeCliHd\null.txt I:\itogi_cbi_sbyt_vrt\endgetfvrtotrsclhd.txt
+
+Файл: o-otresumeman.bat
+Папка: H:\\OtResumeMan\RUN
+Строка: copy H:\OLAP\OtResumeMan\null.txt  I:\manufact_vrt\endgetfvrtotrsmn.txt
+
+Файл: o-otresumeman.bat
+Папка: H:\\OtResumeMan\RUN
+Строка: copy H:\OLAP\OtResumeMan\null.txt I:\manufact_budg_mobile_vrt\endgetfvrtotrsmn.txt
+
+Файл: test-sql.bat
+Папка: H:\\OtResumeMan\RUN\FOR-TEST
+Строка: rem !!! copy H:\OLAP\OtResumeMan\null.txt  I:\manufact_sql\endgetfsqlotrsmn.txt
+
+Файл: o-otresumeman.bat
+Папка: H:\\OtResumeMan\RUN\SAVE
+Строка: copy H:\OLAP\OtResumeMan\null.txt  I:\manufact_sql\endgetfsqlotrsmn.txt
+
+Файл: run-process.bat
+Папка: H:\\OtRsmCl37\RUN
+Строка: copy H:\OLAP\OtRsmCl37\null.txt H:\OLAP\OtRsmCl37\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\OtRsmCl37Man\RUN
+Строка: copy H:\OLAP\OtRsmCl37Man\null.txt H:\OLAP\OtRsmCl37Man\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\OtRsmCl37ManCli\RUN
+Строка: copy H:\OLAP\OtRsmCl37ManCli\null.txt H:\OLAP\OtRsmCl37ManCli\endgetfvrt.txt
+
+Файл: renew-window.bat
+Папка: H:\\OtRsmCli\RUN
+Строка: copy H:\OLAP\OtRsmCli\null.txt H:\OLAP\OtRsmCli\endgetfvrt_window.txt
+
+Файл: renew-window.bat
+Папка: H:\\OtRsmObjCls3\RUN
+Строка: copy H:\OLAP\OtRsmObjCls3\null.txt H:\OLAP\OtRsmObjCls3\endgetfvrt_window.txt
+
+Файл: run-process.bat
+Папка: H:\\OtRsmPrjMnf\RUN
+Строка: copy H:\OLAP\OtRsmPrjMnf\null.txt H:\OLAP\OtRsmPrjMnf\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\OtRsmPrjMnfCl33\RUN
+Строка: copy H:\OLAP\OtRsmPrjMnfCl33\null.txt H:\OLAP\OtRsmPrjMnfCl33\endgetfvrt.txt
+
+Файл: o-otsubprj.bat
+Папка: H:\\OtSubPrj\RUN
+Строка: copy H:\OLAP\OtSubPrj\null.txt  H:\OLAP\OtSubPrj\endgetfvrt.txt
+
+Файл: o-otsubprj.bat
+Папка: H:\\OtSubPrj\RUN_OLD
+Строка: rem copy H:\OLAP\OtSubPrj\null.txt  H:\OLAP\OtSubPrj\endgetfsql.txt
+
+Файл: renew_Params4StockByRgdClust .bat
+Папка: H:\\Params4StockByRgdClust\RUN
+Строка: copy H:\OLAP\Params4StockByRgdClust\null.txt H:\OLAP\Params4StockByRgdClust\endgetfvrt.txt
+
+Файл: o-partcitybudgplansmsl.bat
+Папка: H:\\PartCityBudgPlanOtSmSl\RUN
+Строка: copy H:\OLAP\PartCityBudgPlanOtSmSl\null.txt H:\OLAP\PartCityBudgPlanOtSmSl\endgetfvrt.txt
+
+Файл: o-partcitybudgplansmsl.bat
+Папка: H:\\PartCityBudgPlanTrnSmSl\RUN
+Строка: copy H:\OLAP\PartCityBudgPlanTrnSmSl\null.txt H:\OLAP\PartCityBudgPlanTrnSmSl\endgetfvrt.txt
+
+Файл: o-pennyrsrvnlkrgd.bat
+Папка: H:\\PennyRsrvNlkRgd\RUN
+Строка: copy H:\OLAP\PennyRsrvNlkRgd\null.txt  H:\OLAP\PennyRsrvNlkRgd\endgetfvrt.txt
+
+Файл: o-pennyrsrvnlkrgd.bat
+Папка: H:\\PennyRsrvNlkRgd\RUN
+Строка: copy H:\OLAP\PennyRsrvNlkRgd\null.txt H:\OLAP\ReasonsNlk\endgetfvrt_pen.txt
+
+Файл: o-pennyrsrvnlkrgd.bat
+Папка: H:\\PennyRsrvNlkRgd\RUN
+Строка: copy H:\OLAP\PennyRsrvNlkRgd\null.txt H:\OLAP\DtMart_DshUTZ\endgetfvrt_pen.txt
+
+Файл: o-perevoz-rsm.bat
+Папка: H:\\PerevozRgdRsm\RUN
+Строка: copy I:\perevozrgdrsm_vrt\null.txt  I:\perevozrgdrsm_vrt\endgetfvrt.txt
+
+Файл: o-planinvmanagpntsl.bat
+Папка: H:\\PlanInvManagPntSl\RUN
+Строка: copy H:\OLAP\PlanInvManagPntSl\null.txt  H:\OLAP\PlanInvManagPntSl\endgetfvrt.txt
+
+Файл: o-planinvmanagpntsl.bat
+Папка: H:\\PlanInvManagPntSl\RUN
+Строка: copy H:\OLAP\PlanInvManagPntSl\null.txt H:\OLAP\PlanInvManagPntSl\endgetfvrt.txt
+
+Файл: o-plp-to-suppl.bat
+Папка: H:\\PlanPaysToSuppliers\RUN
+Строка: copy H:\OLAP\PlanPaysToSuppliers\null.txt H:\OLAP\PlanPaysToSuppliers\endgetfvrt.txt
+
+Файл: o-plntrgmnf.bat
+Папка: H:\\PlanTargManManuf\RUN
+Строка: copy H:\OLAP\PlanTargManManuf\null.txt  H:\OLAP\PlanTargManManuf\endgetfvrt.txt
+
+Файл: price_comp_parse_nets.bat
+Папка: H:\\price_comp_parse_nets\RUN
+Строка: copy H:\OLAP\price_comp_parse_nets\null.txt H:\OLAP\price_comp_parse_nets\endgetfvrt.txt
+
+Файл: renew_price_comp_status.bat
+Папка: H:\\price_comp_status\RUN
+Строка: copy H:\OLAP\price_comp_status\null.txt H:\OLAP\price_comp_status\endgetfvrt.txt
+
+Файл: o-cplinknetnum.bat
+Папка: H:\\price_CPlinkNetNum\RUN
+Строка: copy  H:\OLAP\price_CPlinkNetNum\null.txt  H:\OLAP\price_CPlinkNetNum\endgetfvrt.txt
+
+Файл: run_price_koeffs.bat
+Папка: H:\\Price_Koeffs\RUN
+Строка: copy H:\OLAP\Price_Koeffs\null.txt  H:\OLAP\Price_Koeffs\endgetfvrt.txt
+
+Файл: o-prj.bat
+Папка: H:\\Projects\RUN
+Строка: rem copy H:\OLAP\Projects\null.txt  H:\OLAP\Projects\endgetfsql.txt
+
+Файл: o-prj.bat
+Папка: H:\\Projects\RUN
+Строка: copy H:\OLAP\Projects\null.txt  H:\OLAP\Projects\endgetfvrt.txt
+
+Файл: o-reasons-hdnlk.bat
+Папка: H:\\ReasonsNlk\RUN
+Строка: copy H:\OLAP\ReasonsNlk\null.txt  H:\OLAP\ReasonsNlk\endgetfvrt.txt
+
+Файл: o-rgddivdep.bat
+Папка: H:\\RgdDivisDprt\RUN
+Строка: copy H:\OLAP\RgdDivisDprt\null.txt  H:\OLAP\RgdDivisDprt\endgetfvrt.txt
+
+Файл: o-rgdexpense.bat
+Папка: H:\\RgdExpense\RUN
+Строка: rem copy H:\OLAP\RgdExpense\null.txt H:\OLAP\RgdExpense\endgetfsql.txt
+
+Файл: o-rgdexpense.bat
+Папка: H:\\RgdExpense\RUN
+Строка: copy H:\OLAP\RgdExpense\null.txt H:\OLAP\RgdExpense\endgetfvrt.txt
+
+Файл: renew_RgdLinkClass220.bat
+Папка: H:\\RgdLinkClass220\RUN
+Строка: copy H:\OLAP\RgdLinkClass220\null.txt H:\OLAP\RgdLinkClass220\endgetfvrt.txt
+
+Файл: renew_RgdMnfBrand.bat
+Папка: H:\\RgdMnfBrand\RUN
+Строка: copy H:\OLAP\RgdMnfBrand\null.txt H:\OLAP\RgdMnfBrand\endgetfvrt.txt
+
+Файл: load-test.bat
+Папка: H:\\RgdNormedInfo\RUN
+Строка: copy H:\OLAP\RgdNormedInfo\null.txt  H:\OLAP\RgdNormedInfo\endgetfvrt.txt
+
+Файл: o-rgd-normed-info.bat
+Папка: H:\\RgdNormedInfo\RUN
+Строка: copy H:\OLAP\RgdNormedInfo\null.txt  H:\OLAP\RgdNormedInfo\endgetfvrt_saf.txt
+
+Файл: GetFtpRgdRem.bat
+Папка: H:\\RgdRem1f\RUN
+Строка: copy I:\rgdrem1f_vrt\null.txt  I:\rgdrem1f_vrt\endgetfvrt.txt
+
+Файл: o-rgdturnov-sum.bat
+Папка: H:\\RgdTurnoverSum\RUN
+Строка: copy I:\rgd_profit_vrt\null.txt  I:\rgd_profit_vrt\endgetfvrt_sum.txt
+
+Файл: o-roles-cli-obj.bat
+Папка: H:\\RolesCliAmngObj\RUN
+Строка: copy H:\OLAP\RolesCliAmngObj\null.txt  H:\OLAP\RolesCliAmngObj\endgetfvrt.txt
+
+Файл: run-process.bat
+Папка: H:\\RsmCliTrnRgdRsrvRem\RUN
+Строка: copy H:\OLAP\RsmCliTrnRgdRsrvRem\null.txt I:\go_rgd_vrt\endgetfvrtrsm.txt
+
+Файл: renew_Rules37OldToAct.bat
+Папка: H:\\Rules37OldToAct\RUN
+Строка: copy H:\OLAP\Rules37OldToAct\null.txt H:\OLAP\Rules37OldToAct\endgetfvrt.txt
+
+Файл: renew_Rules_LongTermGoal_Indiv.bat
+Папка: H:\\Rules_LongTermGoal_Indiv\RUN
+Строка: copy H:\OLAP\Rules_LongTermGoal_Indiv\null.txt  H:\OLAP\Rules_LongTermGoal_Indiv\endgetfvrt_Rules_LongTermGoal_Indiv.txt
+
+Файл: renew_data.bat
+Папка: H:\\ScaleRangesDealAgreem\RUN
+Строка: copy H:\OLAP\ScaleRangesDealAgreem\null.txt  H:\OLAP\ScaleRangesDealAgreem\endgetfvrt.txt
+
+Файл: o-statcompetit-sc.bat
+Папка: H:\\StatCompetit-SC\RUN
+Строка: copy I:\stat_competit_vrt\null.txt I:\stat_competit_vrt\endgetfvrt.txt
+
+Файл: o-statkpi0001.bat
+Папка: H:\\StatKpi0001\RUN
+Строка: copy H:\OLAP\StatKpi0001\null.txt H:\OLAP\StatKpi0001\endgetfvrt.txt
+
+Файл: o-stat-trader-etm.bat
+Папка: H:\\StatTraderBroker\RUN_ETM
+Строка: copy H:\OLAP\StatTraderBroker\null.txt  H:\OLAP\StatTraderBroker\endgetfvrt_etm.txt
+
+Файл: test.bat
+Папка: H:\\StatTraderBroker\RUN_ETM\TEST
+Строка: rem copy H:\OLAP\StatTraderBroker\null.txt  H:\OLAP\StatTraderBroker\endgetfvrt_etm.txt
+
+Файл: o-stat-trader-etm.bat
+Папка: H:\\StatTraderBroker\RUN_ETM_CURRENT_PERIOD
+Строка: copy H:\OLAP\StatTraderBroker\null.txt  H:\OLAP\StatTraderBroker\endgetfvrt_etm_curpr.txt
+
+Файл: o-stat-trader.bat
+Папка: H:\\StatTraderBroker\RUN_TRADER
+Строка: copy H:\OLAP\StatTraderBroker\null.txt  H:\OLAP\StatTraderBroker\endgetfvrt_trader.txt
+
+Файл: o-store-linkcls10.bat
+Папка: H:\\StoreLinkClass10\RUN
+Строка: copy H:\OLAP\StoreLinkClass10\null.txt H:\OLAP\StoreLinkClass10\endgetfvrt.txt
+
+Файл: o-store-linkcls132.bat
+Папка: H:\\StoreLinkClass132\RUN
+Строка: copy H:\OLAP\StoreLinkClass132\null.txt H:\OLAP\StoreLinkClass132\endgetfvrt.txt
+
+Файл: o-subprj-stat.bat
+Папка: H:\\SubPrjStat\RUN
+Строка: rem copy H:\OLAP\SubPrjStat\null.txt  H:\OLAP\SubPrjStat\endgetfsql.txt
+
+Файл: o-subprj-stat.bat
+Папка: H:\\SubPrjStat\RUN
+Строка: copy H:\OLAP\SubPrjStat\null.txt  H:\OLAP\SubPrjStat\endgetfvrt.txt
+
+Файл: o-subprj-stat.bat
+Папка: H:\\SubPrjStat\RUN
+Строка: copy I:\subprjstat_mobile_vrt\null.txt I:\subprjstat_mobile_vrt\endgetfvrt.txt
+
+Файл: test-sql.bat
+Папка: H:\\SubPrjStat\RUN\FOR-TEST
+Строка: copy H:\OLAP\SubPrjStat\null.txt  H:\OLAP\SubPrjStat\endgetfsql.txt
+
+Файл: o-tailstat-tretm.bat
+Папка: H:\\TailStatTraderETM\RUN
+Строка: copy H:\OLAP\TailStatTraderETM\null.txt  H:\OLAP\TailStatTraderETM\endgetfvrt.txt
+
+Файл: o-tailstat-tretm.bat
+Папка: H:\\TailStatTraderETM\RUN
+Строка: copy I:\stat_traders_vrt\null.txt I:\stat_traders_vrt\endgetfvrt_tailsttrd.txt
+
+Файл: o-tailstat-tretm.bat
+Папка: H:\\TailStatTraderETM\RUN
+Строка: copy I:\stat_traders_qrt_vrt\null.txt I:\stat_traders_qrt_vrt\endgetfvrt_tailsttrd.txt
+
+Файл: o-tailstat-tretm.bat
+Папка: H:\\TailStatTraderETM\RUN_CURRENT_PERIOD
+Строка: copy H:\OLAP\TailStatTraderETM\null.txt  H:\OLAP\TailStatTraderETM\endgetfvrt_curpr.txt
+
+Файл: o-tailstat-tretm.bat
+Папка: H:\\TailStatTraderETM\RUN_EVERY_DAY
+Строка: copy H:\OLAP\TailStatTraderETM\null.txt H:\OLAP\TailStatTraderETM\endgetfvrt_evday.txt
+
+Файл: o-terrfsaleacg.bat
+Папка: H:\\TerrFSaleAcg\RUN
+Строка: copy I:\terrfsaleacg_sql\null.txt  I:\terrfsaleacg_sql\endgetfsql.txt
+
+Файл: run-renew-VerMnth.bat
+Папка: H:\\VerMnth_CliTurnoverDtl\RUN
+Строка: copy H:\OLAP\VerMnth_CliTurnoverDtl\null.txt H:\OLAP\VerMnth_CliTurnoverDtl\endgetfvrt_vermnth.txt
+
+Файл: run-renew-VerMnth.bat
+Папка: H:\\VerMnth_CliTurnoverDtl\RUN
+Строка: copy H:\OLAP\VerMnth_CliTurnoverDtl\null.txt H:\OLAP\VerMnth_CliTurnoverDtl\endgetfvrt_dayclitrn.txt
+
+Файл: renew_WMSInfoOper_Perf.bat
+Папка: H:\\WMSInfoOper_Perf\RUN
+Строка: copy H:\OLAP\WMSInfoOper_Perf\null.txt H:\OLAP\WMSInfoOper_Perf\endgetfvrt.txt
+
+Файл: o-wms-rsm.bat
+Папка: H:\\WMSInvoice\RUN
+Строка: copy H:\OLAP\WMSInvoice\null.txt I:\wms_invoice_vrt\endgetfvrt.txt
+
+Файл: o-wrk-days-mnth-etm.bat
+Папка: H:\\WrkDaysMnthETM\RUN
+Строка: copy H:\OLAP\WrkDaysMnthETM\null.txt H:\OLAP\WrkDaysMnthETM\endgetfvrt.txt
+

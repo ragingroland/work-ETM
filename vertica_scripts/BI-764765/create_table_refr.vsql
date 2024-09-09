@@ -1,0 +1,92 @@
+create table DataPrime.Counter (
+    CounterID int,
+    CounterName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Counter is 'Типы счетчиков Яндекс Метрики';
+comment on column DataPrime.Counter.CounterID is 'ID счетчика';
+comment on column DataPrime.Counter.CounterName is 'Наименование счетчика';
+
+create table DataPrime.Countries (
+    CountryID int,
+    CountryName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Countries is 'Страна';
+comment on column DataPrime.Countries.CountryID is 'ID страны';
+comment on column DataPrime.Countries.CountryName is 'Название страны';
+
+create table DataPrime.Regions (
+    RegionID int,
+    RegionName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Regions is 'Регионы';
+comment on column DataPrime.Regions.RegionID is 'ID региона';
+comment on column DataPrime.Regions.RegionName is 'Название региона';
+
+create table DataPrime.Cities (
+    CountryID int,
+    RegionID int,
+    CityID int,
+    CityName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Cities is 'Город';
+comment on column DataPrime.Cities.CountryID is 'ID страны';
+comment on column DataPrime.Cities.RegionID is 'ID региона';
+comment on column DataPrime.Cities.CityID is 'ID города';
+comment on column DataPrime.Cities.CityName is 'Название города';
+
+create table DataPrime.TrafficSource (
+    TrafficSourceID int,
+    TrafficSourceName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.TrafficSource is 'Вид траффика';
+comment on column DataPrime.TrafficSource.TrafficSourceID is 'ID вида траффика';
+comment on column DataPrime.TrafficSource.TrafficSourceName is 'Наименование вида трафика';
+
+create table DataPrime.SearchEngineRoot (
+    SearchEngineRootID int,
+    SearchEngineRootName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.SearchEngineRoot is 'Поисковая система';
+comment on column DataPrime.SearchEngineRoot.SearchEngineRootID is 'ID поисковой системы';
+comment on column DataPrime.SearchEngineRoot.SearchEngineRootName is 'Наименование поисковой системы';
+
+create table DataPrime.TrafficSourceFirstLast (
+    TrafficSourceFL_ID int,
+    TrafficSourceFL_Name varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.TrafficSourceFirstLast is 'Источник трафика в разрезе атрибуции (первый, автоматический, последний значимый)';
+comment on column DataPrime.TrafficSourceFirstLast.TrafficSourceFL_ID is 'ID вида траффика';
+comment on column DataPrime.TrafficSourceFirstLast.TrafficSourceFL_Name is 'Наименование вида трафика';
+
+create table DataPrime.Status (
+    DescRgd_Code int,
+    "Status" varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Status is 'Статус товара';
+comment on column DataPrime.Status.DescRgd_Code is 'Код товара';
+comment on column DataPrime.Status."Status" is 'Статус товара';
+
+create table DataPrime.Campaign (
+    CampaignID int,
+    CampaignName varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Campaign is 'Рекламные кампании';
+comment on column DataPrime.Campaign.CampaignID is 'ID рекламной кампании';
+comment on column DataPrime.Campaign.CampaignName is 'Название рекламной кампании';
+
+create table DataPrime.Category (
+    CategoryID int,
+    Category varchar(50)) unsegmented all nodes;
+
+comment on table DataPrime.Category is 'Направления';
+comment on column DataPrime.Category.CampaignID is 'ID направления';
+comment on column DataPrime.Category.CampaignName is 'Наименование направления';
+
+GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT ALL ON SCHEMA public, DataPrime, DataMart TO RW_public_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RW_public_role;
+GRANT USAGE ON SCHEMA public, DataPrime TO etl_ed_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime  TO etl_ed_role;
+GRANT ALL ON SCHEMA DataMart TO etl_ed_role;
+GRANT ALL ON ALL TABLES IN SCHEMA DataMart TO etl_ed_role;
