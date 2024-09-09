@@ -1,11 +1,11 @@
 drop table tmp_local;
 create local temp table tmp_local
 on commit preserve rows as
-select * from DataPrime.nomenklature where CounterID = 0;
+select * from DataPrime.ECom_Nomenclature where CounterID = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\CH\DATA\nomenklature.vcsv'
+from local 'H:\OLAP\CH\DATA\nomenklature.csv'
     abort on error
     delimiter '|'
     null ''
@@ -14,8 +14,8 @@ from local 'H:\OLAP\CH\DATA\nomenklature.vcsv'
 rejected data 'H:\OLAP\CH\RUN\nomenklature.rej'
 exceptions 'H:\OLAP\CH\RUN\nomenklature.exc' direct skip 1;
 
-truncate table DataPrime.nomenklature;
-insert into DataPrime.nomenklature
+truncate table DataPrime.ECom_Nomenclature;
+insert into DataPrime.ECom_Nomenclature
 select
     *
 from tmp_local;

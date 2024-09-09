@@ -1,4 +1,4 @@
-create table DataPrime.web_analytics (
+create table DataPrime.ECom_WebAnalytics (
     CounterID int,
     DataInfo date,
     VisitID int,
@@ -12,9 +12,9 @@ create table DataPrime.web_analytics (
     RegionID int,
     CityID int,
     Device varchar(50),
-    TrafficSourceFL_first int,
-    TrafficSourceFL_auto int,
-    TrafficSourceFL_last int,
+    TrafficSourceFirst int,
+    TrafficSourceAuto int,
+    TrafficSourceLast int,
     TypeClient varchar(50),
     Class81_Code varchar(24),
     WatchProd int,
@@ -34,9 +34,9 @@ order by
     CountryID,
     RegionID,
     CityID,
-    TrafficSourceFL_first,
-    TrafficSourceFL_auto,
-    TrafficSourceFL_last,
+    TrafficSourceFirst,
+    TrafficSourceAuto,
+    TrafficSourceLast,
     DataInfo
     ---------
     VisitID,
@@ -63,47 +63,47 @@ order by
     QltPO
     ---------
 segmented by hash (
-    DataPrime.web_analytics.CounterID,
-    DataPrime.web_analytics.CountryID,
-    DataPrime.web_analytics.RegionID,
-    DataPrime.web_analytics.CityID,
-    DataPrime.web_analytics.TrafficSourceFL_first,
-    DataPrime.web_analytics.TrafficSourceFL_auto,
-    DataPrime.web_analytics.TrafficSourceFL_last) all nodes ksafe;
+    DataPrime.ECom_WebAnalytics.CounterID,
+    DataPrime.ECom_WebAnalytics.CountryID,
+    DataPrime.ECom_WebAnalytics.RegionID,
+    DataPrime.ECom_WebAnalytics.CityID,
+    DataPrime.ECom_WebAnalytics.TrafficSourceFirst,
+    DataPrime.ECom_WebAnalytics.TrafficSourceAuto,
+    DataPrime.ECom_WebAnalytics.TrafficSourceLast) all nodes ksafe;
 
-comment on table DataPrime.web_analytics is 'Выгрузка веб-аналитики';
-comment on column DataPrime.web_analytics.CounterID is 'ID счетчика';
-comment on column DataPrime.web_analytics.DataInfo is 'Дата';
-comment on column DataPrime.web_analytics.VisitID is 'ID визита';
-comment on column DataPrime.web_analytics.OrderID is 'ID заказа';
-comment on column DataPrime.web_analytics.UserID is 'ID пользователя';
-comment on column DataPrime.web_analytics.RegUser is 'Авторизованный пользователь';
-comment on column DataPrime.web_analytics.NewUser is 'Новый пользователь';
-comment on column DataPrime.web_analytics.Class206_Code is 'Код класса 206-го классификатора';
-comment on column DataPrime.web_analytics.ETMCliID is 'ID клиента ЭТМ';
-comment on column DataPrime.web_analytics.CountryID is 'ID страны';
-comment on column DataPrime.web_analytics.RegionID is 'ID региона';
-comment on column DataPrime.web_analytics.CityID is 'ID города';
-comment on column DataPrime.web_analytics.Device is 'Девайс';
-comment on column DataPrime.web_analytics.TrafficSourceFL_first is 'Источник трафика (Перв.)';
-comment on column DataPrime.web_analytics.TrafficSourceFL_auto is 'Источник трафика (автоматический.)';
-comment on column DataPrime.web_analytics.TrafficSourceFL_last is 'Источник трафика (Посл. Зн.)';
-comment on column DataPrime.web_analytics.TypeClient is 'Тип клиента';
-comment on column DataPrime.web_analytics.Class81_Code is 'Код класса 81-го классификатора';
-comment on column DataPrime.web_analytics.WatchProd is 'Просмотр товаров';
-comment on column DataPrime.web_analytics.QltAddProd is 'Добавление товара в корзину';
-comment on column DataPrime.web_analytics.WatchBucket is 'Просмотр корзины';
-comment on column DataPrime.web_analytics.QltCheckOut is 'Кол-во оформленных заказов';
-comment on column DataPrime.web_analytics.OrderDate is 'Дата создания заказа';
-comment on column DataPrime.web_analytics.QltPurchaseProd is 'Кол-во купленного товара';
-comment on column DataPrime.web_analytics.TotalSum is 'Общая сумма товара';
-comment on column DataPrime.web_analytics.DtTmRenew is 'Дата отгрузки';
-comment on column DataPrime.web_analytics.PrisePRZ is 'Цена за ед. товара (ПРЗ)-размещенные';
-comment on column DataPrime.web_analytics.QltPRZ is 'Количество (ПРЗ)';
-comment on column DataPrime.web_analytics.PricePO is 'Цена за ед. товара (ПО) - отгруженные';
-comment on column DataPrime.web_analytics.QltPO is 'Количество (ПО)';
+comment on table DataPrime.ECom_WebAnalytics is 'Выгрузка веб-аналитики';
+comment on column DataPrime.ECom_WebAnalytics.CounterID is 'ID счетчика';
+comment on column DataPrime.ECom_WebAnalytics.DataInfo is 'Дата';
+comment on column DataPrime.ECom_WebAnalytics.VisitID is 'ID визита';
+comment on column DataPrime.ECom_WebAnalytics.OrderID is 'ID заказа';
+comment on column DataPrime.ECom_WebAnalytics.UserID is 'ID пользователя';
+comment on column DataPrime.ECom_WebAnalytics.RegUser is 'Авторизованный пользователь';
+comment on column DataPrime.ECom_WebAnalytics.NewUser is 'Новый пользователь';
+comment on column DataPrime.ECom_WebAnalytics.Class206_Code is 'Код класса 206-го классификатора';
+comment on column DataPrime.ECom_WebAnalytics.ETMCliID is 'ID клиента ЭТМ';
+comment on column DataPrime.ECom_WebAnalytics.CountryID is 'ID страны';
+comment on column DataPrime.ECom_WebAnalytics.RegionID is 'ID региона';
+comment on column DataPrime.ECom_WebAnalytics.CityID is 'ID города';
+comment on column DataPrime.ECom_WebAnalytics.Device is 'Девайс';
+comment on column DataPrime.ECom_WebAnalytics.TrafficSourceFirst is 'Источник трафика (Перв.)';
+comment on column DataPrime.ECom_WebAnalytics.TrafficSourceAuto is 'Источник трафика (автоматический.)';
+comment on column DataPrime.ECom_WebAnalytics.TrafficSourceLast is 'Источник трафика (Посл. Зн.)';
+comment on column DataPrime.ECom_WebAnalytics.TypeClient is 'Тип клиента';
+comment on column DataPrime.ECom_WebAnalytics.Class81_Code is 'Код класса 81-го классификатора';
+comment on column DataPrime.ECom_WebAnalytics.WatchProd is 'Просмотр товаров';
+comment on column DataPrime.ECom_WebAnalytics.QltAddProd is 'Добавление товара в корзину';
+comment on column DataPrime.ECom_WebAnalytics.WatchBucket is 'Просмотр корзины';
+comment on column DataPrime.ECom_WebAnalytics.QltCheckOut is 'Кол-во оформленных заказов';
+comment on column DataPrime.ECom_WebAnalytics.OrderDate is 'Дата создания заказа';
+comment on column DataPrime.ECom_WebAnalytics.QltPurchaseProd is 'Кол-во купленного товара';
+comment on column DataPrime.ECom_WebAnalytics.TotalSum is 'Общая сумма товара';
+comment on column DataPrime.ECom_WebAnalytics.DtTmRenew is 'Дата отгрузки';
+comment on column DataPrime.ECom_WebAnalytics.PrisePRZ is 'Цена за ед. товара (ПРЗ)-размещенные';
+comment on column DataPrime.ECom_WebAnalytics.QltPRZ is 'Количество (ПРЗ)';
+comment on column DataPrime.ECom_WebAnalytics.PricePO is 'Цена за ед. товара (ПО) - отгруженные';
+comment on column DataPrime.ECom_WebAnalytics.QltPO is 'Количество (ПО)';
 
-create table DataPrime.nomenklature (
+create table DataPrime.ECom_Nomenclature (
     CounterID int,
     RgdCode int,
     DataInfo date,
@@ -126,36 +126,36 @@ order by
     RgdCode,
     DataInfo
 segmented by hash (
-    DataPrime.nomenklature.CounterID,
-    DataPrime.nomenklature.TrafficSourceID,
-    DataPrime.nomenklature.SearchEngineRootID,
-    DataPrime.nomenklature.RgdCode) all nodes ksafe;
+    DataPrime.ECom_Nomenclature.CounterID,
+    DataPrime.ECom_Nomenclature.TrafficSourceID,
+    DataPrime.ECom_Nomenclature.SearchEngineRootID,
+    DataPrime.ECom_Nomenclature.RgdCode) all nodes ksafe;
 
-comment on table DataPrime.nomenklature is 'Номенклатурная выгрузка';
-comment on column DataPrime.nomenklature.CounterID is 'ID счетчика';
-comment on column DataPrime.nomenklature.RgdCode is 'Код товара';
-comment on column DataPrime.nomenklature.DataInfo is 'Дата';
-comment on column DataPrime.nomenklature.QltVisit is 'Кол-во визитов с КТ';
-comment on column DataPrime.nomenklature.TrafficSourceID is 'Источник траффика';
-comment on column DataPrime.nomenklature.SearchEngineRootID is 'Поисковая система';
-comment on column DataPrime.nomenklature.WatchCard is 'Кол-во просмотров карточки';
-comment on column DataPrime.nomenklature.QltAdd is 'Кол-во добавлений в корзину';
-comment on column DataPrime.nomenklature.SumAdd is 'Кол-во добавлений в корзину (шт)';
-comment on column DataPrime.nomenklature.QltClickReplace is 'Клик на подобрать замену';
-comment on column DataPrime.nomenklature.SumClickReplace is 'Клик на подобрать замену (шт.)';
-comment on column DataPrime.nomenklature.QltPurchaseProd is 'Кол-во купленного товара';
-comment on column DataPrime.nomenklature.SumPurchaseProd is 'Кол-во купленного товара (шт.)';
-comment on column DataPrime.nomenklature.QltRefusal is 'Кол-во отказов';
-comment on column DataPrime.nomenklature.RenomeYM is 'Фиксация изменения названия на ЯМ (true/false) если по коду товара (колонка 2 - RgdCode) на предыдущую дату (от даты в колонке 3) произошло изменение названия ЯМ, то фиксируем 1 (true), в ином случае 0 (false)';
+comment on table DataPrime.ECom_Nomenclature is 'Номенклатурная выгрузка';
+comment on column DataPrime.ECom_Nomenclature.CounterID is 'ID счетчика';
+comment on column DataPrime.ECom_Nomenclature.RgdCode is 'Код товара';
+comment on column DataPrime.ECom_Nomenclature.DataInfo is 'Дата';
+comment on column DataPrime.ECom_Nomenclature.QltVisit is 'Кол-во визитов с КТ';
+comment on column DataPrime.ECom_Nomenclature.TrafficSourceID is 'Источник траффика';
+comment on column DataPrime.ECom_Nomenclature.SearchEngineRootID is 'Поисковая система';
+comment on column DataPrime.ECom_Nomenclature.WatchCard is 'Кол-во просмотров карточки';
+comment on column DataPrime.ECom_Nomenclature.QltAdd is 'Кол-во добавлений в корзину';
+comment on column DataPrime.ECom_Nomenclature.SumAdd is 'Кол-во добавлений в корзину (шт)';
+comment on column DataPrime.ECom_Nomenclature.QltClickReplace is 'Клик на подобрать замену';
+comment on column DataPrime.ECom_Nomenclature.SumClickReplace is 'Клик на подобрать замену (шт.)';
+comment on column DataPrime.ECom_Nomenclature.QltPurchaseProd is 'Кол-во купленного товара';
+comment on column DataPrime.ECom_Nomenclature.SumPurchaseProd is 'Кол-во купленного товара (шт.)';
+comment on column DataPrime.ECom_Nomenclature.QltRefusal is 'Кол-во отказов';
+comment on column DataPrime.ECom_Nomenclature.RenomeYM is 'Фиксация изменения названия на ЯМ (true/false) если по коду товара (колонка 2 - RgdCode) на предыдущую дату (от даты в колонке 3) произошло изменение названия ЯМ, то фиксируем 1 (true), в ином случае 0 (false)';
 
-create table DataPrime.ad_conversion (
+create table DataPrime.ECom_AdConversion (
     TypeClient int,
     CampaignID int,
     CategoryID int,
     RgdCode int,
     UserID int,
-    TrafficSourceFL_auto int,
-    TrafficSourceFL_last int,
+    TrafficSourceAuto int,
+    TrafficSourceLast int,
     WatchProd int,
     QltAddProd int,
     QltPurchaseProd int,
@@ -163,29 +163,29 @@ create table DataPrime.ad_conversion (
 order by
     CampaignID,
     CategoryID,
-    TrafficSourceFL_auto,
-    TrafficSourceFL_last,
+    TrafficSourceAuto,
+    TrafficSourceLast,
     RgdCode
 segmented by hash (
-    DataPrime.ad_conversion.CampaignID,
-    DataPrime.ad_conversion.CategoryID,
-    DataPrime.ad_conversion.TrafficSourceFL_auto,
-    DataPrime.ad_conversion.TrafficSourceFL_last) all nodes ksafe;
+    DataPrime.ECom_AdConversion.CampaignID,
+    DataPrime.ECom_AdConversion.CategoryID,
+    DataPrime.ECom_AdConversion.TrafficSourceAuto,
+    DataPrime.ECom_AdConversion.TrafficSourceLast) all nodes ksafe;
 
-comment on table DataPrime.ad_conversion is 'Рекламная выгрузка';
-comment on column DataPrime.ad_conversion.TypeClient is 'Тип клиента';
-comment on column DataPrime.ad_conversion.CampaignID is 'ID кампании';
-comment on column DataPrime.ad_conversion.CategoryID is 'ID категории';
-comment on column DataPrime.ad_conversion.RgdCode is 'Код товара';
-comment on column DataPrime.ad_conversion.UserID is 'ID пользователя';
-comment on column DataPrime.ad_conversion.TrafficSourceFL_auto is 'Источник трафика (автоматический.)';
-comment on column DataPrime.ad_conversion.TrafficSourceFL_last is 'Источник трафика (Посл. Зн.)';
-comment on column DataPrime.ad_conversion.WatchProd is 'Просмотр товаров';
-comment on column DataPrime.ad_conversion.QltAddProd is 'Добавление товара в корзину';
-comment on column DataPrime.ad_conversion.QltPurchaseProd is 'Кол-во купленного товара';
-comment on column DataPrime.ad_conversion.TotalSum is 'Общая сумма товара';
+comment on table DataPrime.ECom_AdConversion is 'Рекламная выгрузка';
+comment on column DataPrime.ECom_AdConversion.TypeClient is 'Тип клиента';
+comment on column DataPrime.ECom_AdConversion.CampaignID is 'ID кампании';
+comment on column DataPrime.ECom_AdConversion.CategoryID is 'ID категории';
+comment on column DataPrime.ECom_AdConversion.RgdCode is 'Код товара';
+comment on column DataPrime.ECom_AdConversion.UserID is 'ID пользователя';
+comment on column DataPrime.ECom_AdConversion.TrafficSourceAuto is 'Источник трафика (автоматический.)';
+comment on column DataPrime.ECom_AdConversion.TrafficSourceLast is 'Источник трафика (Посл. Зн.)';
+comment on column DataPrime.ECom_AdConversion.WatchProd is 'Просмотр товаров';
+comment on column DataPrime.ECom_AdConversion.QltAddProd is 'Добавление товара в корзину';
+comment on column DataPrime.ECom_AdConversion.QltPurchaseProd is 'Кол-во купленного товара';
+comment on column DataPrime.ECom_AdConversion.TotalSum is 'Общая сумма товара';
 
-create table DataPrime.direct_indicators (
+create table DataPrime.ECom_DirectIndicators (
     DataInfo date,
     CampaignID int,
     CategoryID int,
@@ -212,31 +212,31 @@ order by
     CategoryID,
     DataInfo
 segmented by hash (
-    DataPrime.direct_indicators.CampaignID,
-    DataPrime.direct_indicators.CategoryID) all nodes ksafe;
+    DataPrime.ECom_DirectIndicators.CampaignID,
+    DataPrime.ECom_DirectIndicators.CategoryID) all nodes ksafe;
 
-comment on table DataPrime.direct_indicators is 'Выгрузка индикаторов';
-comment on column DataPrime.direct_indicators.DataInfo is 'Дата';
-comment on column DataPrime.direct_indicators.CampaignID is 'ID кампании';
-comment on column DataPrime.direct_indicators.CategoryID is 'ID категории';
-comment on column DataPrime.direct_indicators.Impressions is 'Количество показов';
-comment on column DataPrime.direct_indicators.Cliks is 'Количество кликов';
-comment on column DataPrime.direct_indicators.Cost is 'Стоимость кликов=расход';
-comment on column DataPrime.direct_indicators.Visits is 'Количество визитов';
-comment on column DataPrime.direct_indicators.Transactions is 'Количество заказов';
-comment on column DataPrime.direct_indicators.B2B_Transactions is 'Количество заказов ЮЛ';
-comment on column DataPrime.direct_indicators.B2С_Transactions is 'Количество заказов ФЛ';
-comment on column DataPrime.direct_indicators.Purchase_revenue is 'Сумма заказов=доход';
-comment on column DataPrime.direct_indicators.B2B_revenue is 'Сумма заказов ЮЛ';
-comment on column DataPrime.direct_indicators.B2С_revenue is 'Сумма заказов ФЛ';
-comment on column DataPrime.direct_indicators.goal_specification is 'Количество достижений цели "создать спецификацию"';
-comment on column DataPrime.direct_indicators.goal_smeta is 'количество достижений цели "создать смету"';
-comment on column DataPrime.direct_indicators.goal_registration_B2B is 'Количество достижений цели "регистрация ЮЛ"';
-comment on column DataPrime.direct_indicators.goal_registration_B2C is 'Количество достижений цели "регистрация ФЛ"';
-comment on column DataPrime.direct_indicators.goal_specification_В2В is 'Количество достижений цели "создать спецификацию" ЮЛ';
-comment on column DataPrime.direct_indicators.goal_specification_В2С is 'Количество достижений цели "создать спецификацию" ФЛ';
-comment on column DataPrime.direct_indicators.goal_smeta_B2B is 'Количество достижений цели "создать смету" ЮЛ';
-comment on column DataPrime.direct_indicators.goal_smeta_B2С is 'Количество достижений цели "создать смету" ФЛ';
+comment on table DataPrime.ECom_DirectIndicators is 'Выгрузка индикаторов';
+comment on column DataPrime.ECom_DirectIndicators.DataInfo is 'Дата';
+comment on column DataPrime.ECom_DirectIndicators.CampaignID is 'ID кампании';
+comment on column DataPrime.ECom_DirectIndicators.CategoryID is 'ID категории';
+comment on column DataPrime.ECom_DirectIndicators.Impressions is 'Количество показов';
+comment on column DataPrime.ECom_DirectIndicators.Cliks is 'Количество кликов';
+comment on column DataPrime.ECom_DirectIndicators.Cost is 'Стоимость кликов=расход';
+comment on column DataPrime.ECom_DirectIndicators.Visits is 'Количество визитов';
+comment on column DataPrime.ECom_DirectIndicators.Transactions is 'Количество заказов';
+comment on column DataPrime.ECom_DirectIndicators.B2B_Transactions is 'Количество заказов ЮЛ';
+comment on column DataPrime.ECom_DirectIndicators.B2С_Transactions is 'Количество заказов ФЛ';
+comment on column DataPrime.ECom_DirectIndicators.Purchase_revenue is 'Сумма заказов=доход';
+comment on column DataPrime.ECom_DirectIndicators.B2B_revenue is 'Сумма заказов ЮЛ';
+comment on column DataPrime.ECom_DirectIndicators.B2С_revenue is 'Сумма заказов ФЛ';
+comment on column DataPrime.ECom_DirectIndicators.goal_specification is 'Количество достижений цели "создать спецификацию"';
+comment on column DataPrime.ECom_DirectIndicators.goal_smeta is 'количество достижений цели "создать смету"';
+comment on column DataPrime.ECom_DirectIndicators.goal_registration_B2B is 'Количество достижений цели "регистрация ЮЛ"';
+comment on column DataPrime.ECom_DirectIndicators.goal_registration_B2C is 'Количество достижений цели "регистрация ФЛ"';
+comment on column DataPrime.ECom_DirectIndicators.goal_specification_В2В is 'Количество достижений цели "создать спецификацию" ЮЛ';
+comment on column DataPrime.ECom_DirectIndicators.goal_specification_В2С is 'Количество достижений цели "создать спецификацию" ФЛ';
+comment on column DataPrime.ECom_DirectIndicators.goal_smeta_B2B is 'Количество достижений цели "создать смету" ЮЛ';
+comment on column DataPrime.ECom_DirectIndicators.goal_smeta_B2С is 'Количество достижений цели "создать смету" ФЛ';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;

@@ -1,11 +1,11 @@
 drop table tmp_local;
 create local temp table tmp_local
 on commit preserve rows as
-select * from DataPrime.ad_conversion where TypeClient = 0;
+select * from DataPrime.ECom_AdConversion where TypeClient = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\CH\DATA\ad_conversion.vcsv'
+from local 'H:\OLAP\CH\DATA\ad_conversion.csv'
     abort on error
     delimiter '|'
     null ''
@@ -14,8 +14,8 @@ from local 'H:\OLAP\CH\DATA\ad_conversion.vcsv'
 rejected data 'H:\OLAP\CH\RUN\ad_conversion.rej'
 exceptions 'H:\OLAP\CH\RUN\ad_conversion.exc' direct skip 1;
 
-truncate table DataPrime.ad_conversion;
-insert into DataPrime.ad_conversion
+truncate table DataPrime.ECom_AdConversion;
+insert into DataPrime.ECom_AdConversion
 select
     *
 from tmp_local;
