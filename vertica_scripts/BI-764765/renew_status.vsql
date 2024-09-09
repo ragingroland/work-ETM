@@ -1,0 +1,21 @@
+create local temp table tmp_local
+on commit preserve rows as
+select * from DataPrime.ECom_Status where DescRgd_Code = 0;
+truncate table tmp_local;
+
+copy tmp_local
+from local 'H:\OLAP\CH\DATA\Status.csv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data 'H:\OLAP\CH\RUN\Status.rej'
+exceptions 'H:\OLAP\CH\RUN\Status.exc' direct skip 1;
+
+truncate table DataPrime.ECom_Status;
+insert into DataPrime.ECom_Status
+select
+    *
+from tmp_local;
+commit;

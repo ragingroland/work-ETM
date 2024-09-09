@@ -1,11 +1,11 @@
 drop table tmp_local;
 create local temp table tmp_local
 on commit preserve rows as
-select * from DataPrime.direct_indicators where TypeClient = 0;
+select * from DataPrime.ECom_DirectIndicators where TypeClient = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\CH\DATA\direct_indicators.vcsv'
+from local 'H:\OLAP\CH\DATA\direct_indicators.csv'
     abort on error
     delimiter '|'
     null ''
@@ -14,8 +14,8 @@ from local 'H:\OLAP\CH\DATA\direct_indicators.vcsv'
 rejected data 'H:\OLAP\CH\RUN\direct_indicators.rej'
 exceptions 'H:\OLAP\CH\RUN\direct_indicators.exc' direct skip 1;
 
-truncate table DataPrime.direct_indicators;
-insert into DataPrime.direct_indicators
+truncate table DataPrime.ECom_DirectIndicators;
+insert into DataPrime.ECom_DirectIndicators
 select
     *
 from tmp_local;
