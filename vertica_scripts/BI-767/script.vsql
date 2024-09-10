@@ -1,0 +1,19 @@
+create local temp table tmp_local
+on commit preserve rows as
+select
+    DataInfo,
+    CounterID,
+    TypeClient,
+    RegUser,
+    NewUser,
+    Class206_Code,
+    Class81_Code,
+    CountryID,
+    Device,
+    TrafficSourceFirst,
+    TrafficSourceAuto,
+    TrafficSourceLast
+from DataPrime.ECom_WebAnalytics wa
+where CountryID = 255;
+
+insert into
