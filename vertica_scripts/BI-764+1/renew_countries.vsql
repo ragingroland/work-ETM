@@ -4,14 +4,14 @@ select * from DataPrime.ECom_Countries where ID = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\CH\DATA\Countries.csv'
+from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\Countries.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\CH\RUN\Countries.rej'
-exceptions 'H:\OLAP\CH\RUN\Countries.exc' direct skip 1;
+rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Countries.rej'
+exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Countries.exc' direct skip 1;
 
 truncate table DataPrime.ECom_Countries;
 insert into DataPrime.ECom_Countries
