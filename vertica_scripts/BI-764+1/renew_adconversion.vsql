@@ -5,14 +5,14 @@ select * from DataPrime.ECom_AdConversion where TypeClient = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\CH\DATA\ad_conversion.csv'
+from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\ad_conversion.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\CH\RUN\ad_conversion.rej'
-exceptions 'H:\OLAP\CH\RUN\ad_conversion.exc' direct skip 1;
+rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\ad_conversion.rej'
+exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\ad_conversion.exc' direct skip 1;
 
 truncate table DataPrime.ECom_AdConversion;
 insert into DataPrime.ECom_AdConversion
