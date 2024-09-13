@@ -11,7 +11,7 @@ from local 'H:\OLAP\BrandsTrdsExclCL295CRM\DATA\BrandsTradersExcludedCLCCrm.csv'
     enclosed by '"'
     rejectmax 1
 rejected data 'H:\OLAP\BrandsTrdsExclCL295CRM\RUN\BrandsTradersExcludedCLCCrm.rej'
-exceptions 'H:\OLAP\BrandsTrdsExclCL295CRM\RUN\BrandsTradersExcludedCLCCrm.exc' direct skip 1;
+exceptions 'H:\OLAP\BrandsTrdsExclCL295CRM\RUN\BrandsTradersExcludedCLCCrm.exc' direct;
 
 -- загрузить данные в основу
 truncate table DataPrime.BrandsTrdsExclCL295CRM;

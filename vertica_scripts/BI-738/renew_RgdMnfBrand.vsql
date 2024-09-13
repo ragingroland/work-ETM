@@ -7,10 +7,10 @@ COPY tmp
 FROM LOCAL 'H:\OLAP\RgdMnfBrand\DATA\RgdMnfBrand.vcsv'
     abort on error
     DELIMITER '|'
-    NULL '' 
+    NULL ''
     ENCLOSED BY '"'
     REJECTED DATA 'H:\OLAP\RgdMnfBrand\RUN\RgdMnfBrand.rej'
-    EXCEPTIONS 'H:\OLAP\RgdMnfBrand\RUN\RgdMnfBrand.exc' DIRECT SKIP 1;
+    EXCEPTIONS 'H:\OLAP\RgdMnfBrand\RUN\RgdMnfBrand.exc' DIRECT;
 
 --почистить в исходных табличках срезы
 TRUNCATE TABLE DataPrime.RgdMnfBrand;
