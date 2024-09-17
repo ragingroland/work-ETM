@@ -76,22 +76,7 @@ create local temp table post
 on commit preserve rows as
 select
 	trunc(DataInfo, 'mm')::date as DataInfo,
-	case
-	    when dayofweek(DataInfo) = 1
-	    	then 7
-	    when dayofweek(DataInfo) = 2
-	    	then 1
-	    when dayofweek(DataInfo) = 3
-	    	then 2
-	    when dayofweek(DataInfo) = 4
-	    	then 3
-	    when dayofweek(DataInfo) = 5
-	    	then 4
-	    when dayofweek(DataInfo) = 6
-	    	then 5
-	    when dayofweek(DataInfo) = 7
-	    	then 6
-	end as DataInfo_dayofweek,
+	dayofweek_iso(DataInfo) as DataInfo_dayofweek,
     date_trunc('week', DataInfo)::date AS DataInfo_start_of_week,
     date_trunc('month', DataInfo)::date AS DataInfo_months_start,
     region_id,
@@ -122,7 +107,7 @@ left join DataMart.DescSubClustCmpPrcEtmMarkt on lowbound < d and d <= upbound;
 select
 	*
 from post
-where DataInfo_start_of_week >= '2024-07-15' and DataInfo_start_of_week < '2024-07-22' 
+where DataInfo_start_of_week >= '2024-07-15' and DataInfo_start_of_week < '2024-07-22'
 and region_id = 'jg' and netnum = 70 and class3_2 = 16 and mnfcode = 138
 and outlier = 0 and subclust_code = 405
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18;

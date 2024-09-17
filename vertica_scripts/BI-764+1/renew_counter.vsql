@@ -4,14 +4,14 @@ select * from DataPrime.ECom_Counter where ID = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\Counter.csv'
+from local '/autons/vertica/web_analitik/Counter.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Counter.rej'
-exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Counter.exc' direct skip 1;
+rejected data '/autons/vertica/web_analitik_run/Counter.rej'
+exceptions '/autons/vertica/web_analitik_run/Counter.exc' direct skip 1;
 
 truncate table DataPrime.ECom_Counter;
 insert into DataPrime.ECom_Counter

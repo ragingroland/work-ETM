@@ -4,14 +4,14 @@ select * from DataPrime.ECom_Campaign where ID = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\Campaign.csv'
+from local '/autons/vertica/web_analitik/Campaing.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Campaign.rej'
-exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Campaign.exc' direct skip 1;
+rejected data '/autons/vertica/web_analitik_run/Campaing.rej'
+exceptions '/autons/vertica/web_analitik_run/Campaing.exc' direct skip 1;
 
 truncate table DataPrime.ECom_Campaign;
 insert into DataPrime.ECom_Campaign

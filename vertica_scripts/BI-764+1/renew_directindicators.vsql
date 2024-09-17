@@ -5,14 +5,14 @@ select * from DataPrime.ECom_DirectIndicators where TypeClient = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\direct_indicators.csv'
+from local '/autons/vertica/web_analitik/direct_indicators.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\direct_indicators.rej'
-exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\direct_indicators.exc' direct skip 1;
+rejected data '/autons/vertica/web_analitik_run/direct_indicators.rej'
+exceptions '/autons/vertica/web_analitik_run/direct_indicators.exc' direct skip 1;
 
 truncate table DataPrime.ECom_DirectIndicators;
 insert into DataPrime.ECom_DirectIndicators
