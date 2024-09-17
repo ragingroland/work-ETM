@@ -4,14 +4,14 @@ select * from DataPrime.ECom_TrafficSourceFstLst where ID = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\TrafficSourceFirstLast.csv'
+from local '/autons/vertica/web_analitik/TrafficSourceFirstLast.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\TrafficSourceFirstLast.rej'
-exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\TrafficSourceFirstLast.exc' direct skip 1;
+rejected data '/autons/vertica/web_analitik_run/TrafficSourceFirstLast.rej'
+exceptions '/autons/vertica/web_analitik_run/TrafficSourceFirstLast.exc' direct skip 1;
 
 truncate table DataPrime.ECom_TrafficSourceFstLst;
 insert into DataPrime.ECom_TrafficSourceFstLst

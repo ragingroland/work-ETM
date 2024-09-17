@@ -4,14 +4,14 @@ select * from DataPrime.ECom_Status where DescRgd_Code = 0;
 truncate table tmp_local;
 
 copy tmp_local
-from local 'H:\OLAP\ECom_ClkHse-Vertica\DATA\Status.csv'
+from local '/autons/vertica/web_analitik/Status.csv'
     abort on error
     delimiter '|'
     null ''
     enclosed by '"'
     rejectmax 1
-rejected data 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Status.rej'
-exceptions 'H:\OLAP\ECom_ClkHse-Vertica\RUN\Status.exc' direct skip 1;
+rejected data '/autons/vertica/web_analitik_run/Status.rej'
+exceptions '/autons/vertica/web_analitik_run/Status.exc' direct skip 1;
 
 truncate table DataPrime.ECom_Status;
 insert into DataPrime.ECom_Status

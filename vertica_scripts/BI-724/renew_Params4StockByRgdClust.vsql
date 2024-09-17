@@ -31,7 +31,7 @@ create local temp table tmp_local2
 on commit preserve rows as
 with recursive
 splits as (
-    select 
+    select
         Class_Type,
         Class_Code,
         MnfCode,
@@ -40,20 +40,20 @@ splits as (
         K_3,
         K_4,
         Price_Type,
-        trim(substring(Clust_Code, 1, 
+        trim(substring(Clust_Code, 1,
             case
-	            when position(',' in Clust_Code) > 0 
-                	then position(',' in Clust_Code) - 1 
+	            when position(',' in Clust_Code) > 0
+                	then position(',' in Clust_Code) - 1
             	else length(Clust_Code)
             end)) as Clust_Code,
     	case
-        	when position(',' in Clust_Code) > 0 
-        		then trim(substring(Clust_Code, position(',' in Clust_Code) + 1)) 
-    		else null 
+        	when position(',' in Clust_Code) > 0
+        		then trim(substring(Clust_Code, position(',' in Clust_Code) + 1))
+    		else null
     	end as ostatok
     from tmp_local
     union all
-    select 
+    select
         Class_Type,
         Class_Code,
         MnfCode,
@@ -62,20 +62,20 @@ splits as (
         K_3,
         K_4,
         Price_Type,
-        trim(substring(ostatok, 1, 
+        trim(substring(ostatok, 1,
             case
-	            when position(',' in ostatok) > 0 
-                	then position(',' in ostatok) - 1 
+	            when position(',' in ostatok) > 0
+                	then position(',' in ostatok) - 1
                 else length(ostatok)
             end)) as Clust_Code,
     	case
-        	when position(',' in ostatok) > 0 
-        		then trim(substring(ostatok, position(',' in ostatok) + 1)) 
+        	when position(',' in ostatok) > 0
+        		then trim(substring(ostatok, position(',' in ostatok) + 1))
         	else null
         end
     from splits
     where ostatok is not null)
-select 
+select
     Class_Type,
     Class_Code,
     MnfCode,
@@ -89,10 +89,10 @@ from splits
 where Clust_Code is not null;
 
 truncate table DataPrime.Params4StockByRgdClust;
-insert into DataPrime.Params4StockByRgdClust 
+insert into DataPrime.Params4StockByRgdClust
 select
     Class_Type,
-    upper(Class_Code),
+    trim(upper(Class_Code)) as Class_Code,
     MnfCode,
     K_1,
     K_2,
@@ -101,5 +101,4 @@ select
     Price_Type,
     Clust_Code::int
 from tmp_local2;
-
 commit;

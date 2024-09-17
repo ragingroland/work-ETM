@@ -1,6 +1,6 @@
 create table DataPrime.ECom_Counter (
     ID int,
-    Name varchar(50)) unsegmented all nodes;
+    Name varchar(30)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_Counter is 'Типы счетчиков Яндекс Метрики';
 comment on column DataPrime.ECom_Counter.ID is 'ID счетчика';
@@ -15,8 +15,9 @@ comment on column DataPrime.ECom_Countries.ID is 'ID страны';
 comment on column DataPrime.ECom_Countries.Name is 'Название страны';
 
 create table DataPrime.ECom_Regions (
-    ID int,
-    Name varchar(50)) unsegmented all nodes;
+    CountryID int,
+    RegionID int,
+    Name varchar(80)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_Regions is 'Регионы';
 comment on column DataPrime.ECom_Regions.ID is 'ID региона';
@@ -26,13 +27,13 @@ create table DataPrime.ECom_Cities (
     CountryID int,
     RegionID int,
     CityID int,
-    CityName varchar(50)) unsegmented all nodes;
+    Name varchar(80)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_Cities is 'Города';
 comment on column DataPrime.ECom_Cities.CountryID is 'ID страны';
 comment on column DataPrime.ECom_Cities.RegionID is 'ID региона';
 comment on column DataPrime.ECom_Cities.CityID is 'ID города';
-comment on column DataPrime.ECom_Cities.CityName is 'Название города';
+comment on column DataPrime.ECom_Cities.Name is 'Название города';
 
 create table DataPrime.ECom_TrafficSource (
     ID int,
@@ -52,7 +53,7 @@ comment on column DataPrime.ECom_SearchEngine.Name is 'Наименование 
 
 create table DataPrime.ECom_TrafficSourceFstLst (
     ID int,
-    Name varchar(50)) unsegmented all nodes;
+    Name varchar(80)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_TrafficSourceFL is 'Источник трафика в разрезе атрибуции (первый, автоматический, последний значимый)';
 comment on column DataPrime.ECom_TrafficSourceFL.ID is 'ID вида траффика';
@@ -68,7 +69,7 @@ comment on column DataPrime.ECom_Status."Status" is 'Статус товара';
 
 create table DataPrime.ECom_Campaign (
     ID int,
-    Name varchar(50)) unsegmented all nodes;
+    Name varchar(150)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_Campaign is 'Рекламные кампании';
 comment on column DataPrime.ECom_Campaign.ID is 'ID рекламной кампании';
@@ -76,11 +77,19 @@ comment on column DataPrime.ECom_Campaign.Name is 'Название реклам
 
 create table DataPrime.ECom_Category (
     ID int,
-    Name varchar(50)) unsegmented all nodes;
+    Name varchar(100)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_Category is 'Направления';
 comment on column DataPrime.ECom_Category.ID is 'ID направления';
 comment on column DataPrime.ECom_Category.Name is 'Наименование направления';
+
+create table DataPrime.ECom_TypeClient (
+    ID int,
+    Name varchar(30)) unsegmented all nodes;
+
+comment on table DataPrime.ECom_TypeClient is 'Типы клиента';
+comment on column DataPrime.ECom_TypeClient.ID is 'ID типа клиента';
+comment on column DataPrime.ECom_TypeClient.Name is 'Наименование типа клиента';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;

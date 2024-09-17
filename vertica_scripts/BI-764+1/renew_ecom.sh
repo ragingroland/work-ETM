@@ -1,66 +1,102 @@
 #!/bin/bash
-#key=`date`
 
-# /usr/bin/mesg y
-# TERM=ansi; export TERM
-# PROPATH=/ns3/prog12:/ns3/prog12.wrk:/ns3/prog12/olap:/ns3u/prog12:.; export PROPATH
-# DLC=/usr/dlc; export DLC
-# PATH=$DLC/bin:$PATH:.; export PATH         ^<- зачем?
+# переход к нужному каталогу
+cd /autons/vertica/web_analitik
 
-# Менять путь к папке тут
-NAME=vertica/web_analitik
-
-
-cd /autons/$NAME
-
-if [ -f /autons/$NAME/end.flg ];
-then
-    echo "end.flg is present"
-else
-    echo "end.flg is abscent"
-    exit 0
+# проверка наличия флага завершения выгрузки
+if [ -f /autons/vertica/web_analitik/end.flg ];
+    then
+        echo "end.flg присутствует"
+    else
+        echo "end.flg не найден. ВСЕГО ДОБРОГО!"
+        exit 0
 fi
+# проверка наличия флага уже запущенного процесса (именно вот этого вот всего)
+if [ -f /autons/vertica/web_analitik/start.wrk ];
+    then
+        echo "Процесс уже запущен, выход."
+        exit 0
+    else
+        # так как флага .wrk обнаружено не было, начинается процесс загрузки в базу
+        echo "1_start: $(date)" > time.log
+        echo "start: $(date)" > start.wrk
+        echo "подключение к вертике"
 
+        PATH=/opt/vertica/bin:$PATH:.; export PATH
+        if [ -f /autons/vertica/web_analitik/end_spr.flg];
+            then
+                if [ -f /autons/vertica/web_analitik/Counter.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_counter.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_counter.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Countries.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_countries.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_countries.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Regions.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_regions.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_regions.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Cities.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_cities.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_cities.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/TrafficSource.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_trafficsource.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_trafficsource.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/SearchEngineRoot.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_searchengineroot.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_searchengineroot.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/TrafficSourceFirstLast.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_trafficsourcefl.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_trafficsourcefl.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Status.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_status.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_status.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Campaign.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_campaign.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_campaign.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Category.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_category.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_category.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/TypeClient.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_typeclient.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_typeclient.vout
+                fi
+            else
+                echo "Справочники не грузим, т.к нет флажка"
+        fi
 
-if [ -f /autons/$NAME/*.wrk ]
-then
-echo "Process is already running"
-echo run proc > testtttt
-exit 9
-else
-rm *.vout
-rm *.rej
-rm *.exc
-rm *.log
-rm *.lg
-
-echo "1_start: $(date)" > time.log
-
-echo "start: $(date)" > start.wrk
-
-# cp o-price-$price.par o-price-xx.par
-# $DLC/bin/_progres -pf /autons/$NAME/auto.pf -T $HOME  <- зачем?
-
-echo "connect vertica"
-
-PATH=/opt/vertica/bin:$PATH:.; export PATH
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_counter.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_counter.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_countries.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_countries.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_regions.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_regions.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_cities.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_cities.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_trafficsource.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_trafficsource.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_searchengineroot.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_searchengineroot.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_trafficsourcefl.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_trafficsourcefl.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_status.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_status.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_campaign.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_campaign.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_category.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_category.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_webanalytics.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_webanalytics.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_nomenclature.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_nomenclature.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_adconversion.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_adconversion.vout
-vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/$NAME/vertica_scripts/renew_directindicators.vsql -A -q -o /autons/$NAME/vertica_scripts/renew_directindicators.vout
+        if [ -f /autons/vertica/web_analitik/end_fct.flg];
+            then
+                if [ -f /autons/vertica/web_analitik/web_analytics.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_webanalytics.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_webanalytics.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/Nomenclature.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_nomenclature.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_nomenclature.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/ad_conversion_81.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_adconversion.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_adconversion.vout
+                fi
+                if [ -f /autons/vertica/web_analitik/direct_indicators.csv];
+                    then
+                        vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_directindicators.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_directindicators.vout
+                fi
+            else
+                echo "Факты не грузим, т.к нет флажка"
+        fi
+fi
 
 rm start.wrk
-echo "2_stop: $(date)" >> time.log
-fi
 rm end.flg
+echo "2_stop: $(date)" >> time.log
 exit 0

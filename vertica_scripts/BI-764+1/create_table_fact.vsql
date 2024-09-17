@@ -189,6 +189,8 @@ create table DataPrime.ECom_DirectIndicators (
     DataInfo date,
     CampaignID int,
     CategoryID int,
+    TrafficSourceAuto int,
+    TrafficSourceLast int,
     Impressions int,
     Cliks int,
     Cost float,
@@ -218,6 +220,8 @@ segmented by hash (
 comment on table DataPrime.ECom_DirectIndicators is 'Выгрузка индикаторов';
 comment on column DataPrime.ECom_DirectIndicators.DataInfo is 'Дата';
 comment on column DataPrime.ECom_DirectIndicators.CampaignID is 'ID кампании';
+comment on column DataPrime.ECom_DirectIndicators.TrafficSourceAuto is 'Источник трафика (автоматический.)';
+comment on column DataPrime.ECom_DirectIndicators.TrafficSourceLast is 'Источник трафика (Посл. Зн.)';
 comment on column DataPrime.ECom_DirectIndicators.CategoryID is 'ID категории';
 comment on column DataPrime.ECom_DirectIndicators.Impressions is 'Количество показов';
 comment on column DataPrime.ECom_DirectIndicators.Cliks is 'Количество кликов';

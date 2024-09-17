@@ -2,11 +2,7 @@ create local temp table tmp_local
 on commit preserve rows as
 select
     pcr.DataInfo,
-    case
-	    when dayofweek(pcr.DataInfo) = 1
-	    	then 7
-	    else dayofweek(pcr.DataInfo) - 1
-	end as DataInfo_dayofweek,
+    dayofweek_iso(pcr.DataInfo) as DataInfo_dayofweek,
     date_trunc('week', pcr.DataInfo)::date AS DataInfo_start_of_week,
     date_trunc('month', pcr.DataInfo)::date AS DataInfo_months_start,
     coalesce(pcr.region_id, por.region_id) as region_id,
