@@ -1,0 +1,21 @@
+create local temp table tmp_local
+on commit preserve rows as
+select * from DataPrime.ECom_Countries where ID = 0;
+truncate table tmp_local;
+
+copy tmp_local
+from local '/autons/vertica/web_analitik/Countries.csv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data '/autons/vertica/web_analitik_run/Countries.rej'
+exceptions '/autons/vertica/web_analitik_run/Countries.exc' direct skip 1;
+
+truncate table DataPrime.ECom_Countries;
+insert into DataPrime.ECom_Countries
+select
+    *
+from tmp_local;
+commit;

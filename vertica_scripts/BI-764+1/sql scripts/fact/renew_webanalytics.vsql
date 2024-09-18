@@ -1,0 +1,21 @@
+create local temp table tmp_local
+on commit preserve rows as
+select * from DataPrime.ECom_WebAnalytics where CounterID = 0;
+truncate table tmp_local;
+
+copy tmp_local
+from local '/autons/vertica/web_analitik/web_analytics.csv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data '/autons/vertica/web_analitik_run/web_analytics.rej'
+exceptions '/autons/vertica/web_analitik_run/web_analytics.exc' direct skip 1;
+
+truncate table DataPrime.ECom_WebAnalytics;
+insert into DataPrime.ECom_WebAnalytics
+select
+    *
+from tmp_local;
+commit;
