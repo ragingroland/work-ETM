@@ -1,0 +1,42 @@
+create local temp table tmp_local
+on commit preserve rows as
+select * from DataPrime.ECom_DirectIndicators where DataInfo = '0001-01-01';
+truncate table tmp_local;
+
+copy tmp_local
+from local '/autons/vertica/web_analitik/direct_indicators.csv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data '/autons/vertica/web_analitik_run/direct_indicators.rej'
+exceptions '/autons/vertica/web_analitik_run/direct_indicators.exc' direct skip 1;
+
+truncate table DataPrime.ECom_DirectIndicators;
+insert into DataPrime.ECom_DirectIndicators
+select
+	DataInfo,
+    AdTypeID,
+    isnull(CampaignID, 0) as CampaignID,
+    CategoryID,
+    Impressions,
+    Cliks,
+    Visits,
+    Cost,
+    Transactions,
+    B2B_Transactions,
+    B2С_Transactions,
+    Purchase_Revenue,
+    B2B_revenue,
+    B2С_revenue,
+    goal_specification,
+    goal_smeta,
+    goal_registration_B2B,
+    goal_registration_B2C,
+    goal_specification_В2В,
+    goal_specification_В2С,
+    goal_smeta_B2B,
+    goal_smeta_B2С
+from tmp_local;
+commit;

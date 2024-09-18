@@ -1,0 +1,40 @@
+create local temp table tmp_local (
+    TypeClientID int,
+    DataInfo date,
+    AdTypeID int,
+    CampaignID int,
+    CategoryID int,
+    RgdCode int,
+    UserID varchar(150),
+    WatchProd int,
+    QltAddProd int,
+    TotalSum float,
+    QltPurchaseProd int)
+on commit preserve rows;
+
+copy tmp_local
+from local '/autons/vertica/web_analitik/ad_conversion_81.csv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data '/autons/vertica/web_analitik_run/ad_conversion_81.rej'
+exceptions '/autons/vertica/web_analitik_run/ad_conversion_81.exc' direct skip 1;
+
+truncate table DataPrime.ECom_AdConversion;
+insert into DataPrime.ECom_AdConversion
+select
+	DataInfo,
+    TypeClientID,
+    AdTypeID,
+    isnull(CampaignID, 0) as CampaignID,
+    CategoryID,
+    RgdCode,
+    coalesce(UserID, '0') as UserID,
+    WatchProd,
+    QltAddProd,
+    TotalSum,
+    QltPurchaseProd
+from tmp_local;
+commit;
