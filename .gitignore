@@ -7,6 +7,7 @@ vertica_scripts/BI-643/file.exc
 vertica_scripts/BI-643/file.rej
 vertica_scripts/BI-643/csv-utt9 — копия.csv
 vertica_scripts/BI-643/csv-utt9.csv
+vertica_scripts/BI-764+1/data
 public_ddls.csv
 dm_ddls.csv
 dp_ddls.csv

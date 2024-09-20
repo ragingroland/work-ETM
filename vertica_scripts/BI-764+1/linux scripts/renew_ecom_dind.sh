@@ -28,7 +28,12 @@ if [ -f /autons/vertica/web_analitik/start_di.wrk ];
         fi
 fi
 
+if [ ! -f /autons/vertica/web_analitik_run/vertica_scripts/direct_indicators.rej ];
+    then
+        rm /autons/vertica/web_analitik/direct_indicators.csv
+fi
+
 rm start_di.wrk
 rm end_di.flg
-echo "2_stop: $(date)" >> time.log
+echo "2_stop: $(date)" >> time_di.log
 exit 0
