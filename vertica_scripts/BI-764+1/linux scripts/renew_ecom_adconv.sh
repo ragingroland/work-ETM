@@ -28,6 +28,11 @@ if [ -f /autons/vertica/web_analitik/start_adcnv.wrk ];
         fi
 fi
 
+if [ ! -f /autons/vertica/web_analitik_run/vertica_scripts/ad_conversion_81.rej ];
+    then
+        rm /autons/vertica/web_analitik/ad_conversion_81.csv
+fi
+
 rm start_adcnv.wrk
 rm end_adcnv.flg
 echo "2_stop: $(date)" >> time_adcnv.log

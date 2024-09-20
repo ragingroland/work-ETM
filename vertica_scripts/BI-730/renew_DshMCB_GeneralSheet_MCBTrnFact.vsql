@@ -9,7 +9,12 @@ c79 as (
 		row_number() over(partition by CustInn, CustCode) as rn
 	from public.CBStatTrader cbs
 	left join public.KontragLinkClass79 klc79 on cbs.CustCode = klc79.CliCode
-	    and klc79.Class79_1 = 'G')
+	    and klc79.Class79_1 = 'G'),
+notE as (
+	select CustInn from public.CBStatTrader
+	inner join public.KontragLinkClass79 on CustCode = CliCode and Class79_1 = 'E'
+	where CBStatTrader.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+	group by 1)
 select
     trunc(DataInfo, 'q')::date as DataInfo,
     QuartInfo,
@@ -39,6 +44,8 @@ left join public.ClassGroup cg298 on
 left join KontragLinkClass296 klc296 on cbs.CustCode = klc296.CliCode
 	and left(cbs.Class294_Code, 2) = left(klc296.Class294_Code, 2)
 where cbs.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+	and not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code)
+	and not exists (select 1 from notE where CustInn = cbs.CustInn)
 group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9, 10;
 
 truncate table DataMart.DshMCB_GeneralSheet_MCBTrnFact;
