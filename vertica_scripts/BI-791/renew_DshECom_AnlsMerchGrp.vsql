@@ -1,0 +1,88 @@
+create local temp table webuser
+on commit preserve rows as
+select distinct
+	DataInfo,
+	UserId,
+	CountryID,
+	CityID
+from DataPrime.ECom_WebAnalytics
+where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+	and CountryID in (19, 24);
+
+create local temp table tmp_local
+on commit preserve rows as
+select
+	ac.DataInfo,
+	left(dr.Class81_Code, 2) as Class81_Code_1,
+	case
+	    when length(left(Class81_Code, 4)) != 4
+	    	then ''
+	    else left(Class81_Code, 4)
+	end as Class81_Code_2,
+    case
+	    when length(left(Class81_Code, 6)) != 6
+	    	then ''
+	    else left(Class81_Code, 6)
+	end as Class81_Code_3,
+	AdTypeID,
+	CampaignID,
+	CategoryID,
+	TypeClientID,
+	ac.UserID,
+	isnull(CityID, 0) as CityID,
+	WatchProd,
+	QltAddProd,
+	QltPurchaseProd,
+	sum(TotalSum) as SumSaled
+from DataPrime.ECom_AdConversion ac
+left join public.DescRgd dr on ac.RgdCode = dr.RgdCode
+inner join webuser wu on ac.UserID = wu.UserID
+	and ac.DataInfo = wu.DataInfo
+where ac.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13;
+
+create local temp table tmp_local2
+on commit preserve rows as
+select
+	ac.DataInfo,
+	isnull(rmb.MnfCode, dr.MnfCode) as MnfCode,
+	coalesce(dsr.Series, '') as Series,
+	case
+	    when length(left(Class81_Code, 6)) != 6
+	    	then ''
+	    else left(Class81_Code, 6)
+	end as Class81_Code_3,
+    case
+	    when length(left(Class81_Code, 8)) != 8
+	    	then ''
+	    else left(Class81_Code, 8)
+	end as Class81_Code_4,
+	AdTypeID,
+	CampaignID,
+	CategoryID,
+	TypeClientID,
+	ac.UserID,
+	isnull(CityID, 0) as CityID,
+	WatchProd,
+	QltAddProd,
+	QltPurchaseProd,
+	sum(TotalSum) as SumSaled
+from DataPrime.ECom_AdConversion ac
+left join public.DescRgd dr on ac.RgdCode = dr.RgdCode
+left join DataPrime.RgdMnfBrand rmb on dr.RgdCode = rmb.RgdCode
+left join public.DescSeriesRgd dsr on rmb.RgdCode = dsr.RgdCode
+inner join webuser wu on ac.UserID = wu.UserID
+	and ac.DataInfo = wu.DataInfo
+where ac.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+	and ac.RgdCode > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+
+truncate table DataMart.DshECom_AnlsMerchGrp;
+insert into DataMart.DshECom_AnlsMerchGrp
+select * from tmp_local;
+commit;
+
+truncate table DataMart.DshECom_AnlsMerchGrpBrnd;
+insert into DataMart.DshECom_AnlsMerchGrpBrnd
+select * from tmp_local2;
+commit;

@@ -38,7 +38,7 @@ comment on column DataPrime.ECom_Cities.Name is 'Название города';
 
 create table DataPrime.ECom_TrafficSource (
     ID int,
-    Name varchar(50)) unsegmented all nodes;
+    Name varchar(30)) unsegmented all nodes;
 
 comment on table DataPrime.ECom_TrafficSource is 'Справочник от АНАЛИТИКА ПЛЮС: Вид траффика';
 comment on column DataPrime.ECom_TrafficSource.ID is 'ID вида траффика';
@@ -46,11 +46,11 @@ comment on column DataPrime.ECom_TrafficSource.Name is 'Наименование
 
 create table DataPrime.ECom_SearchEngineRoot (
     ID int,
-    Name varchar(50)) unsegmented all nodes;
+    Name varchar(30)) unsegmented all nodes;
 
-comment on table DataPrime.ECom_SearchEngine is 'Справочник от АНАЛИТИКА ПЛЮС: Поисковая система';
-comment on column DataPrime.ECom_SearchEngine.ID is 'ID поисковой системы';
-comment on column DataPrime.ECom_SearchEngine.Name is 'Наименование поисковой системы';
+comment on table DataPrime.ECom_SearchEngineRoot is 'Справочник от АНАЛИТИКА ПЛЮС: Поисковая система';
+comment on column DataPrime.ECom_SearchEngineRoot.ID is 'ID поисковой системы';
+comment on column DataPrime.ECom_SearchEngineRoot.Name is 'Наименование поисковой системы';
 
 create table DataPrime.ECom_TrafficSourceFstLst (
     ID int,

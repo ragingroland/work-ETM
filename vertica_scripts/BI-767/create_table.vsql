@@ -1,0 +1,217 @@
+create table DataMart.DshECom_AnlsTopLvlVisActTfc (
+    DataInfo date,
+    Class71_Code varchar(6),
+    Class72_Code varchar(4),
+    Class81_Code_1 varchar(4),
+    Class81_Code_2 varchar(8),
+    Class81_Code_3 varchar(12),
+    Class81_Code_4 varchar(16),
+    Class206_Code varchar(8),
+    VisitID int,
+    UserID varchar(50),
+    NewUser int,
+    RegUser int,
+    TypeClientID int,
+    Device varchar(14),
+    CounterID int,
+    CityID int,
+    OrderID int,
+    WatchProd int,
+    QltAddProd int,
+    WatchBusket int,
+    TrafficSource int,
+    TrafficSourceFirst int,
+    TrafficSourceAuto int,
+    TrafficSourceLast int,
+    QltCheckOut int,
+    QltPRZ float,
+    QLtPO float)
+order by
+    QltAddProd,
+	WatchProd,
+	WatchBusket,
+    NewUser,
+    RegUser,
+    CounterID,
+    TypeClientID,
+    Device,
+    Class72_Code,
+    TrafficSourceFirst,
+    TrafficSourceAuto,
+    TrafficSourceLast,
+    TrafficSource,
+    Class81_Code_1,
+    Class71_Code,
+    Class81_Code_2,
+    Class206_Code,
+    Class81_Code_3,
+    Class81_Code_4,
+    CityID,
+    OrderID,
+    UserID,
+    VisitID,
+    DataInfo
+segmented by hash (
+	DataMart.DshECom_AnlsTopLvlVisActTfc.QltAddProd,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.WatchProd,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.WatchBusket,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.NewUser,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.RegUser,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.CounterID,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.TypeClientID,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Device,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class72_Code,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSourceFirst,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSourceAuto,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSourceLast,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSource,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_1,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class71_Code,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_2,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class206_Code,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_3,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_4,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.CityID,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.OrderID,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.UserID,
+    DataMart.DshECom_AnlsTopLvlVisActTfc.VisitID) all nodes ksafe;
+
+comment on table DataMart.DshECom_AnlsTopLvlVisActTfc is 'Витрина для "Анализ верхнеуровневой активности посетителей" в рамках проекта E-Com для траффика';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.DataInfo is 'Дата';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class71_Code is 'ЦКГ';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class72_Code is 'Потенциал клиента';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_1 is 'Интернет-каталог кл81 ур1';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_2 is 'Интернет-каталог кл81 ур2';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_3 is 'Интернет-каталог кл81 ур3';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class81_Code_4 is 'Интернет-каталог кл81 ур4';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Class206_Code is 'Роль ЛПР';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.VisitID is 'ID визита';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.NewUser is 'Новый пользователь да-1/нет-0';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.RegUser is 'Зарегистрированный пользователь да-1/нет-0';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.TypeClientID is 'Тип клиента';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.Device is 'Девайс';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.CounterID is 'Номер счетчика';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.CityID is 'Город';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.WatchProd is 'Просмотр товара';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.WatchBusket is 'Просмотр корзины';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSource is 'Источник траффика';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSourceFirst is 'Источник траффика 1ый знач';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSourceAuto is 'Источник траффика автомат.';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.TrafficSourceLast is 'Источник траффика посл.знач';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.QltAddProd is 'Добавление товара в корзину';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.QltCheckOut is 'Количество оформленных заказов';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.QltPRZ is 'Количество размещенных';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.QLtPO is 'Количество отгруженных';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.UserID is 'ID пользователя';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc.OrderID is 'ID заказа';
+
+
+create table DataMart.DshECom_AnlsTopLvlVisActOrd (
+    DataInfo date,
+    Class71_Code varchar(6),
+    Class72_Code varchar(4),
+    Class81_Code_1 varchar(4),
+    Class81_Code_2 varchar(8),
+    Class81_Code_3 varchar(12),
+    Class81_Code_4 varchar(16),
+    Class206_Code varchar(8),
+    VisitID int,
+    UserID varchar(50),
+    NewUser int,
+    RegUser int,
+    TypeClientID int,
+    Device varchar(14),
+    CounterID int,
+    CityID int,
+    OrderID int,
+    QltAddProd int,
+    TrafficSource int,
+    TrafficSourceFirst int,
+    TrafficSourceAuto int,
+    TrafficSourceLast int,
+    QltCheckOut int,
+    QltPRZ float,
+    QLtPO float)
+order by
+    QltAddProd,
+    NewUser,
+    RegUser,
+    CounterID,
+    TypeClientID,
+    Device,
+    Class72_Code,
+    TrafficSourceFirst,
+    TrafficSourceAuto,
+    TrafficSourceLast,
+    TrafficSource,
+    Class81_Code_1,
+    Class71_Code,
+    Class81_Code_2,
+    Class206_Code,
+    Class81_Code_3,
+    Class81_Code_4,
+    CityID,
+    OrderID,
+    UserID,
+    VisitID,
+    DataInfo
+segmented by hash (
+	DataMart.DshECom_AnlsTopLvlVisActOrd.QltAddProd,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.NewUser,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.RegUser,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.CounterID,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.TypeClientID,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Device,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class72_Code,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSourceFirst,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSourceAuto,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSourceLast,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSource,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_1,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class71_Code,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_2,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class206_Code,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_3,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_4,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.CityID,
+    DataMart.DshECom_AnlsTopLvlVisActOrd.VisitID) all nodes ksafe;
+
+comment on table DataMart.DshECom_AnlsTopLvlVisActOrd is 'Витрина для "Анализ верхнеуровневой активности посетителей" в рамках проекта E-Com для траффика';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.DataInfo is 'Дата';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class71_Code is 'ЦКГ';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class72_Code is 'Потенциал клиента';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_1 is 'Интернет-каталог кл81 ур1';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_2 is 'Интернет-каталог кл81 ур2';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_3 is 'Интернет-каталог кл81 ур3';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class81_Code_4 is 'Интернет-каталог кл81 ур4';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Class206_Code is 'Роль ЛПР';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.VisitID is 'ID визита';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.NewUser is 'Новый пользователь да-1/нет-0';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.RegUser is 'Зарегистрированный пользователь да-1/нет-0';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.TypeClientID is 'Тип клиента';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.Device is 'Девайс';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.CounterID is 'Номер счетчика';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.CityID is 'Город';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSource is 'Источник траффика';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSourceFirst is 'Источник траффика 1ый знач';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSourceAuto is 'Источник траффика автомат.';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.TrafficSourceLast is 'Источник траффика посл.знач';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.QltAddProd is 'Добавление товара в корзину';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.QltCheckOut is 'Количество оформленных заказов';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.QltPRZ is 'Количество размещенных';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.QLtPO is 'Количество отгруженных';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.UserID is 'ID пользователя';
+comment on column DataMart.DshECom_AnlsTopLvlVisActOrd.OrderID is 'ID заказа';
+
+
+GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
+GRANT ALL ON SCHEMA public, DataPrime, DataMart TO RW_public_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RW_public_role;
+-- !!! для ED добавляем по роли etl_ed_role:
+--                 public и dataprime - только смотрим
+--                 datamart          - все
+GRANT USAGE ON SCHEMA public, DataPrime TO etl_ed_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime  TO etl_ed_role;
+GRANT ALL ON SCHEMA DataMart TO etl_ed_role;
+GRANT ALL ON ALL TABLES IN SCHEMA DataMart TO etl_ed_role;

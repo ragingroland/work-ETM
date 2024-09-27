@@ -4,9 +4,9 @@
 cd /autons/vertica/web_analitik
 
 # проверка наличия флага завершения выгрузки
-while [ ! -f /autons/vertica/web_analitik/end_wa.flg ];
+while [ ! -f /autons/vertica/web_analitik/end_wbanl.flg ];
     do
-        echo "Файл end_wa.flg не найден"
+        echo "Файл end_wbanl.flg не найден"
         sleep 100
 done
 
@@ -22,18 +22,20 @@ if [ -f /autons/vertica/web_analitik/start_wa.wrk ];
         echo "подключение к вертике"
 
         PATH=/opt/vertica/bin:$PATH:.; export PATH
-        if [ -f /autons/vertica/web_analitik/web_analytics.csv ];
+        if [ -f /autons/vertica/web_analitik/dm_web_analytics.csv ];
             then
-                vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_webanalytics.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_webanalytics.vout
+                vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_webanalytics.vsql -A -q -o /autons/vertica/web_analitik_run/renew_webanalytics.vout
         fi
 fi
 
-if [ ! -f /autons/vertica/web_analitik_run/vertica_scripts/web_analytics.rej ];
-    then
-        rm /autons/vertica/web_analitik/web_analytics.csv
-fi
-
 rm start_wa.wrk
-rm end_wa.flg
+rm end_wbanl.flg
 echo "2_stop: $(date)" >> time_wa.log
+if [ -f /autons/vertica/web_analitik/dm_web_analytics.csv ];
+   then
+       if [ ! -f /autons/vertica/web_analitik_run/web_analytics.exc ];
+          then
+               rm /autons/vertica/web_analitik/dm_web_analytics.csv
+       fi
+fi
 exit 0
