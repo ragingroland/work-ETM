@@ -1,3 +1,5 @@
+\set ON_ERROR_STOP ON;
+
 create local temp table tmp_local
 on commit preserve rows as
 select * from DataPrime.ECom_AdType where ID = 0;

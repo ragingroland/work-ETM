@@ -1,0 +1,107 @@
+create local temp table tmp_local
+on commit preserve rows as
+select
+    DataInfo,
+    coalesce(dk.Class71_Code, '') as Class71_Code,
+    coalesce(dk.Class72_Code, '') as Class72_Code,
+    left(Class81_Code, 2) as Class81_Code_1,
+    case
+	    when length(left(Class81_Code, 4)) != 4
+	    	then ''
+	    else left(Class81_Code, 4)
+	end as Class81_Code_2,
+    case
+	    when length(left(Class81_Code, 6)) != 6
+	    	then ''
+	    else left(Class81_Code, 6)
+	end as Class81_Code_3,
+    case
+	    when length(left(Class81_Code, 8)) != 8
+	    	then ''
+	    else left(Class81_Code, 8)
+	end as Class81_Code_4,
+    wa.Class206_Code,
+    VisitID,
+    UserID,
+    NewUser,
+    RegUser,
+    TypeClientID,
+    Device,
+    CounterID,
+    CityID,
+    OrderID,
+    WatchProd,
+    QltAddProd,
+    WatchBusket,
+    TrafficSourceLast as TrafficSource,
+    TrafficSourceFirst,
+    TrafficSourceAuto,
+    TrafficSourceLast,
+    QltCheckOut,
+    QltPRZ,
+    QLtPO
+from DataPrime.ECom_WebAnalytics wa
+left join public.DescUsers du on wa.ETMCliID = du.CliId
+	and wa.Class206_Code = du.Class206_Code
+left join public.DescKontrag dk on du.CliCode = dk.CliCode
+where wa.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+	and CountryID in (19, 24)
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27;
+
+create local temp table tmp_local2
+on commit preserve rows as
+select
+    DataInfo,
+    coalesce(dk.Class71_Code, '') as Class71_Code,
+    coalesce(dk.Class72_Code, '') as Class72_Code,
+    left(Class81_Code, 2) as Class81_Code_1,
+    case
+	    when length(left(Class81_Code, 4)) != 4
+	    	then ''
+	    else left(Class81_Code, 4)
+	end as Class81_Code_2,
+    case
+	    when length(left(Class81_Code, 6)) != 6
+	    	then ''
+	    else left(Class81_Code, 6)
+	end as Class81_Code_3,
+    case
+	    when length(left(Class81_Code, 8)) != 8
+	    	then ''
+	    else left(Class81_Code, 8)
+	end as Class81_Code_4,
+    wa.Class206_Code,
+    VisitID,
+    UserID,
+    NewUser,
+    RegUser,
+    TypeClientID,
+    Device,
+    CounterID,
+    CityID,
+    OrderID,
+    QltAddProd,
+    TrafficSourceLast as TrafficSource,
+    TrafficSourceFirst,
+    TrafficSourceAuto,
+    TrafficSourceLast,
+    QltCheckOut,
+    QltPRZ,
+    QLtPO
+from DataPrime.ECom_WebAnalytics wa
+left join public.DescUsers du on wa.ETMCliID = du.CliId
+	and wa.Class206_Code = du.Class206_Code
+left join public.DescKontrag dk on du.CliCode = dk.CliCode
+where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+	and CountryID in (19, 24)
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25;
+
+truncate table DataMart.DshECom_AnlsTopLvlVisActTfc;
+insert into DataMart.DshECom_AnlsTopLvlVisActTfc
+select * from tmp_local;
+commit;
+
+truncate table DataMart.DshECom_AnlsTopLvlVisActOrd;
+insert into DataMart.DshECom_AnlsTopLvlVisActOrd
+select * from tmp_local2;
+commit;

@@ -1,0 +1,52 @@
+create local temp table tmp_local
+ on commit preserve rows as
+ select
+	DataInfo,
+	AdTypeID,
+	CampaignID,
+	CategoryID,
+	Cliks,
+	Impressions,
+	goal_smeta,
+	goal_specification,
+	goal_registration_B2B,
+	goal_registration_B2C,
+	sum(Purchase_revenue) as Purchase_revenue,
+	sum(Cost) as Cost
+from DataPrime.ECom_DirectIndicators
+where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -12)
+	and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
+
+create local temp table tmp_local2
+on commit preserve rows as
+select
+	DataInfo,
+	AdTypeID,
+	CampaignID,
+	CategoryID,
+	B2B_Transactions,
+	B2C_Transactions,
+	B2C_revenue,
+	B2B_revenue,
+	goal_specification_B2B,
+	goal_specification_B2C,
+	goal_smeta_B2B,
+	goal_smeta_B2C,
+	sum(Purchase_revenue) as Purchase_revenue,
+	sum(Cost) as Cost
+from DataPrime.ECom_DirectIndicators
+where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -12)
+	and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+
+drop table DataMart.DshECom_AnlsAdvSumDataComp;
+truncate table DataMart.DshECom_AnlsAdvSumDataComp;
+insert into DataMart.DshECom_AnlsAdvSumDataComp
+select * from tmp_local;
+commit;
+
+truncate table DataMart.DshECom_AnlsAdvSumDataCli;
+insert into DataMart.DshECom_AnlsAdvSumDataCli
+select * from tmp_local2;
+commit;

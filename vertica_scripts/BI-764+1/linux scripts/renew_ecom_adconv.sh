@@ -24,7 +24,7 @@ if [ -f /autons/vertica/web_analitik/start_adcnv.wrk ];
         PATH=/opt/vertica/bin:$PATH:.; export PATH
         if [ -f /autons/vertica/web_analitik/ad_conversion_81.csv ];
             then
-                vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_adconversion.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_adconversion.vout
+                vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_adconversion.vsql -A -q -o /autons/vertica/web_analitik_run/renew_adconversion.vout
         fi
 fi
 
