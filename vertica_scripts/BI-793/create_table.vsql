@@ -3,12 +3,12 @@ create table DataMart.DshECom_AnlsAdvSumDataComp (
     AdTypeID int,
     CampaignID int,
     CategoryID int,
-    Cliks int,
-    Impressions int,
-    goal_smeta int,
-    goal_specification int,
-    goal_registration_B2B int,
-    goal_registration_B2C int,
+    Clicks float,
+    Impressions float,
+    goal_smeta float,
+    goal_specification float,
+    goal_registration_B2B float,
+    goal_registration_B2C float,
     Purchase_revenue float,
     Cost float)
 order by
@@ -21,12 +21,12 @@ segmented by hash(
     DataMart.DshECom_AnlsAdvSumDataComp.CategoryID,
     DataMart.DshECom_AnlsAdvSumDataComp.CampaignID) all nodes ksafe;
 
-comment on table DataMart.DshECom_AnlsAdvSumDataComp is 'Сводные данные по рекламным кампаниям, витрина по компаниям';
+comment on table DataMart.DshECom_AnlsAdvSumDataComp is 'Сводные данные по рекламным кампаниям, витрина по кампаниям';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.DataInfo is 'Дата';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.AdTypeID is 'ID типа атрибуции';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.CampaignID is 'ID кампании';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.CategoryID is 'ID категории';
-comment on column DataMart.DshECom_AnlsAdvSumDataComp.Cliks is 'Количество кликов';
+comment on column DataMart.DshECom_AnlsAdvSumDataComp.Clicks is 'Количество кликов';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.Impressions is 'Показы';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.goal_smeta is 'Цель: сметы';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.goal_specification is 'Цель: спецификации';
@@ -44,10 +44,10 @@ create table DataMart.DshECom_AnlsAdvSumDataCli (
     B2C_Transactions float,
     B2C_revenue float,
     B2B_revenue float,
-    goal_specification_В2B int,
-    goal_specification_В2C int,
-    goal_smeta_B2B int,
-    goal_smeta_B2C int,
+    goal_specification_B2B float,
+    goal_specification_B2C float,
+    goal_smeta_B2B float,
+    goal_smeta_B2C float,
     Purchase_revenue float,
     Cost float)
 order by
@@ -71,8 +71,8 @@ comment on column DataMart.DshECom_AnlsAdvSumDataCli.B2B_Transactions is 'Кол
 comment on column DataMart.DshECom_AnlsAdvSumDataCli.B2C_Transactions is 'Кол-во заказов ФЛ';
 comment on column DataMart.DshECom_AnlsAdvSumDataCli.B2C_revenue is 'Сумма заказлв ФЛ';
 comment on column DataMart.DshECom_AnlsAdvSumDataCli.B2B_revenue is 'Сумма заказов ЮЛ';
-comment on column DataMart.DshECom_AnlsAdvSumDataCli.goal_specification_В2В is 'Цель: спецификации ЮЛ';
-comment on column DataMart.DshECom_AnlsAdvSumDataCli.goal_specification_В2C is 'Цель: спецификации ФЛ';
+comment on column DataMart.DshECom_AnlsAdvSumDataCli.goal_specification_B2B is 'Цель: спецификации ЮЛ';
+comment on column DataMart.DshECom_AnlsAdvSumDataCli.goal_specification_B2C is 'Цель: спецификации ФЛ';
 comment on column DataMart.DshECom_AnlsAdvSumDataCli.Purchase_revenue is 'Сумма заказов=доход';
 comment on column DataMart.DshECom_AnlsAdvSumDataCli.Cost is 'Стоимость кликов=расход';
 

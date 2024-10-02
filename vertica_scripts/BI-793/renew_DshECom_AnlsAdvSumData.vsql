@@ -1,22 +1,43 @@
+---------------------------------------
+-- интересующий временной срез
+-- т.е нам нужно то, чего в витрине нет
+create local temp table slice (
+	martdate date,
+	primedate date)
+on commit preserve rows;
+
+insert into slice
+with
+s1 as (
+	select
+		max(DataInfo) as martdate
+	from DataMart.DshECom_AnlsAdvSumDataComp),
+s2 as (
+	select
+		max(DataInfo) as primedate
+	from DataPrime.ECom_DirectIndicators)
+select *
+from s1, s2;
+
 create local temp table tmp_local
- on commit preserve rows as
- select
+on commit preserve rows as
+select
 	DataInfo,
 	AdTypeID,
 	CampaignID,
 	CategoryID,
-	Cliks,
-	Impressions,
-	goal_smeta,
-	goal_specification,
-	goal_registration_B2B,
-	goal_registration_B2C,
-	sum(Purchase_revenue) as Purchase_revenue,
+	sum(Cliks) as Clicks,
+	sum(Impressions) as Impressions,
+	sum(goal_smeta) as goal_smeta,
+	sum(goal_specification) as goal_specification,
+	sum(goal_registration_B2B) as goal_registration_B2B,
+	sum(goal_registration_B2C) as goal_registration_B2C,
+	sum(Purchase_revenue) as PurchaseRevenue,
 	sum(Cost) as Cost
 from DataPrime.ECom_DirectIndicators
-where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -12)
+where martdate <= DataInfo and DataInfo <= primedate
 	and CampaignID != 0
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
+group by 1, 2, 3, 4;
 
 create local temp table tmp_local2
 on commit preserve rows as
@@ -25,28 +46,26 @@ select
 	AdTypeID,
 	CampaignID,
 	CategoryID,
-	B2B_Transactions,
-	B2C_Transactions,
-	B2C_revenue,
-	B2B_revenue,
-	goal_specification_B2B,
-	goal_specification_B2C,
-	goal_smeta_B2B,
-	goal_smeta_B2C,
-	sum(Purchase_revenue) as Purchase_revenue,
+	sum(B2B_Transactions) as transactions_B2B,
+	sum(B2C_Transactions) as transactions_B2C,
+	sum(B2C_revenue) as revenue_B2C,
+	sum(B2B_revenue) as revenue_B2B,
+	sum(goal_specification_B2B) as goal_specification_B2B,
+	sum(goal_specification_B2C) as goal_specification_B2C,
+	sum(goal_smeta_B2B) as goal_smeta_B2B,
+	sum(goal_smeta_B2C) as goal_smeta_B2C,
+	sum(Purchase_revenue) as PurchaseRevenue,
 	sum(Cost) as Cost
 from DataPrime.ECom_DirectIndicators
-where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -12)
+where martdate <= DataInfo and DataInfo <= primedate
+-- where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -12)
 	and CampaignID != 0
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+group by 1, 2, 3, 4;
 
-drop table DataMart.DshECom_AnlsAdvSumDataComp;
-truncate table DataMart.DshECom_AnlsAdvSumDataComp;
 insert into DataMart.DshECom_AnlsAdvSumDataComp
 select * from tmp_local;
 commit;
 
-truncate table DataMart.DshECom_AnlsAdvSumDataCli;
 insert into DataMart.DshECom_AnlsAdvSumDataCli
 select * from tmp_local2;
 commit;

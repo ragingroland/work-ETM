@@ -7,37 +7,37 @@ create table DataMart.DshECom_AnlsMerchGrp (
     CampaignID int,
     CategoryID int,
     TypeClientID int,
-    UserID varchar(50),
+    CountryID int
+    RegionID int,
     CityID int,
-    WatchProd int,
-    QltAddProd int,
-    QltPurchaseProd int,
-    SumSaled float)
+    UsersWtchProd float,
+	UsersAddBusk float,
+	UsersWthOrdrs float,
+	ChecksAmount float,
+	ChecksSum float)
 order by
-    WatchProd,
-    QltAddProd,
+    CountryID,
     AdTypeID,
     TypeClientID,
-	Class81_Code_1,
-	CityID,
-    Class81_Code_2,
-    Class81_Code_3,
     CategoryID,
+	Class81_Code_1,
+	RegionID,
+    Class81_Code_2,
     CampaignID,
-    UserID,
+    CityID,
+    Class81_Code_3,
     Datainfo
 segmented by hash(
-    DataMart.DshECom_AnlsMerchGrp.WatchProd,
-    DataMart.DshECom_AnlsMerchGrp.QltAddProd,
+    DataMart.DshECom_AnlsMerchGrp.CountryID,
     DataMart.DshECom_AnlsMerchGrp.AdTypeID,
     DataMart.DshECom_AnlsMerchGrp.TypeClientID,
-    DataMart.DshECom_AnlsMerchGrp.Class81_Code_1,
-    DataMart.DshECom_AnlsMerchGrp.CityID,
-    DataMart.DshECom_AnlsMerchGrp.Class81_Code_2,
-    DataMart.DshECom_AnlsMerchGrp.Class81_Code_3,
     DataMart.DshECom_AnlsMerchGrp.CategoryID,
+    DataMart.DshECom_AnlsMerchGrp.Class81_Code_1,
+    DataMart.DshECom_AnlsMerchGrp.RegionID,
+    DataMart.DshECom_AnlsMerchGrp.Class81_Code_2,
     DataMart.DshECom_AnlsMerchGrp.CampaignID,
-    DataMart.DshECom_AnlsMerchGrp.UserID) all nodes ksafe;
+    DataMart.DshECom_AnlsMerchGrp.CityID,
+    DataMart.DshECom_AnlsMerchGrp.Class81_Code_3) all nodes ksafe;
 
 comment on table DataMart.DshECom_AnlsMerchGrp is 'Анализ по товарным группам 81 классификатора';
 comment on column DataMart.DshECom_AnlsMerchGrp.DataInfo is 'Дата';
@@ -48,12 +48,12 @@ comment on column DataMart.DshECom_AnlsMerchGrp.AdTypeID is 'Тип атрибу
 comment on column DataMart.DshECom_AnlsMerchGrp.CampaignID is 'ID кампании';
 comment on column DataMart.DshECom_AnlsMerchGrp.CategoryID is 'ID категории';
 comment on column DataMart.DshECom_AnlsMerchGrp.TypeClientID is 'ID тип клиента';
-comment on column DataMart.DshECom_AnlsMerchGrp.UserID is 'ID пользователя';
-comment on column DataMart.DshECom_AnlsMerchGrp.WatchProd is 'Просмотр товара';
-comment on column DataMart.DshECom_AnlsMerchGrp.QltAddProd is 'Добавление товара в корзину';
-comment on column DataMart.DshECom_AnlsMerchGrp.QltPurchaseProd is 'Количество купленного товара';
-comment on column DataMart.DshECom_AnlsMerchGrp.SumSaled is 'Сумма продаж';
 comment on column DataMart.DshECom_AnlsMerchGrp.CityID is 'ID города';
+comment on column DataMart.DshECom_AnlsMerchGrp.UsersWtchProd is 'Пользователей, просмотревших товары';
+comment on column DataMart.DshECom_AnlsMerchGrp.UsersAddBusk is 'Пользователей, добавивших товары в корзину';
+comment on column DataMart.DshECom_AnlsMerchGrp.UsersWthOrdrs is 'Пользователей, оформивших заказы';
+comment on column DataMart.DshECom_AnlsMerchGrp.ChecksAmount is 'Кол-во оформленных заказов';
+comment on column DataMart.DshECom_AnlsMerchGrp.ChecksSum is 'Сумма оформленных заказов';
 
 create table DataMart.DshECom_AnlsMerchGrpBrnd (
     DataInfo date,
@@ -65,39 +65,39 @@ create table DataMart.DshECom_AnlsMerchGrpBrnd (
     CampaignID int,
     CategoryID int,
     TypeClientID int,
-    UserID varchar(50),
+    CountryID int,
+    RegionID int,
     CityID int,
-    WatchProd int,
-    QltAddProd int,
-    QltPurchaseProd int,
-    SumSaled float)
+    UsersWtchProd float,
+	UsersAddBusk float,
+	UsersWthOrdrs float,
+	ChecksAmount float,
+	ChecksSum float)
 order by
-    WatchProd,
-    QltAddProd,
+    CountryID,
     AdTypeID,
     TypeClientID,
     CategoryID,
     Series,
-    CityID,
+	RegionID,
     CampaignID,
+    CityID,
     Class81_Code_3,
     Class81_Code_4,
     MnfCode,
-    UserID,
     Datainfo
 segmented by hash(
-    DataMart.DshECom_AnlsMerchGrpBrnd.WatchProd,
-    DataMart.DshECom_AnlsMerchGrpBrnd.QltAddProd,
+    DataMart.DshECom_AnlsMerchGrpBrnd.CountryID,
     DataMart.DshECom_AnlsMerchGrpBrnd.AdTypeID,
     DataMart.DshECom_AnlsMerchGrpBrnd.TypeClientID,
     DataMart.DshECom_AnlsMerchGrpBrnd.CategoryID,
     DataMart.DshECom_AnlsMerchGrpBrnd.Series,
-    DataMart.DshECom_AnlsMerchGrpBrnd.CityID,
+    DataMart.DshECom_AnlsMerchGrpBrnd.RegionID,
     DataMart.DshECom_AnlsMerchGrpBrnd.CampaignID,
+    DataMart.DshECom_AnlsMerchGrpBrnd.CityID,
     DataMart.DshECom_AnlsMerchGrpBrnd.Class81_Code_3,
     DataMart.DshECom_AnlsMerchGrpBrnd.Class81_Code_4,
-    DataMart.DshECom_AnlsMerchGrpBrnd.MnfCode,
-    DataMart.DshECom_AnlsMerchGrpBrnd.UserID) all nodes ksafe;
+    DataMart.DshECom_AnlsMerchGrpBrnd.MnfCode) all nodes ksafe;
 
 comment on table DataMart.DshECom_AnlsMerchGrpBrnd is '';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.DataInfo is 'Дата';
@@ -109,12 +109,12 @@ comment on column DataMart.DshECom_AnlsMerchGrpBrnd.AdTypeID is 'ID типа а�
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CampaignID is 'ID кампании';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CategoryID is 'ID категории';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.TypeClientID is 'ID типа клиента';
-comment on column DataMart.DshECom_AnlsMerchGrpBrnd.UserID is 'ID пользователя';
-comment on column DataMart.DshECom_AnlsMerchGrpBrnd.WatchProd is 'Просмотр товара';
-comment on column DataMart.DshECom_AnlsMerchGrpBrnd.QltAddProd is 'Добавление товара в корзину';
-comment on column DataMart.DshECom_AnlsMerchGrpBrnd.QltPurchaseProd is 'Количество проданного товара';
-comment on column DataMart.DshECom_AnlsMerchGrpBrnd.SumSaled is 'Сумма продаж';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CityID is 'ID города';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.UsersWtchProd is 'Пользователей, просмотревших товары';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.UsersAddBusk is 'Пользователей, добавивших товары в корзину';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.UsersWthOrdrs is 'Пользователей, оформивших заказы';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.ChecksAmount is 'Кол-во оформленных заказов';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.ChecksSum is 'Сумма оформленных заказов';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
