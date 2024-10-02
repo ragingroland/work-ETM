@@ -1,88 +1,431 @@
+-- забираем самую плзднюю дату из витрины и первичка
+create local temp table slice (
+	martdate date,
+	primedate date)
+on commit preserve rows;
+
+insert into slice
+with
+s1 as (
+	select
+		max(DataInfo) as martdate
+	from DataMart.DshECom_AnlsMerchGrp),
+s2 as (
+	select
+		max(DataInfo) as primedate
+	from DataPrime.ECom_AdConversion)
+select *
+from s1, s2;
+
+-- забираем первые попавшиеся юзерайди из веб_аналитики в контексте необходимого среза
 create local temp table webuser
 on commit preserve rows as
-select distinct
-	DataInfo,
-	UserId,
-	CountryID,
-	CityID
-from DataPrime.ECom_WebAnalytics
-where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
-	and CountryID in (19, 24);
+with
+wb as (
+	select distinct
+	    DataInfo,
+	    Class81_Code,
+	    UserId,
+	    CountryID,
+	    RegionID,
+	    CityID,
+	    row_number() over(partition by DataInfo, UserID, CityID) as rn
+	from slice, DataPrime.ECom_WebAnalytics
+	where martdate <= DataInfo and DataInfo <= primedate
+	    and CountryID in (19, 24))
+select * from wb where rn = 1;
 
-create local temp table tmp_local
+-- основная выборка из первички + webuser + бренд + Series
+create local temp table mainselect
 on commit preserve rows as
 select
-	ac.DataInfo,
-	left(dr.Class81_Code, 2) as Class81_Code_1,
-	case
-	    when length(left(Class81_Code, 4)) != 4
-	    	then ''
-	    else left(Class81_Code, 4)
-	end as Class81_Code_2,
-    case
-	    when length(left(Class81_Code, 6)) != 6
-	    	then ''
-	    else left(Class81_Code, 6)
-	end as Class81_Code_3,
-	AdTypeID,
-	CampaignID,
-	CategoryID,
-	TypeClientID,
-	ac.UserID,
-	isnull(CityID, 0) as CityID,
-	WatchProd,
-	QltAddProd,
-	QltPurchaseProd,
-	sum(TotalSum) as SumSaled
-from DataPrime.ECom_AdConversion ac
-left join public.DescRgd dr on ac.RgdCode = dr.RgdCode
-inner join webuser wu on ac.UserID = wu.UserID
-	and ac.DataInfo = wu.DataInfo
-where ac.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13;
-
-create local temp table tmp_local2
-on commit preserve rows as
-select
-	ac.DataInfo,
-	isnull(rmb.MnfCode, dr.MnfCode) as MnfCode,
-	coalesce(dsr.Series, '') as Series,
-	case
-	    when length(left(Class81_Code, 6)) != 6
-	    	then ''
-	    else left(Class81_Code, 6)
-	end as Class81_Code_3,
-    case
-	    when length(left(Class81_Code, 8)) != 8
-	    	then ''
-	    else left(Class81_Code, 8)
-	end as Class81_Code_4,
-	AdTypeID,
-	CampaignID,
-	CategoryID,
-	TypeClientID,
-	ac.UserID,
-	isnull(CityID, 0) as CityID,
-	WatchProd,
-	QltAddProd,
-	QltPurchaseProd,
-	sum(TotalSum) as SumSaled
-from DataPrime.ECom_AdConversion ac
+    ac.DataInfo,
+    left(dr.Class81_Code, 6) as Class81_Code,
+    isnull(rmb.MnfCode, dr.MnfCode) as MnfCode,
+    coalesce(dsr.Series, '') as Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    ac.UserID,
+    CityID,
+    WatchProd,
+    QltAddProd,
+    QltPurchaseProd,
+    TotalSum
+from slice, DataPrime.ECom_AdConversion ac
+inner join webuser wu on ac.DataInfo = wu.DataInfo
+	and ac.UserID = wu.UserID
 left join public.DescRgd dr on ac.RgdCode = dr.RgdCode
 left join DataPrime.RgdMnfBrand rmb on dr.RgdCode = rmb.RgdCode
 left join public.DescSeriesRgd dsr on rmb.RgdCode = dsr.RgdCode
-inner join webuser wu on ac.UserID = wu.UserID
-	and ac.DataInfo = wu.DataInfo
-where ac.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
-	and ac.RgdCode > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14;
+where martdate <= ac.DataInfo and ac.DataInfo <= primedate; -- добавлять сюда то, чего нет в витрине, аналогично ниже
 
-truncate table DataMart.DshECom_AnlsMerchGrp;
+-- переносим нужные данные из таблицы выше, чтобы считать меры по срезам
+create local temp table forcalcs
+on commit preserve rows as
+select
+    DataInfo,
+    MnfCode,
+    Series,
+    UserID,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    QltAddProd,
+    QltPurchaseProd,
+    WatchProd,
+    TotalSum
+from mainselect;
+
+-- считаем меры
+create local temp table userwtchprod
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    count(distinct UserID) as UserID
+from forcalcs
+where WatchProd > 0 and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table useraddbusk
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    count(distinct UserID) as UserID
+from forcalcs
+where QltAddProd > 0 and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table userwithordrs
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    cast(count(distinct UserID) as float) as UserID
+from forcalcs
+where QltPurchaseProd > 0 and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table sums
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    sum(QltPurchaseProd) as QltPurchaseProd,
+    sum(TotalSum) as TotalSum
+from forcalcs
+where CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+-- таблица, предшествующая вставке в базу
+create local temp table wb1
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    cast(0 as float) as UsersWtchProd,
+    cast(0 as float) as UsersAddBusk,
+    cast(0 as float) as UsersWthOrdrs,
+    cast(0 as float) as OrdsCheckout,
+    cast(0 as float) as ChecksSum
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+
+-- апдейтятся меры
+update wb1 cn
+set UsersWtchProd = up.UserID
+from userwtchprod up
+where cn.DataInfo = up.DataInfo
+	and cn.Class81_Code = up.Class81_Code
+	and cn.AdTypeID = up.AdTypeID
+	and cn.CampaignID = up.CampaignID
+	and cn.CategoryID = up.CategoryID
+	and cn.TypeClientID = up.TypeClientID
+	and cn.CityID = up.CityID;
+
+update wb1 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.DataInfo = ub.DataInfo
+	and cn.Class81_Code = ub.Class81_Code
+	and cn.AdTypeID = ub.AdTypeID
+	and cn.CampaignID = ub.CampaignID
+	and cn.CategoryID = ub.CategoryID
+	and cn.TypeClientID = ub.TypeClientID
+	and cn.CityID = ub.CityID;
+
+update wb1 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.DataInfo = uo.DataInfo
+	and cn.Class81_Code = uo.Class81_Code
+	and cn.AdTypeID = uo.AdTypeID
+	and cn.CampaignID = uo.CampaignID
+	and cn.CategoryID = uo.CategoryID
+	and cn.TypeClientID = uo.TypeClientID
+	and cn.CityID = uo.CityID;
+
+update wb1 cn
+set OrdsCheckout = sm.QltPurchaseProd
+from sums sm
+where cn.DataInfo = sm.DataInfo
+	and cn.Class81_Code = sm.Class81_Code
+	and cn.AdTypeID = sm.AdTypeID
+	and cn.CampaignID = sm.CampaignID
+	and cn.CategoryID = sm.CategoryID
+	and cn.TypeClientID = sm.TypeClientID
+	and cn.CityID = sm.CityID;
+
+update wb1 cn
+set ChecksSum = sm.TotalSum
+from sums sm
+where cn.DataInfo = sm.DataInfo
+	and cn.Class81_Code = sm.Class81_Code
+	and cn.AdTypeID = sm.AdTypeID
+	and cn.CampaignID = sm.CampaignID
+	and cn.CategoryID = sm.CategoryID
+	and cn.TypeClientID = sm.TypeClientID
+	and cn.CityID = sm.CityID;
+
+-- теперь нужно вставить в базу
 insert into DataMart.DshECom_AnlsMerchGrp
-select * from tmp_local;
+select
+    DataInfo,
+    left(Class81_Code, 2) as Class81_Code_1,
+    left(Class81_Code, 4) as Class81_Code_2,
+    Class81_Code as Class81_Code_3,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CountryID,
+    RegionID,
+    wb1.CityID,
+    UsersWtchProd,
+    UsersAddBusk,
+    UsersWthOrdrs,
+    OrdsCheckout,
+    ChecksSum
+from wb1
+left join DataPrime.ECom_Cities c on wb1.CityID = c.CityID;
 commit;
 
-truncate table DataMart.DshECom_AnlsMerchGrpBrnd;
+drop table userwtchprod;
+drop table useraddbusk;
+drop table userwithordrs;
+drop table sums;
+drop table wb1;
+
+-------------------------------------
+-- теперь нужно посчитать для брендов
+-- считаем меры
+create local temp table userwtchprod
+on commit preserve rows as
+select
+    DataInfo,
+	Class81_Code,
+    MnfCode,
+    Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    count(distinct UserID) as UserID
+from forcalcs
+where WatchProd > 0 and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
+
+create local temp table useraddbusk
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+	MnfCode,
+    Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    count(distinct UserID) as UserID
+from forcalcs
+where QltAddProd > 0 and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
+
+create local temp table userwithordrs
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    MnfCode,
+    Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    cast(count(distinct UserID) as float) as UserID
+from forcalcs
+where QltPurchaseProd > 0 and CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
+
+create local temp table sums
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    MnfCode,
+    Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    sum(QltPurchaseProd) as QltPurchaseProd,
+    sum(TotalSum) as TotalSum
+from forcalcs
+where CampaignID != 0
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
+
+-- таблица, предшествующая вставке в базу
+create local temp table wb2
+on commit preserve rows as
+select
+    DataInfo,
+    MnfCode,
+    Series,
+    Class81_Code,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CityID,
+    cast(0 as float) as UsersWtchProd,
+    cast(0 as float) as UsersAddBusk,
+    cast(0 as float) as UsersWthOrdrs,
+    cast(0 as float) as OrdsCheckout,
+    cast(0 as float) as ChecksSum
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+
+-- апдейтятся меры
+update wb2 cn
+set UsersWtchProd = up.UserID
+from userwtchprod up
+where cn.DataInfo = up.DataInfo
+	and cn.Class81_Code = up.Class81_Code
+	and cn.MnfCode = up.MnfCode
+	and cn.Series = up.Series
+	and cn.AdTypeID = up.AdTypeID
+	and cn.CampaignID = up.CampaignID
+	and cn.CategoryID = up.CategoryID
+	and cn.TypeClientID = up.TypeClientID
+	and cn.CityID = up.CityID;
+
+update wb2 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.DataInfo = ub.DataInfo
+	and cn.Class81_Code = ub.Class81_Code
+	and cn.MnfCode = ub.MnfCode
+	and cn.Series = ub.Series
+	and cn.AdTypeID = ub.AdTypeID
+	and cn.CampaignID = ub.CampaignID
+	and cn.CategoryID = ub.CategoryID
+	and cn.TypeClientID = ub.TypeClientID
+	and cn.CityID = ub.CityID;
+
+update wb2 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.DataInfo = uo.DataInfo
+	and cn.Class81_Code = uo.Class81_Code
+	and cn.MnfCode = uo.MnfCode
+	and cn.Series = uo.Series
+	and cn.AdTypeID = uo.AdTypeID
+	and cn.CampaignID = uo.CampaignID
+	and cn.CategoryID = uo.CategoryID
+	and cn.TypeClientID = uo.TypeClientID
+	and cn.CityID = uo.CityID;
+
+update wb2 cn
+set OrdsCheckout = sm.QltPurchaseProd
+from sums sm
+where cn.DataInfo = sm.DataInfo
+	and cn.Class81_Code = sm.Class81_Code
+	and cn.MnfCode = sm.MnfCode
+	and cn.Series = sm.Series
+	and cn.AdTypeID = sm.AdTypeID
+	and cn.CampaignID = sm.CampaignID
+	and cn.CategoryID = sm.CategoryID
+	and cn.TypeClientID = sm.TypeClientID
+	and cn.CityID = sm.CityID;
+
+update wb2 cn
+set ChecksSum = sm.TotalSum
+from sums sm
+where cn.DataInfo = sm.DataInfo
+	and cn.Class81_Code = sm.Class81_Code
+	and cn.MnfCode = sm.MnfCode
+	and cn.Series = sm.Series
+	and cn.AdTypeID = sm.AdTypeID
+	and cn.CampaignID = sm.CampaignID
+	and cn.CategoryID = sm.CategoryID
+	and cn.TypeClientID = sm.TypeClientID
+	and cn.CityID = sm.CityID;
+
+-- теперь нужно вставить в базу
 insert into DataMart.DshECom_AnlsMerchGrpBrnd
-select * from tmp_local2;
+select
+    DataInfo,
+    MnfCode,
+    Series,
+    left(Class81_Code, 6) as Class81_Code_3,
+	Class81_Code as Class81_Code_4,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CountryID,
+    RegionID,
+    wb2.CityID,
+    UsersWtchProd,
+    UsersAddBusk,
+    UsersWthOrdrs,
+    OrdsCheckout,
+    ChecksSum
+from wb2
+left join DataPrime.ECom_Cities c on wb2.CityID = c.CityID;
 commit;

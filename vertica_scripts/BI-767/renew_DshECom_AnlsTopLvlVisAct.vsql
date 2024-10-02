@@ -1,107 +1,928 @@
-create local temp table tmp_local
+---------------------------------------
+-- интересующий временной срез
+-- т.е нам нужно то, чего в витрине нет
+create local temp table slice (
+	martdate date,
+	primedate date)
+on commit preserve rows;
+
+insert into slice
+with
+s1 as (
+	select
+		max(DataInfo) as martdate
+	from DataMart.DshECom_AnlsTopLvlVisActTfc_1),
+s2 as (
+	select
+		max(DataInfo) as primedate
+	from DataPrime.ECom_WebAnalytics)
+select *
+from s1, s2;
+--------------------------------------------------------
+-- забираются нужные для счета и вообще поля из первички
+-- плюс пара джойнов для 71, 72
+create local temp table forcalcs
 on commit preserve rows as
 select
-    DataInfo,
-    coalesce(dk.Class71_Code, '') as Class71_Code,
-    coalesce(dk.Class72_Code, '') as Class72_Code,
-    left(Class81_Code, 2) as Class81_Code_1,
-    case
-	    when length(left(Class81_Code, 4)) != 4
-	    	then ''
-	    else left(Class81_Code, 4)
-	end as Class81_Code_2,
-    case
-	    when length(left(Class81_Code, 6)) != 6
-	    	then ''
-	    else left(Class81_Code, 6)
-	end as Class81_Code_3,
-    case
-	    when length(left(Class81_Code, 8)) != 8
-	    	then ''
-	    else left(Class81_Code, 8)
-	end as Class81_Code_4,
-    wa.Class206_Code,
-    VisitID,
-    UserID,
-    NewUser,
-    RegUser,
-    TypeClientID,
-    Device,
-    CounterID,
-    CityID,
-    OrderID,
-    WatchProd,
-    QltAddProd,
-    WatchBusket,
-    TrafficSourceLast as TrafficSource,
-    TrafficSourceFirst,
-    TrafficSourceAuto,
-    TrafficSourceLast,
-    QltCheckOut,
-    QltPRZ,
-    QLtPO
-from DataPrime.ECom_WebAnalytics wa
+	DataInfo,
+	coalesce(left(dk.Class71_Code, 2), '') as Class71_Code,
+	coalesce(left(dk.Class72_Code, 2), '') as Class72_Code,
+	left(Class81_Code, 8) as Class81_Code,
+	wa.Class206_Code,
+	RegUser,
+	NewUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	OrderID,
+	UserID,
+	VisitID,
+	WatchProd,
+	QltAddProd,
+	WatchBusket,
+	QltCheckOut,
+	QltPRZ,
+	QltPO
+from slice, DataPrime.ECom_WebAnalytics wa
 left join public.DescUsers du on wa.ETMCliID = du.CliId
-	and wa.Class206_Code = du.Class206_Code
+and wa.Class206_Code = du.Class206_Code
 left join public.DescKontrag dk on du.CliCode = dk.CliCode
-where wa.DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
+where martdate <= DataInfo and DataInfo <= primedate
 	and CountryID in (19, 24)
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27;
 
-create local temp table tmp_local2
+----------------------------------------
+-- ниже считается для траффика вкладка 1
+create local temp table userviscnt
 on commit preserve rows as
 select
-    DataInfo,
-    coalesce(dk.Class71_Code, '') as Class71_Code,
-    coalesce(dk.Class72_Code, '') as Class72_Code,
-    left(Class81_Code, 2) as Class81_Code_1,
-    case
-	    when length(left(Class81_Code, 4)) != 4
-	    	then ''
-	    else left(Class81_Code, 4)
-	end as Class81_Code_2,
-    case
-	    when length(left(Class81_Code, 6)) != 6
-	    	then ''
-	    else left(Class81_Code, 6)
-	end as Class81_Code_3,
-    case
-	    when length(left(Class81_Code, 8)) != 8
-	    	then ''
-	    else left(Class81_Code, 8)
-	end as Class81_Code_4,
-    wa.Class206_Code,
-    VisitID,
-    UserID,
-    NewUser,
-    RegUser,
-    TypeClientID,
-    Device,
-    CounterID,
-    CityID,
-    OrderID,
-    QltAddProd,
-    TrafficSourceLast as TrafficSource,
-    TrafficSourceFirst,
-    TrafficSourceAuto,
-    TrafficSourceLast,
-    QltCheckOut,
-    QltPRZ,
-    QLtPO
-from DataPrime.ECom_WebAnalytics wa
-left join public.DescUsers du on wa.ETMCliID = du.CliId
-	and wa.Class206_Code = du.Class206_Code
-left join public.DescKontrag dk on du.CliCode = dk.CliCode
-where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -24)
-	and CountryID in (19, 24)
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25;
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID,
+	count(distinct VisitID) as VisitID
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8;
 
-truncate table DataMart.DshECom_AnlsTopLvlVisActTfc;
-insert into DataMart.DshECom_AnlsTopLvlVisActTfc
-select * from tmp_local;
+create local temp table userwtchprod
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID
+from forcalcs
+where WatchProd > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table useraddbusk
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltAddProd > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table userwtchbusk
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID
+from forcalcs
+where WatchBusket > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table userwithordrs
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table usersprz
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltPRZ > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table userspo
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	CounterID,
+	Device,
+	TypeClientID,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltPO > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table tf1
+on commit preserve rows as
+select
+	DataInfo,
+	RegUser,
+	TypeClientID,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	CounterID,
+	Device,
+	cast(0 as float) as UsersCount,
+	cast(0 as float) as VisitsCount,
+	cast(0 as float) as UsersWtchProd,
+	cast(0 as float) as UsersAddBusk,
+	cast(0 as float) as UsersWtchBusk,
+	cast(0 as float) as UsersWthOrdrs,
+	cast(0 as float) as UsersPRZ,
+	cast(0 as float) as UsersPO
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16;
+
+update tf1 cn
+set UsersCount = uc.UserID
+from userviscnt uc
+where cn.DataInfo = uc.DataInfo
+	and cn.Class71_Code = uc.Class71_Code
+	and cn.Class72_Code = uc.Class72_Code
+	and cn.Class206_Code = uc.Class206_Code
+	and cn.RegUser = uc.RegUser
+	and cn.CounterID = uc.CounterID
+	and cn.Device = uc.Device
+	and cn.TypeClientID = uc.TypeClientID;
+
+update tf1 cn
+set VisitsCount = uc.VisitID
+from userviscnt uc
+where cn.DataInfo = uc.DataInfo
+	and cn.Class71_Code = uc.Class71_Code
+	and cn.Class72_Code = uc.Class72_Code
+	and cn.Class206_Code = uc.Class206_Code
+	and cn.RegUser = uc.RegUser
+	and cn.CounterID = uc.CounterID
+	and cn.Device = uc.Device
+	and cn.TypeClientID = uc.TypeClientID;
+
+update tf1 cn
+set UsersWtchProd = up.UserID
+from userwtchprod up
+where cn.DataInfo = up.DataInfo
+	and cn.Class71_Code = up.Class71_Code
+	and cn.Class72_Code = up.Class72_Code
+	and cn.Class206_Code = up.Class206_Code
+	and cn.RegUser = up.RegUser
+	and cn.CounterID = up.CounterID
+	and cn.Device = up.Device
+	and cn.TypeClientID = up.TypeClientID;
+
+update tf1 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.DataInfo = ub.DataInfo
+	and cn.Class71_Code = ub.Class71_Code
+	and cn.Class72_Code = ub.Class72_Code
+	and cn.Class206_Code = ub.Class206_Code
+	and cn.RegUser = ub.RegUser
+	and cn.CounterID = ub.CounterID
+	and cn.Device = ub.Device
+	and cn.TypeClientID = ub.TypeClientID;
+
+update tf1 cn
+set UsersWtchBusk = ub.UserID
+from userwtchbusk ub
+where cn.DataInfo = ub.DataInfo
+	and cn.Class71_Code = ub.Class71_Code
+	and cn.Class72_Code = ub.Class72_Code
+	and cn.Class206_Code = ub.Class206_Code
+	and cn.RegUser = ub.RegUser
+	and cn.CounterID = ub.CounterID
+	and cn.Device = ub.Device
+	and cn.TypeClientID = ub.TypeClientID;
+
+update tf1 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.DataInfo = uo.DataInfo
+	and cn.Class71_Code = uo.Class71_Code
+	and cn.Class72_Code = uo.Class72_Code
+	and cn.Class206_Code = uo.Class206_Code
+	and cn.RegUser = uo.RegUser
+	and cn.CounterID = uo.CounterID
+	and cn.Device = uo.Device
+	and cn.TypeClientID = uo.TypeClientID;
+
+update tf1 cn
+set UsersPO = upo.UserID
+from userspo upo
+where cn.DataInfo = upo.DataInfo
+	and cn.Class71_Code = upo.Class71_Code
+	and cn.Class72_Code = upo.Class72_Code
+	and cn.Class206_Code = upo.Class206_Code
+	and cn.RegUser = upo.RegUser
+	and cn.CounterID = upo.CounterID
+	and cn.Device = upo.Device
+	and cn.TypeClientID = upo.TypeClientID;
+
+update tf1 cn
+set UsersPRZ = uprz.UserID
+from usersprz uprz
+where cn.DataInfo = uprz.DataInfo
+	and cn.Class71_Code = uprz.Class71_Code
+	and cn.Class72_Code = uprz.Class72_Code
+	and cn.Class206_Code = uprz.Class206_Code
+	and cn.RegUser = uprz.RegUser
+	and cn.CounterID = uprz.CounterID
+	and cn.Device = uprz.Device
+	and cn.TypeClientID = uprz.TypeClientID;
+
+-------------------------------------------
+-- ну и сразу вставляем новые данные в базу
+insert into DataMart.DshECom_AnlsTopLvlVisActTfc_1
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	left(Class206_Code, 2) as Class206_Code_1,
+	Class206_Code as Class206_Code_2,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	UsersCount,
+	VisitsCount,
+	UsersWtchProd,
+	UsersAddBusk,
+	UsersWtchBusk,
+	UsersWthOrdrs,
+	UsersPRZ,
+	UsersPO
+from tf1;
 commit;
 
-truncate table DataMart.DshECom_AnlsTopLvlVisActOrd;
-insert into DataMart.DshECom_AnlsTopLvlVisActOrd
-select * from tmp_local2;
+drop table userviscnt;
+drop table userwtchprod;
+drop table useraddbusk;
+drop table userwtchbusk;
+drop table userwithordrs;
+drop table usersprz;
+drop table userspo;
+drop table tf1;
+
+----------------------------------------
+-- ниже считается для траффика вкладка 2
+create local temp table userviscnt
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID,
+	count(distinct VisitID) as VisitID
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table userwtchprod
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where WatchProd > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table useraddbusk
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltAddProd > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table userwtchbusk
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where WatchBusket > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table userwithordrs
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table usersprz
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltPRZ > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table userspo
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltPO > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table tf2
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	cast(0 as float) as UsersCount,
+	cast(0 as float) as VisitsCount,
+	cast(0 as float) as UsersWtchProd,
+	cast(0 as float) as UsersAddBusk,
+	cast(0 as float) as UsersWtchBusk,
+	cast(0 as float) as UsersWthOrdrs,
+	cast(0 as float) as UsersPRZ,
+	cast(0 as float) as UsersPO
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15;
+
+update tf2 cn
+set UsersCount = uc.UserID
+from userviscnt uc
+where cn.Class81_Code = uc.Class81_Code
+	and cn.NewUser = uc.NewUser
+	and cn.RegionID = uc.RegionID
+	and cn.CityID = uc.CityID
+	and cn.TrafficSourceFirst = uc.TrafficSourceFirst
+	and cn.TrafficSourceAuto = uc.TrafficSourceAuto
+	and cn.TrafficSourceLast = uc.TrafficSourceLast;
+
+update tf2 cn
+set VisitsCount = uc.VisitID
+from userviscnt uc
+where cn.Class81_Code = uc.Class81_Code
+	and cn.NewUser = uc.NewUser
+	and cn.RegionID = uc.RegionID
+	and cn.CityID = uc.CityID
+	and cn.TrafficSourceFirst = uc.TrafficSourceFirst
+	and cn.TrafficSourceAuto = uc.TrafficSourceAuto
+	and cn.TrafficSourceLast = uc.TrafficSourceLast;
+
+update tf2 cn
+set UsersWtchProd = up.UserID
+from userwtchprod up
+where cn.Class81_Code = up.Class81_Code
+	and cn.NewUser = up.NewUser
+	and cn.RegionID = up.RegionID
+	and cn.CityID = up.CityID
+	and cn.TrafficSourceFirst = up.TrafficSourceFirst
+	and cn.TrafficSourceAuto = up.TrafficSourceAuto
+	and cn.TrafficSourceLast = up.TrafficSourceLast;
+
+update tf2 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.Class81_Code = ub.Class81_Code
+	and cn.NewUser = ub.NewUser
+	and cn.RegionID = ub.RegionID
+	and cn.CityID = ub.CityID
+	and cn.TrafficSourceFirst = ub.TrafficSourceFirst
+	and cn.TrafficSourceAuto = ub.TrafficSourceAuto
+	and cn.TrafficSourceLast = ub.TrafficSourceLast;
+
+update tf2 cn
+set UsersWtchBusk = ub.UserID
+from userwtchbusk ub
+where cn.Class81_Code = ub.Class81_Code
+	and cn.NewUser = ub.NewUser
+	and cn.RegionID = ub.RegionID
+	and cn.CityID = ub.CityID
+	and cn.TrafficSourceFirst = ub.TrafficSourceFirst
+	and cn.TrafficSourceAuto = ub.TrafficSourceAuto
+	and cn.TrafficSourceLast = ub.TrafficSourceLast;
+
+update tf2 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.Class81_Code = uo.Class81_Code
+	and cn.NewUser = uo.NewUser
+	and cn.RegionID = uo.RegionID
+	and cn.CityID = uo.CityID
+	and cn.TrafficSourceFirst = uo.TrafficSourceFirst
+	and cn.TrafficSourceAuto = uo.TrafficSourceAuto
+	and cn.TrafficSourceLast = uo.TrafficSourceLast;
+
+update tf2 cn
+set UsersPO = upo.UserID
+from userspo upo
+where cn.Class81_Code = upo.Class81_Code
+	and cn.NewUser = upo.NewUser
+	and cn.RegionID = upo.RegionID
+	and cn.CityID = upo.CityID
+	and cn.TrafficSourceFirst = upo.TrafficSourceFirst
+	and cn.TrafficSourceAuto = upo.TrafficSourceAuto
+	and cn.TrafficSourceLast = upo.TrafficSourceLast;
+
+update tf2 cn
+set UsersPRZ = uprz.UserID
+from usersprz uprz
+where cn.Class81_Code = uprz.Class81_Code
+	and cn.NewUser = uprz.NewUser
+	and cn.RegionID = uprz.RegionID
+	and cn.CityID = uprz.CityID
+	and cn.TrafficSourceFirst = uprz.TrafficSourceFirst
+	and cn.TrafficSourceAuto = uprz.TrafficSourceAuto
+	and cn.TrafficSourceLast = uprz.TrafficSourceLast;
+
+insert into DataMart.DshECom_AnlsTopLvlVisActTfc_2
+select
+	left(Class81_Code, 2) as Class81_Code_1,
+	left(Class81_Code, 4) as Class81_Code_2,
+	left(Class81_Code, 6) as Class81_Code_3,
+	left(Class81_Code, 8) as Class81_Code_4,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	UsersCount,
+	VisitsCount,
+	UsersWtchProd,
+	UsersAddBusk,
+	UsersWtchBusk,
+	UsersWthOrdrs,
+	UsersPRZ,
+	UsersPO
+from tf2;
 commit;
+
+drop table userviscnt;
+drop table userwtchprod;
+drop table useraddbusk;
+drop table userwtchbusk;
+drop table userwithordrs;
+drop table usersprz;
+drop table userspo;
+drop table tf2;
+
+----------------------------------------
+-- ниже считается для заказ вкладка 1
+create local temp table ordcheckout
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table ordPRZ
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltPRZ > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table ordPO
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltPO > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table useraddbusk
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltAddProd > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table userwithordrs
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table od1
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	cast(0 as float) as OrdsCheckout,
+	cast(0 as float) as OrdsPRZ,
+	cast(0 as float) as OrdsPO,
+	cast(0 as float) as UsersAddBusk,
+	cast(0 as float) as UsersWthOrdrs
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+update od1 cn
+set OrdsCheckout = oc.OrderID
+from ordcheckout oc
+where cn.DataInfo = oc.DataInfo
+	and cn.Class71_Code = oc.Class71_Code
+	and cn.Class72_Code = oc.Class72_Code
+	and cn.Class206_Code = oc.Class206_Code
+	and cn.RegUser = oc.RegUser
+	and cn.CounterID = oc.CounterID
+	and cn.Device = oc.Device
+	and cn.TypeClientID = oc.TypeClientID;
+
+update od1 cn
+set OrdsPRZ = op.OrderID
+from ordprz op
+where cn.DataInfo = op.DataInfo
+	and cn.Class71_Code = op.Class71_Code
+	and cn.Class72_Code = op.Class72_Code
+	and cn.Class206_Code = op.Class206_Code
+	and cn.RegUser = op.RegUser
+	and cn.CounterID = op.CounterID
+	and cn.Device = op.Device
+	and cn.TypeClientID = op.TypeClientID;
+
+update od1 cn
+set OrdsPO = opo.OrderID
+from ordpo opo
+where cn.DataInfo = opo.DataInfo
+	and cn.Class71_Code = opo.Class71_Code
+	and cn.Class72_Code = opo.Class72_Code
+	and cn.Class206_Code = opo.Class206_Code
+	and cn.RegUser = opo.RegUser
+	and cn.CounterID = opo.CounterID
+	and cn.Device = opo.Device
+	and cn.TypeClientID = opo.TypeClientID;
+
+update od1 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.DataInfo = ub.DataInfo
+	and cn.Class71_Code = ub.Class71_Code
+	and cn.Class72_Code = ub.Class72_Code
+	and cn.Class206_Code = ub.Class206_Code
+	and cn.RegUser = ub.RegUser
+	and cn.CounterID = ub.CounterID
+	and cn.Device = ub.Device
+	and cn.TypeClientID = ub.TypeClientID;
+
+update od1 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.DataInfo = uo.DataInfo
+	and cn.Class71_Code = uo.Class71_Code
+	and cn.Class72_Code = uo.Class72_Code
+	and cn.Class206_Code = uo.Class206_Code
+	and cn.RegUser = uo.RegUser
+	and cn.CounterID = uo.CounterID
+	and cn.Device = uo.Device
+	and cn.TypeClientID = uo.TypeClientID;
+
+insert into DataMart.DshECom_AnlsTopLvlVisActOrd_1
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	left(Class206_Code, 2) as Class206_Code_1,
+	Class206_Code as Class206_Code_2,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	OrdsCheckout,
+	OrdsPRZ,
+	OrdsPO,
+	UsersAddBusk,
+	UsersWthOrdrs
+from od1;
+commit;
+
+drop table ordcheckout;
+drop table ordPRZ;
+drop table ordPO;
+drop table useraddbusk;
+drop table userwithordrs;
+drop table od1;
+
+----------------------------------------
+-- ниже считается для заказ вкладка 2
+create local temp table ordcheckout
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table ordPRZ
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltPRZ > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table ordPO
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltPO > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table useraddbusk
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltAddProd > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table userwithordrs
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	count(distinct UserID) as UserID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7;
+
+create local temp table od2
+on commit preserve rows as
+select
+	Class81_Code,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	cast(0 as float) as OrdsCheckout,
+	cast(0 as float) as OrdsPRZ,
+	cast(0 as float) as OrdsPO,
+	cast(0 as float) as UsersAddBusk,
+	cast(0 as float) as UsersWthOrdrs
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7;
+
+update od2 cn
+set OrdsCheckout = oc.OrderID
+from ordcheckout oc
+where cn.Class81_Code = oc.Class81_Code
+	and cn.NewUser = oc.NewUser
+	and cn.RegionID = oc.RegionID
+	and cn.CityID = oc.CityID
+	and cn.TrafficSourceFirst = oc.TrafficSourceFirst
+	and cn.TrafficSourceAuto = oc.TrafficSourceAuto
+	and cn.TrafficSourceLast = oc.TrafficSourceLast;
+
+update od2 cn
+set OrdsPRZ = op.OrderID
+from ordprz op
+where cn.Class81_Code = op.Class81_Code
+	and cn.NewUser = op.NewUser
+	and cn.RegionID = op.RegionID
+	and cn.CityID = op.CityID
+	and cn.TrafficSourceFirst = op.TrafficSourceFirst
+	and cn.TrafficSourceAuto = op.TrafficSourceAuto
+	and cn.TrafficSourceLast = op.TrafficSourceLast;
+
+update od2 cn
+set OrdsPO = opo.OrderID
+from ordpo opo
+where cn.Class81_Code = opo.Class81_Code
+	and cn.NewUser = opo.NewUser
+	and cn.RegionID = opo.RegionID
+	and cn.CityID = opo.CityID
+	and cn.TrafficSourceFirst = opo.TrafficSourceFirst
+	and cn.TrafficSourceAuto = opo.TrafficSourceAuto
+	and cn.TrafficSourceLast = opo.TrafficSourceLast;
+
+update od2 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.Class81_Code = ub.Class81_Code
+	and cn.NewUser = ub.NewUser
+	and cn.RegionID = ub.RegionID
+	and cn.CityID = ub.CityID
+	and cn.TrafficSourceFirst = ub.TrafficSourceFirst
+	and cn.TrafficSourceAuto = ub.TrafficSourceAuto
+	and cn.TrafficSourceLast = ub.TrafficSourceLast;
+
+update od2 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.Class81_Code = uo.Class81_Code
+	and cn.NewUser = uo.NewUser
+	and cn.RegionID = uo.RegionID
+	and cn.CityID = uo.CityID
+	and cn.TrafficSourceFirst = uo.TrafficSourceFirst
+	and cn.TrafficSourceAuto = uo.TrafficSourceAuto
+	and cn.TrafficSourceLast = uo.TrafficSourceLast;
+
+insert into DataMart.DshECom_AnlsTopLvlVisActOrd_2
+select
+	left(Class81_Code, 2) as Class81_Code_1,
+	left(Class81_Code, 4) as Class81_Code_2,
+	left(Class81_Code, 6) as Class81_Code_3,
+	Class81_Code as Class81_Code_4,
+	NewUser,
+	RegionID,
+	CityID,
+	TrafficSourceFirst,
+	TrafficSourceAuto,
+	TrafficSourceLast,
+	OrdsCheckout,
+	OrdsPRZ,
+	OrdsPO,
+	UsersAddBusk,
+	UsersWthOrdrs
+from od2;
+commit;
+---------------------------
+-- (музыка из Ералаша) ВСЁ!

@@ -1,0 +1,28 @@
+\set ON_ERROR_STOP ON;
+
+create local temp table tmp_local (
+-- on commit preserve rows as
+-- select * from DataPrime.CliDctdPriceInfo
+-- where CliCode = 0;
+    CliCode int,
+    PriceDctd int,
+    PricePreDctd int,
+    DctDateFrom date,
+    DctDateTo date)
+on commit preserve rows;
+
+copy tmp_local
+from local 'H:\OLAP\CliDctdPriceInfo\DATA\file.csv'
+    abort on error
+    delimiter '|'
+    null ''
+    enclosed by '"'
+    rejectmax 1
+rejected data 'H:\OLAP\CliDctdPriceInfo\RUN\file.rej'
+exceptions 'H:\OLAP\CliDctdPriceInfo\RUN\file.exc' direct;
+
+truncate table DataPrime.CliDctdPriceInfo;
+insert into DataPrime.CliDctdPriceInfo
+select *
+from tmp_local;
+commit;
