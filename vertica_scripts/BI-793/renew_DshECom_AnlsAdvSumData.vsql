@@ -35,7 +35,7 @@ select
 	sum(Purchase_revenue) as PurchaseRevenue,
 	sum(Cost) as Cost
 from DataPrime.ECom_DirectIndicators
-where martdate <= DataInfo and DataInfo <= primedate
+where martdate <= DataInfo and DataInfo <= primedate -- сред даты брать текущий год + 1 предыдущий
 	and CampaignID != 0
 group by 1, 2, 3, 4;
 

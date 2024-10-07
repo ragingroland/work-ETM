@@ -2,13 +2,12 @@ create local temp table tmp_local
 on commit preserve rows as
 with mans as (
 	select
-		trunc(DataInfo, 'q')::date as DataInfo,
+		DataInfo,
 		coalesce(left(cg.classCodeGrp, 6), '') as Class63_Code,
-		--ManCode,
 		Class55_Code,
 		Category,
 		KeyCalcBonus,
-		count(ManCode) as ManCount -- over(partition by Class37_Code, Class55_Code, Category, KeyCalcBonus) as ManCount
+		count(ManCode) as ManCount
 	from public.Class37History c37
 	left join public.classGroup cg
 		on classTypeSrc = 37
@@ -21,7 +20,7 @@ with mans as (
 		and KeyCalcBonus != ''
 		and not KeyCalcBonus is null
 		and DataInfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date)
-	group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5),
+	group by 1, 2, 3, 4, 5),
 main as (
 	select
 		m.DataInfo,
@@ -36,7 +35,7 @@ main as (
 	inner join DataPrime.NormativCCBMotivMng mm on m.KeyCalcBonus = mm.TypeMotiv
 		and m.Category = mm.Category
 		and m.Class55_Code = mm.Class55_Code
-		and m.DataInfo = mm.DataInfo
+		and trunc(m.DataInfo, 'q')::date = mm.DataInfo
 	where m.datainfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date))
 select * from main;
 
@@ -44,7 +43,7 @@ create local temp table tmp_local2
 on commit preserve rows as
 with mans as (
 	select
-		trunc(DataInfo, 'q')::date as DataInfo,
+		DataInfo,
 		coalesce(left(cg.classCodeGrp, 6), '') as Class63_Code,
 		ManCode,
 		Class37_Code,
@@ -57,16 +56,11 @@ with mans as (
 	    and classTypeGrp = 63
 	    and classCodeSrc = left(с37.class37_Code, 5)
 	    and classCodeGrp LIKE 'УП%'
-	where ManCode > 0
-		and lower(Category) != 'уволен'
-		and lower(Category) != 'стажер'
-		and KeyCalcBonus != ''
-		and not KeyCalcBonus is null
-		and DataInfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date)
-	group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7),
+	where DataInfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date)
+	group by 1, 2, 3, 4, 5, 6, 7),
 main as (
 	select
-		trunc(ctd.DataInfo, 'q')::date as DataInfo,
+		ctd.DataInfo,
 		ctd.CliCode,
 		left(Class63_Code, 4) as Class63_Code_2,
 		Class63_Code as Class63_Code_3,
@@ -75,12 +69,14 @@ main as (
 		m.KeyCalcBonus as TypeMotiv,
 		sum(SumSaled) as SumSaled
 	from public.CliTurnoverDtl ctd
-	inner join mans m on trunc(ctd.DataInfo, 'q')::date = m.DataInfo
+	inner join mans m on ctd.DataInfo = m.DataInfo
 		and ctd.ManCode = m.ManCode -- считается только в рамках менеджера
---		and ctd.Class37_Code = m.Class37_Code
---		and ctd.Class55_Code = m.Class55_Code
+	inner join DataPrime.NormativCCBMotivMng mm on m.Class55_Code = mm.Class55_Code
+		and m.Category = mm.Category
+		and m.KeyCalcBonus = mm.TypeMotiv
 	where ctd.datainfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date)
-	group by trunc(ctd.DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7)
+	group by 1, 2, 3, 4, 5, 6, 7, MinBound
+	having MinBound <= sum(SumSaled))
 select * from main;
 
 truncate table DataMart.DshSalesManag_EfDSMSheet_ManNormFactCnt;
