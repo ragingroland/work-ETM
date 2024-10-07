@@ -52,7 +52,7 @@ from slice, DataPrime.ECom_WebAnalytics wa
 left join public.DescUsers du on wa.ETMCliID = du.CliId
 and wa.Class206_Code = du.Class206_Code
 left join public.DescKontrag dk on du.CliCode = dk.CliCode
-where martdate <= DataInfo and DataInfo <= primedate
+where martdate <= DataInfo and DataInfo <= primedate -- срез даты брать текущий месяц + 12 прошедших
 	and CountryID in (19, 24)
 
 ----------------------------------------

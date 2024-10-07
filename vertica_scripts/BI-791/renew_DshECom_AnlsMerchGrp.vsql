@@ -31,7 +31,7 @@ wb as (
 	    CityID,
 	    row_number() over(partition by DataInfo, UserID, CityID) as rn
 	from slice, DataPrime.ECom_WebAnalytics
-	where martdate <= DataInfo and DataInfo <= primedate
+	where martdate <= DataInfo and DataInfo <= primedate -- срез даты брать текущий год + 1 предыдущий
 	    and CountryID in (19, 24))
 select * from wb where rn = 1;
 
