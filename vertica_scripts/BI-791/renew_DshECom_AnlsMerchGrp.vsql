@@ -1,14 +1,16 @@
--- забираем самую плзднюю дату из витрины и первичка
+-- забираем самую позднюю дату из витрины и первички
 create local temp table slice (
 	martdate date,
 	primedate date)
 on commit preserve rows;
 
+-- аналогично BI-767 берем макс.дату из витрины, либо за регламентированный срез + макс.дату первички
+-- max(DataInfo) = ближайшая к текущему моменту дата в первичке и витрине
 insert into slice
 with
 s1 as (
 	select
-		max(DataInfo) as martdate
+		isnull(max(DataInfo), add_months(trunc(current_date, 'year'), -12)) as martdate
 	from DataMart.DshECom_AnlsMerchGrp),
 s2 as (
 	select
@@ -17,30 +19,15 @@ s2 as (
 select *
 from s1, s2;
 
--- забираем первые попавшиеся юзерайди из веб_аналитики в контексте необходимого среза
-create local temp table webuser
-on commit preserve rows as
-with
-wb as (
-	select distinct
-	    DataInfo,
-	    Class81_Code,
-	    UserId,
-	    CountryID,
-	    RegionID,
-	    CityID,
-	    row_number() over(partition by DataInfo, UserID, CityID) as rn
-	from slice, DataPrime.ECom_WebAnalytics
-	where martdate <= DataInfo and DataInfo <= primedate -- срез даты брать текущий год + 1 предыдущий
-	    and CountryID in (19, 24))
-select * from wb where rn = 1;
-
--- основная выборка из первички + webuser + бренд + Series
+-- основная выборка из первички + бренд + Series
 create local temp table mainselect
 on commit preserve rows as
 select
     ac.DataInfo,
     left(dr.Class81_Code, 6) as Class81_Code,
+    /* Если на карточке товара есть 488 признак (наличие записи с кодом товара в таблице DataPrime.RgdMnfBrand),
+    выводим соответствующий NameBrand производителя из записи таблицы DataPrime.RgdMnfBrand.
+    Иначе по действующему алгоритму (выводим NameBrand производителя, который указан по товару в справочнике товаров DescRgd) */
     isnull(rmb.MnfCode, dr.MnfCode) as MnfCode,
     coalesce(dsr.Series, '') as Series,
     AdTypeID,
@@ -48,18 +35,21 @@ select
     CategoryID,
     TypeClientID,
     ac.UserID,
-    CityID,
+    CountryID,
+    RegionID,
+    ac.CityID,
     WatchProd,
     QltAddProd,
     QltPurchaseProd,
     TotalSum
 from slice, DataPrime.ECom_AdConversion ac
-inner join webuser wu on ac.DataInfo = wu.DataInfo
-	and ac.UserID = wu.UserID
 left join public.DescRgd dr on ac.RgdCode = dr.RgdCode
 left join DataPrime.RgdMnfBrand rmb on dr.RgdCode = rmb.RgdCode
 left join public.DescSeriesRgd dsr on rmb.RgdCode = dsr.RgdCode
-where martdate <= ac.DataInfo and ac.DataInfo <= primedate; -- добавлять сюда то, чего нет в витрине, аналогично ниже
+left join DataPrime.ECom_Cities c on ac.CityID = c.CityID
+where martdate <= ac.DataInfo and ac.DataInfo <= primedate -- добавлять сюда то, чего нет в витрине, аналогично ниже
+	and CampaignID != 0
+	and (c.CountryID = 19 or c.CountryID = 24);
 
 -- переносим нужные данные из таблицы выше, чтобы считать меры по срезам
 create local temp table forcalcs
@@ -74,6 +64,8 @@ select
     CampaignID,
     CategoryID,
     TypeClientID,
+    CountryID,
+    RegionID,
     CityID,
     QltAddProd,
     QltPurchaseProd,
@@ -94,7 +86,7 @@ select
     CityID,
     count(distinct UserID) as UserID
 from forcalcs
-where WatchProd > 0 and CampaignID != 0
+where WatchProd > 0
 group by 1, 2, 3, 4, 5, 6, 7;
 
 create local temp table useraddbusk
@@ -109,7 +101,7 @@ select
     CityID,
     count(distinct UserID) as UserID
 from forcalcs
-where QltAddProd > 0 and CampaignID != 0
+where QltAddProd > 0
 group by 1, 2, 3, 4, 5, 6, 7;
 
 create local temp table userwithordrs
@@ -124,7 +116,7 @@ select
     CityID,
     cast(count(distinct UserID) as float) as UserID
 from forcalcs
-where QltPurchaseProd > 0 and CampaignID != 0
+where QltPurchaseProd > 0
 group by 1, 2, 3, 4, 5, 6, 7;
 
 create local temp table sums
@@ -153,6 +145,8 @@ select
     CampaignID,
     CategoryID,
     TypeClientID,
+    CountryID,
+    RegionID,
     CityID,
     cast(0 as float) as UsersWtchProd,
     cast(0 as float) as UsersAddBusk,
@@ -231,14 +225,13 @@ select
     TypeClientID,
     CountryID,
     RegionID,
-    wb1.CityID,
+    CityID,
     UsersWtchProd,
     UsersAddBusk,
     UsersWthOrdrs,
     OrdsCheckout,
     ChecksSum
 from wb1
-left join DataPrime.ECom_Cities c on wb1.CityID = c.CityID;
 commit;
 
 drop table userwtchprod;
@@ -264,7 +257,7 @@ select
     CityID,
     count(distinct UserID) as UserID
 from forcalcs
-where WatchProd > 0 and CampaignID != 0
+where WatchProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
 create local temp table useraddbusk
@@ -281,7 +274,7 @@ select
     CityID,
     count(distinct UserID) as UserID
 from forcalcs
-where QltAddProd > 0 and CampaignID != 0
+where QltAddProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
 create local temp table userwithordrs
@@ -298,7 +291,7 @@ select
     CityID,
     cast(count(distinct UserID) as float) as UserID
 from forcalcs
-where QltPurchaseProd > 0 and CampaignID != 0
+where QltPurchaseProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
 create local temp table sums
@@ -331,6 +324,8 @@ select
     CampaignID,
     CategoryID,
     TypeClientID,
+    CountryID,
+    RegionID,
     CityID,
     cast(0 as float) as UsersWtchProd,
     cast(0 as float) as UsersAddBusk,
@@ -420,12 +415,19 @@ select
     TypeClientID,
     CountryID,
     RegionID,
-    wb2.CityID,
+    CityID,
     UsersWtchProd,
     UsersAddBusk,
     UsersWthOrdrs,
     OrdsCheckout,
     ChecksSum
-from wb2
-left join DataPrime.ECom_Cities c on wb2.CityID = c.CityID;
+from wb2;
+commit;
+
+-- удалить данные старше нужного среза
+delete from DataMart.DshECom_AnlsMerchGrp
+where min(DataInfo) < add_months(trunc(current_date, 'year'), -12);
+commit;
+delete from DataMart.DshECom_AnlsMerchGrpBrnd
+where min(DataInfo) < add_months(trunc(current_date, 'year'), -12);
 commit;

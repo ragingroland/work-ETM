@@ -1,17 +1,18 @@
 \set ON_ERROR_STOP ON;
 
 create local temp table tmp_local (
+    AdTypeID int,
     TypeClientID int,
     DataInfo date,
-    AdTypeID int,
+    CityID int,
     CampaignID int,
     CategoryID int,
     RgdCode int,
     UserID varchar(150),
     WatchProd int,
     QltAddProd int,
-    TotalSum float,
-    QltPurchaseProd int)
+    QltPurchaseProd int,
+    TotalSum float)
 on commit preserve rows;
 
 copy tmp_local
@@ -39,6 +40,7 @@ insert into DataPrime.ECom_AdConversion
 select
 	DataInfo,
     TypeClientID,
+    isnull(CityID, 68) as CityID,
     AdTypeID,
     isnull(CampaignID, 0) as CampaignID,
     CategoryID,

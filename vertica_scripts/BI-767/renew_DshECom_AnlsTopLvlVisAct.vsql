@@ -5,13 +5,16 @@ create local temp table slice (
 	martdate date,
 	primedate date)
 on commit preserve rows;
-
+-- все витрины в этой задаче (в т.ч во всём ECom) обновляются за одинаковый временной срез
+-- поэтому не важно из какой именно витрины будет взята максимальная дата
+-- ну и разумеется нам нужна максимальная дата в первичке
+-- max(DataInfo) = ближайшая к текущему моменту дата в первичке и витрине
 insert into slice
 with
 s1 as (
 	select
-		max(DataInfo) as martdate
-	from DataMart.DshECom_AnlsTopLvlVisActTfc_1),
+		isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate -- если даты в витрине нет (по какой-то причине),
+	from DataMart.DshECom_AnlsTopLvlVisActTfc_1),                                     -- грузим всё за регламентированный срез
 s2 as (
 	select
 		max(DataInfo) as primedate
@@ -52,7 +55,7 @@ from slice, DataPrime.ECom_WebAnalytics wa
 left join public.DescUsers du on wa.ETMCliID = du.CliId
 and wa.Class206_Code = du.Class206_Code
 left join public.DescKontrag dk on du.CliCode = dk.CliCode
-where martdate <= DataInfo and DataInfo <= primedate -- срез даты брать текущий месяц + 12 прошедших
+where martdate <= DataInfo and DataInfo <= primedate
 	and CountryID in (19, 24)
 
 ----------------------------------------
@@ -89,7 +92,7 @@ from forcalcs
 where WatchProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
-create local temp table useraddbusk
+create local temp table useraddbusk -- используется также для заказа 1
 on commit preserve rows as
 select
 	DataInfo,
@@ -121,7 +124,7 @@ from forcalcs
 where WatchBusket > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
-create local temp table userwithordrs
+create local temp table userwithordrs -- используется также для заказа 1
 on commit preserve rows as
 select
 	DataInfo,
@@ -169,6 +172,7 @@ from forcalcs
 where QltPO > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- таблица, для занесения мер
 create local temp table tf1
 on commit preserve rows as
 select
@@ -191,6 +195,7 @@ select
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16;
 
+-- апдейтятся меры
 update tf1 cn
 set UsersCount = uc.UserID
 from userviscnt uc
@@ -311,15 +316,171 @@ select
 from tf1;
 commit;
 
+-- все ненужные времянки дропаются
 drop table userviscnt;
 drop table userwtchprod;
-drop table useraddbusk;
 drop table userwtchbusk;
-drop table userwithordrs;
 drop table usersprz;
 drop table userspo;
 drop table tf1;
 
+----------------------------------------
+-- ниже считается для заказ вкладка 1
+create local temp table ordcheckout
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltCheckOut > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table ordPRZ
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltPRZ > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table ordPO
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	count(distinct OrderID) as OrderID
+from forcalcs
+where QltPO > 0
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+create local temp table od1
+on commit preserve rows as
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	Class206_Code,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	cast(0 as float) as OrdsCheckout,
+	cast(0 as float) as OrdsPRZ,
+	cast(0 as float) as OrdsPO,
+	cast(0 as float) as UsersAddBusk,
+	cast(0 as float) as UsersWthOrdrs
+from forcalcs
+group by 1, 2, 3, 4, 5, 6, 7, 8;
+
+update od1 cn
+set OrdsCheckout = oc.OrderID
+from ordcheckout oc
+where cn.DataInfo = oc.DataInfo
+	and cn.Class71_Code = oc.Class71_Code
+	and cn.Class72_Code = oc.Class72_Code
+	and cn.Class206_Code = oc.Class206_Code
+	and cn.RegUser = oc.RegUser
+	and cn.CounterID = oc.CounterID
+	and cn.Device = oc.Device
+	and cn.TypeClientID = oc.TypeClientID;
+
+update od1 cn
+set OrdsPRZ = op.OrderID
+from ordprz op
+where cn.DataInfo = op.DataInfo
+	and cn.Class71_Code = op.Class71_Code
+	and cn.Class72_Code = op.Class72_Code
+	and cn.Class206_Code = op.Class206_Code
+	and cn.RegUser = op.RegUser
+	and cn.CounterID = op.CounterID
+	and cn.Device = op.Device
+	and cn.TypeClientID = op.TypeClientID;
+
+update od1 cn
+set OrdsPO = opo.OrderID
+from ordpo opo
+where cn.DataInfo = opo.DataInfo
+	and cn.Class71_Code = opo.Class71_Code
+	and cn.Class72_Code = opo.Class72_Code
+	and cn.Class206_Code = opo.Class206_Code
+	and cn.RegUser = opo.RegUser
+	and cn.CounterID = opo.CounterID
+	and cn.Device = opo.Device
+	and cn.TypeClientID = opo.TypeClientID;
+
+update od1 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.DataInfo = ub.DataInfo
+	and cn.Class71_Code = ub.Class71_Code
+	and cn.Class72_Code = ub.Class72_Code
+	and cn.Class206_Code = ub.Class206_Code
+	and cn.RegUser = ub.RegUser
+	and cn.CounterID = ub.CounterID
+	and cn.Device = ub.Device
+	and cn.TypeClientID = ub.TypeClientID;
+
+update od1 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.DataInfo = uo.DataInfo
+	and cn.Class71_Code = uo.Class71_Code
+	and cn.Class72_Code = uo.Class72_Code
+	and cn.Class206_Code = uo.Class206_Code
+	and cn.RegUser = uo.RegUser
+	and cn.CounterID = uo.CounterID
+	and cn.Device = uo.Device
+	and cn.TypeClientID = uo.TypeClientID;
+
+insert into DataMart.DshECom_AnlsTopLvlVisActOrd_1
+select
+	DataInfo,
+	Class71_Code,
+	Class72_Code,
+	left(Class206_Code, 2) as Class206_Code_1,
+	Class206_Code as Class206_Code_2,
+	RegUser,
+	TypeClientID,
+	CounterID,
+	Device,
+	OrdsCheckout,
+	OrdsPRZ,
+	OrdsPO,
+	UsersAddBusk,
+	UsersWthOrdrs
+from od1;
+commit;
+
+-- все времянки дропаются
+drop table useraddbusk;
+drop table userwithordrs;
+drop table ordcheckout;
+drop table ordPRZ;
+drop table ordPO;
+drop table od1;
+
+-- и дальше подобным образом для вкладок №2
 ----------------------------------------
 -- ниже считается для траффика вкладка 2
 create local temp table userviscnt
@@ -382,7 +543,7 @@ from forcalcs
 where WatchBusket > 0
 group by 1, 2, 3, 4, 5, 6, 7;
 
-create local temp table userwithordrs
+create local temp table userwithordrs -- используется в т.ч в заказе 2
 on commit preserve rows as
 select
 	Class81_Code,
@@ -561,199 +722,10 @@ commit;
 
 drop table userviscnt;
 drop table userwtchprod;
-drop table useraddbusk;
 drop table userwtchbusk;
-drop table userwithordrs;
 drop table usersprz;
 drop table userspo;
 drop table tf2;
-
-----------------------------------------
--- ниже считается для заказ вкладка 1
-create local temp table ordcheckout
-on commit preserve rows as
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	Class206_Code,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	count(distinct OrderID) as OrderID
-from forcalcs
-where QltCheckOut > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table ordPRZ
-on commit preserve rows as
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	Class206_Code,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	count(distinct OrderID) as OrderID
-from forcalcs
-where QltPRZ > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table ordPO
-on commit preserve rows as
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	Class206_Code,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	count(distinct OrderID) as OrderID
-from forcalcs
-where QltPO > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table useraddbusk
-on commit preserve rows as
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	Class206_Code,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	count(distinct UserID) as UserID
-from forcalcs
-where QltAddProd > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table userwithordrs
-on commit preserve rows as
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	Class206_Code,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	count(distinct UserID) as UserID
-from forcalcs
-where QltCheckOut > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table od1
-on commit preserve rows as
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	Class206_Code,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	cast(0 as float) as OrdsCheckout,
-	cast(0 as float) as OrdsPRZ,
-	cast(0 as float) as OrdsPO,
-	cast(0 as float) as UsersAddBusk,
-	cast(0 as float) as UsersWthOrdrs
-from forcalcs
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-update od1 cn
-set OrdsCheckout = oc.OrderID
-from ordcheckout oc
-where cn.DataInfo = oc.DataInfo
-	and cn.Class71_Code = oc.Class71_Code
-	and cn.Class72_Code = oc.Class72_Code
-	and cn.Class206_Code = oc.Class206_Code
-	and cn.RegUser = oc.RegUser
-	and cn.CounterID = oc.CounterID
-	and cn.Device = oc.Device
-	and cn.TypeClientID = oc.TypeClientID;
-
-update od1 cn
-set OrdsPRZ = op.OrderID
-from ordprz op
-where cn.DataInfo = op.DataInfo
-	and cn.Class71_Code = op.Class71_Code
-	and cn.Class72_Code = op.Class72_Code
-	and cn.Class206_Code = op.Class206_Code
-	and cn.RegUser = op.RegUser
-	and cn.CounterID = op.CounterID
-	and cn.Device = op.Device
-	and cn.TypeClientID = op.TypeClientID;
-
-update od1 cn
-set OrdsPO = opo.OrderID
-from ordpo opo
-where cn.DataInfo = opo.DataInfo
-	and cn.Class71_Code = opo.Class71_Code
-	and cn.Class72_Code = opo.Class72_Code
-	and cn.Class206_Code = opo.Class206_Code
-	and cn.RegUser = opo.RegUser
-	and cn.CounterID = opo.CounterID
-	and cn.Device = opo.Device
-	and cn.TypeClientID = opo.TypeClientID;
-
-update od1 cn
-set UsersAddBusk = ub.UserID
-from useraddbusk ub
-where cn.DataInfo = ub.DataInfo
-	and cn.Class71_Code = ub.Class71_Code
-	and cn.Class72_Code = ub.Class72_Code
-	and cn.Class206_Code = ub.Class206_Code
-	and cn.RegUser = ub.RegUser
-	and cn.CounterID = ub.CounterID
-	and cn.Device = ub.Device
-	and cn.TypeClientID = ub.TypeClientID;
-
-update od1 cn
-set UsersWthOrdrs = uo.UserID
-from userwithordrs uo
-where cn.DataInfo = uo.DataInfo
-	and cn.Class71_Code = uo.Class71_Code
-	and cn.Class72_Code = uo.Class72_Code
-	and cn.Class206_Code = uo.Class206_Code
-	and cn.RegUser = uo.RegUser
-	and cn.CounterID = uo.CounterID
-	and cn.Device = uo.Device
-	and cn.TypeClientID = uo.TypeClientID;
-
-insert into DataMart.DshECom_AnlsTopLvlVisActOrd_1
-select
-	DataInfo,
-	Class71_Code,
-	Class72_Code,
-	left(Class206_Code, 2) as Class206_Code_1,
-	Class206_Code as Class206_Code_2,
-	RegUser,
-	TypeClientID,
-	CounterID,
-	Device,
-	OrdsCheckout,
-	OrdsPRZ,
-	OrdsPO,
-	UsersAddBusk,
-	UsersWthOrdrs
-from od1;
-commit;
-
-drop table ordcheckout;
-drop table ordPRZ;
-drop table ordPO;
-drop table useraddbusk;
-drop table userwithordrs;
-drop table od1;
 
 ----------------------------------------
 -- ниже считается для заказ вкладка 2
@@ -800,36 +772,6 @@ select
 	count(distinct OrderID) as OrderID
 from forcalcs
 where QltPO > 0
-group by 1, 2, 3, 4, 5, 6, 7;
-
-create local temp table useraddbusk
-on commit preserve rows as
-select
-	Class81_Code,
-	NewUser,
-	RegionID,
-	CityID,
-	TrafficSourceFirst,
-	TrafficSourceAuto,
-	TrafficSourceLast,
-	count(distinct UserID) as UserID
-from forcalcs
-where QltAddProd > 0
-group by 1, 2, 3, 4, 5, 6, 7;
-
-create local temp table userwithordrs
-on commit preserve rows as
-select
-	Class81_Code,
-	NewUser,
-	RegionID,
-	CityID,
-	TrafficSourceFirst,
-	TrafficSourceAuto,
-	TrafficSourceLast,
-	count(distinct UserID) as UserID
-from forcalcs
-where QltCheckOut > 0
 group by 1, 2, 3, 4, 5, 6, 7;
 
 create local temp table od2
@@ -923,6 +865,20 @@ select
 	UsersAddBusk,
 	UsersWthOrdrs
 from od2;
+commit;
+
+-- удалить данные старше нужного среза
+delete from DataMart.DshECom_AnlsTopLvlVisActTfc_1
+where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+commit;
+delete from DataMart.DshECom_AnlsTopLvlVisActTfc_2
+where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+commit;
+delete from DataMart.DshECom_AnlsTopLvlVisActOrd_1
+where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+commit;
+delete from DataMart.DshECom_AnlsTopLvlVisActOrd_2
+where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
 commit;
 ---------------------------
 -- (музыка из Ералаша) ВСЁ!

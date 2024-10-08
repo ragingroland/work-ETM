@@ -7,7 +7,7 @@ create table DataMart.DshECom_AnlsMerchGrp (
     CampaignID int,
     CategoryID int,
     TypeClientID int,
-    CountryID int
+    CountryID int,
     RegionID int,
     CityID int,
     UsersWtchProd float,
@@ -48,6 +48,8 @@ comment on column DataMart.DshECom_AnlsMerchGrp.AdTypeID is 'Тип атрибу
 comment on column DataMart.DshECom_AnlsMerchGrp.CampaignID is 'ID кампании';
 comment on column DataMart.DshECom_AnlsMerchGrp.CategoryID is 'ID категории';
 comment on column DataMart.DshECom_AnlsMerchGrp.TypeClientID is 'ID тип клиента';
+comment on column DataMart.DshECom_AnlsMerchGrp.CountryID is 'ID страны';
+comment on column DataMart.DshECom_AnlsMerchGrp.RegionID is 'ID региона';
 comment on column DataMart.DshECom_AnlsMerchGrp.CityID is 'ID города';
 comment on column DataMart.DshECom_AnlsMerchGrp.UsersWtchProd is 'Пользователей, просмотревших товары';
 comment on column DataMart.DshECom_AnlsMerchGrp.UsersAddBusk is 'Пользователей, добавивших товары в корзину';
@@ -99,7 +101,7 @@ segmented by hash(
     DataMart.DshECom_AnlsMerchGrpBrnd.Class81_Code_4,
     DataMart.DshECom_AnlsMerchGrpBrnd.MnfCode) all nodes ksafe;
 
-comment on table DataMart.DshECom_AnlsMerchGrpBrnd is '';
+comment on table DataMart.DshECom_AnlsMerchGrpBrnd is 'Анализ по товарным группам 81 классификатора в рамках бренда';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.DataInfo is 'Дата';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.MnfCode is 'Код производителя';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.Series is 'Серия';
@@ -109,6 +111,8 @@ comment on column DataMart.DshECom_AnlsMerchGrpBrnd.AdTypeID is 'ID типа а�
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CampaignID is 'ID кампании';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CategoryID is 'ID категории';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.TypeClientID is 'ID типа клиента';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CountryID is 'ID города';
+comment on column DataMart.DshECom_AnlsMerchGrpBrnd.RegionID is 'ID города';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.CityID is 'ID города';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.UsersWtchProd is 'Пользователей, просмотревших товары';
 comment on column DataMart.DshECom_AnlsMerchGrpBrnd.UsersAddBusk is 'Пользователей, добавивших товары в корзину';

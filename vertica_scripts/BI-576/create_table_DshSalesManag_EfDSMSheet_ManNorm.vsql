@@ -33,7 +33,7 @@ comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFactCnt.PCBNorm is '�
 
 create table DataMart.DshSalesManag_EfDSMSheet_ManNormFact (
     DataInfo date,
-    CliCode int,
+    CliManCode varchar(50),
     Class63_Code_2 varchar(8),
     Class63_Code_3 varchar(12),
     Class55_Code varchar(2),
@@ -46,7 +46,7 @@ order by
     Class63_Code_2,
     Class55_Code,
     Class63_Code_3,
-    CliCode,
+    CliManCode,
     DataInfo
 segmented by hash (
     DshSalesManag_EfDSMSheet_ManNormFact.TypeMotiv,
@@ -54,7 +54,7 @@ segmented by hash (
     DshSalesManag_EfDSMSheet_ManNormFact.Class63_Code_2,
     DshSalesManag_EfDSMSheet_ManNormFact.Class55_Code,
     DshSalesManag_EfDSMSheet_ManNormFact.Class63_Code_3,
-    DshSalesManag_EfDSMSheet_ManNormFact.CliCode) all nodes ksafe;
+    DshSalesManag_EfDSMSheet_ManNormFact.CliManCode) all nodes ksafe;
 
 comment on table DataMart.DshSalesManag_EfDSMSheet_ManNormFact is 'Витрина по фиксации ПКБ менеджеров';
 comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.DataInfo is 'Дата';
@@ -63,7 +63,8 @@ comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.Class63_Code_3 i
 comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.Class55_Code is 'Специализация';
 comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.Category is 'Статус менеджера, он же категория';
 comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.TypeMotiv is 'Тип мотивации';
-comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.CliCode is 'Код клиента';
+comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.CliManCode is 'Код клиента_Код менеджера';
+comment on column DataMart.DshSalesManag_EfDSMSheet_ManNormFact.SumSaled is 'Сумма ГО';
 
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;

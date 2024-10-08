@@ -186,6 +186,7 @@ COMMENT ON COLUMN DataPrime.ECom_NomenclatureWk.Status IS 'Статус това
 create table DataPrime.ECom_AdConversion (
     DataInfo date,
     TypeClientID int,
+    CityID int,
     AdTypeID int,
     CampaignID int,
     CategoryID int,
@@ -200,6 +201,7 @@ order by
     TypeClientID,
     CategoryID,
     CampaignID,
+    CityID,
     UserID,
     RgdCode,
     DataInfo
@@ -208,11 +210,13 @@ segmented by hash (
     DataPrime.ECom_AdConversion.TypeClientID,
     DataPrime.ECom_AdConversion.CategoryID,
     DataPrime.ECom_AdConversion.CampaignID,
+    DataPrime.ECom_AdConversion.CityID,
     DataPrime.ECom_AdConversion.UserID,
     DataPrime.ECom_AdConversion.RgdCode) all nodes ksafe;
 
 comment on table DataPrime.ECom_AdConversion is 'Витрина от АНАЛИТИКА ПЛЮС: Атрибуции';
 comment on column DataPrime.ECom_AdConversion.TypeClientID is 'Тип клиента';
+comment on column DataPrime.ECom_AdConversion.CityID is 'ID города';
 comment on column DataPrime.ECom_AdConversion.DataInfo is 'Дата';
 comment on column DataPrime.ECom_AdConversion.AdTypeID is 'ID типа атрибуции';
 comment on column DataPrime.ECom_AdConversion.CampaignID is 'ID кампании. Где 0 - там нет ID';

@@ -6,7 +6,7 @@ cd /autons/vertica/web_analitik
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_spr.flg ];
     do
-        echo "Файл end_spr.flg не найден"
+        echo "Файл end_spr.flg не найден" > sleep_spr.100
         sleep 100
 done
 
@@ -15,13 +15,13 @@ echo "end_spr.flg присутствует"
 # проверка наличия флага уже запущенного процесса (именно вот этого вот всего)
 if [ -f /autons/vertica/web_analitik/start_spr.wrk ];
     then
-        echo "Процесс уже запущен, выход."
+        echo "Процесс уже запущен, выход." >> time_spr.log
         exit 0
     else
         # так как флага .wrk обнаружено не было, начинается процесс загрузки в базу
-        echo "1_start: $(date)" > time_spr.log
+        echo "1_start: $(date)" >> time_spr.log
         echo "start: $(date)" > start_spr.wrk
-        echo "подключение к вертике"
+        echo "подключение к вертике" >> start_spr.wrk
 
         PATH=/opt/vertica/bin:$PATH:.; export PATH
         if [ -f /autons/vertica/web_analitik/Counter.csv ];
@@ -95,31 +95,31 @@ if [ -f /autons/vertica/web_analitik/time_spr.log ];
             then
                 rm /autons/vertica/web_analitik/Cities.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/trafficsource.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/TrafficSource.exc ];
             then
-                rm /autons/vertica/web_analitik/trafficsource.csv
+                rm /autons/vertica/web_analitik/TrafficSource.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/searchengineroot.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/SearchEngineRoot.exc ];
             then
-                rm /autons/vertica/web_analitik/searchengineroot.csv
+                rm /autons/vertica/web_analitik/SearchEngineRoot.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/trafficsourcefirstlast.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/TrafficSourceFirstLast.exc ];
             then
-                rm /autons/vertica/web_analitik/trafficsourcefirstlast.csv
+                rm /autons/vertica/web_analitik/TrafficSourceFirstLast.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/status.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/Status.exc ];
             then
                 rm /autons/vertica/web_analitik/Status.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/campaing.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/Campaing.exc ];
             then
                 rm /autons/vertica/web_analitik/Campaing.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/category.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/Category.exc ];
             then
                 rm /autons/vertica/web_analitik/Category.csv
         fi
-        if [ ! -f /autons/vertica/web_analitik_run/typeclient.exc ];
+        if [ ! -f /autons/vertica/web_analitik_run/TypeClient.exc ];
             then
                 rm /autons/vertica/web_analitik/TypeClient.csv
         fi
