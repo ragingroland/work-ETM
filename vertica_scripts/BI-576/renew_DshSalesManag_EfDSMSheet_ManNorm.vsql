@@ -57,11 +57,13 @@ with mans as (
 	    and classCodeSrc = left(с37.class37_Code, 5)
 	    and classCodeGrp LIKE 'УП%'
 	where DataInfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date)
+		and ManCode > 0
+		and KeyCalcBonus != ''
 	group by 1, 2, 3, 4, 5, 6, 7),
 main as (
 	select
 		ctd.DataInfo,
-		ctd.CliCode,
+		ctd.CliCode || '_' || m.ManCode as CliManCode,
 		left(Class63_Code, 4) as Class63_Code_2,
 		Class63_Code as Class63_Code_3,
 		m.Class55_Code,
@@ -74,6 +76,7 @@ main as (
 	inner join DataPrime.NormativCCBMotivMng mm on m.Class55_Code = mm.Class55_Code
 		and m.Category = mm.Category
 		and m.KeyCalcBonus = mm.TypeMotiv
+		and trunc(m.DataInfo, 'q')::date = mm.DataInfo
 	where ctd.datainfo >= greatest(add_months(trunc(current_date - 1 , 'year'), -24), '2023-11-01'::date)
 	group by 1, 2, 3, 4, 5, 6, 7, MinBound
 	having MinBound <= sum(SumSaled))

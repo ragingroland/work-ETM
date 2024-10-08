@@ -6,11 +6,13 @@ create local temp table slice (
 	primedate date)
 on commit preserve rows;
 
+-- аналогично BI-767 берем макс.дату из витрины, либо за регламентированный срез + макс.дату первички
+-- max(DataInfo) = ближайшая к текущему моменту дата в первичке и витрине
 insert into slice
 with
 s1 as (
 	select
-		max(DataInfo) as martdate
+		isnull(max(DataInfo), add_months(trunc(current_date, 'year'), -12)) as martdate
 	from DataMart.DshECom_AnlsAdvSumDataComp),
 s2 as (
 	select
@@ -19,6 +21,7 @@ s2 as (
 select *
 from s1, s2;
 
+-- в обеих витринах просто берем данные из первички и агрегируем
 create local temp table tmp_local
 on commit preserve rows as
 select
@@ -35,7 +38,7 @@ select
 	sum(Purchase_revenue) as PurchaseRevenue,
 	sum(Cost) as Cost
 from DataPrime.ECom_DirectIndicators
-where martdate <= DataInfo and DataInfo <= primedate -- сред даты брать текущий год + 1 предыдущий
+where martdate <= DataInfo and DataInfo <= primedate
 	and CampaignID != 0
 group by 1, 2, 3, 4;
 
@@ -58,7 +61,6 @@ select
 	sum(Cost) as Cost
 from DataPrime.ECom_DirectIndicators
 where martdate <= DataInfo and DataInfo <= primedate
--- where DataInfo >= add_months(trunc(current_date - 1 , 'year'), -12)
 	and CampaignID != 0
 group by 1, 2, 3, 4;
 
@@ -68,4 +70,12 @@ commit;
 
 insert into DataMart.DshECom_AnlsAdvSumDataCli
 select * from tmp_local2;
+commit;
+
+-- удалить данные старше нужного среза
+delete from DataMart.DshECom_AnlsAdvSumDataComp
+where min(DataInfo) < add_months(trunc(current_date, 'year'), -12);
+commit;
+delete from DataMart.DshECom_AnlsAdvSumDataCli
+where min(DataInfo) < add_months(trunc(current_date, 'year'), -12);
 commit;

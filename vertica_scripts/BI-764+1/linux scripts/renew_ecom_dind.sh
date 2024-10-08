@@ -24,16 +24,18 @@ if [ -f /autons/vertica/web_analitik/start_di.wrk ];
         PATH=/opt/vertica/bin:$PATH:.; export PATH
         if [ -f /autons/vertica/web_analitik/direct_indicators.csv ];
             then
-                vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_directindicators.vsql -A -q -o /autons/vertica/web_analitik_run/vertica_scripts/renew_directindicators.vout
+                vsql -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C -f /autons/vertica/web_analitik_run/vertica_scripts/renew_directindicators.vsql -A -q -o /autons/vertica/web_analitik_run/renew_directindicators.vout
         fi
-fi
-
-if [ ! -f /autons/vertica/web_analitik_run/vertica_scripts/direct_indicators.rej ];
-    then
-        rm /autons/vertica/web_analitik/direct_indicators.csv
 fi
 
 rm start_di.wrk
 rm end_di.flg
 echo "2_stop: $(date)" >> time_di.log
+if [ -f /autons/vertica/web_analitik/direct_indicators.csv ];
+   then
+       if [ ! -f /autons/vertica/web_analitik_run/direct_indicators.exc ];
+          then
+               rm /autons/vertica/web_analitik/direct_indicators.csv
+       fi
+fi
 exit 0
