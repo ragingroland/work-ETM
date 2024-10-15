@@ -8,19 +8,6 @@ cd /d H:\OLAP\DshECom_AnlsAdvSumData\RUN
 
 del H:\OLAP\DshECom_AnlsAdvSumData\endgetfvrt.txt
 
-del H:\OLAP\DshECom_AnlsAdvSumData\DATA\*.csv
-del H:\OLAP\DshECom_AnlsAdvSumData\RUN\*.rej
-del H:\OLAP\DshECom_AnlsAdvSumData\RUN\*.exc
-
-@REM :_begget
-
-@REM ping -n 100 relay.etm.spb.ru >nul
-
-@REM if not EXIST I:\common-spr\endgetfvrt.txt goto _beg
-
-@REM goto _endget
-@REM :_endget
-
 path=%path%;C:\Program Files\Vertica Systems\VSQL64
 
 chcp 65001

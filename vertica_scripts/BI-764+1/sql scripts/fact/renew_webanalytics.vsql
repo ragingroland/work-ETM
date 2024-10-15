@@ -3,7 +3,7 @@
 create local temp table tmp_local (
     CounterID int,
     DataInfo date,
-    VisitID int,
+    VisitID varchar(50),
     OrderID float,
     UserID varchar(50),
     RegUser int,
@@ -58,7 +58,7 @@ insert into DataPrime.ECom_WebAnalytics
 select
 	DataInfo,
 	CounterID,
-    VisitID,
+    VisitID::int,
     isnull(OrderID, 0) as OrderID,
     UserID,
     RegUser,
