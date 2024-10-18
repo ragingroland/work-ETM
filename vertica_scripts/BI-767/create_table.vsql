@@ -54,6 +54,7 @@ comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_1.UsersWtchBusk is 'По�
 comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_1.UsersWthOrdrs is 'Пользователей, оформивших заказ';
 comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_1.UsersPRZ is 'Пользователей с размещенными товарами';
 comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_1.UsersPO is 'Пользователей с отгруженными товарами';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_1.NewUsers is 'Количество новых пользователей';
 
 
 create table DataMart.DshECom_AnlsTopLvlVisActTfc_2 (
@@ -74,7 +75,8 @@ create table DataMart.DshECom_AnlsTopLvlVisActTfc_2 (
 	UsersWtchBusk float,
 	UsersWthOrdrs float,
 	UsersPRZ float,
-	UsersPO float)
+	UsersPO float,
+	NewUsers float)
 order by
 	NewUser,
 	TrafficSourceFirst,
@@ -117,6 +119,7 @@ comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_2.UsersWtchBusk is 'По�
 comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_2.UsersWthOrdrs is 'Пользователей, оформивших заказ';
 comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_2.UsersPRZ is 'Пользователей с размещенными товарами';
 comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_2.UsersPO is 'Пользователей с отгруженными товарами';
+comment on column DataMart.DshECom_AnlsTopLvlVisActTfc_2.NewUsers is 'Количество новых пользователей';
 
 create table DataMart.DshECom_AnlsTopLvlVisActOrd_1 (
 	DataInfo date,

@@ -160,7 +160,7 @@ commit;
 
 -- удаляются данные старше анализируемого периода
 delete from DataMart.DshECom_NomenclatureAnlsMnthCL81
-where DataInfo <= add_months(trunc(current_date, 'year')::date, - 12);
+where DataInfo < add_months(trunc(current_date, 'year')::date, - 12);
 commit;
 
 -- вставка в витрину с расшивкой 81 по уровням
