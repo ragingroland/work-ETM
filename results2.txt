@@ -1,4 +1,0 @@
-Файл: o-cliturnover.bat
-Папка: H:\\CliTurnover\RUN_TEST_ESCHEDULER
-Строка: copy null >> endgetfvrt.txt
-
