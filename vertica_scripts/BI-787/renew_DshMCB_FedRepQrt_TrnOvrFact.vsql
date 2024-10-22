@@ -117,4 +117,20 @@ insert into DataMart.DshMCB_FedRepQrt_TrnOvrFact
 select * from tmp_local;
 commit;
 
+truncate table DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB;
+select purge_table('DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB');
+insert into DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB
+select
+    DataInfo,
+    CustInn,
+    Class63_Code_UP,
+    Class63_Code_IG,
+    Code_QuasiBrand,
+    Class79_Code,
+    sum(SumShipped)
+from DataMart.DshMCB_FedRepQrt_TrnOvrFact
+group by 1, 2, 3, 4, 5, 6;
+commit;
+
 select analyze_statistics('DataMart.DshMCB_FedRepQrt_TrnOvrFact');
+select analyze_statistics('DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB');

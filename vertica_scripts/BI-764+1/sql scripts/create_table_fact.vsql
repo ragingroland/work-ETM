@@ -1,7 +1,7 @@
 create table DataPrime.ECom_WebAnalytics (
     DataInfo date,
     CounterID int,
-    VisitID int,
+    VisitID varchar(50),
     OrderID float,
     UserID varchar(50),
     RegUser int,

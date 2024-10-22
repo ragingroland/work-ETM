@@ -127,6 +127,36 @@ comment on column DataMart.DshMCB_FedRepQrt_TrnOvrTerr.Class295_Code is 'Бре�
 comment on column DataMart.DshMCB_FedRepQrt_TrnOvrTerr.Class14_Code is 'Территория';
 comment on column DataMart.DshMCB_FedRepQrt_TrnOvrTerr.DataInfo is 'Дата';
 
+create table DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB (
+    DataInfo date,
+    CustInn varchar(24),
+    Class63_Code_UP varchar(8),
+    Class63_Code_IG varchar(8),
+    Code_QuasiBrand varchar(10),
+    Class79_Code varchar(4),
+    SumShipped float)
+order by
+    Class63_Code_UP,
+    Class63_Code_IG,
+    Class79_Code,
+    Code_QuasiBrand,
+    CustInn,
+    DataInfo
+segmented by hash (
+    DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Class63_Code_UP,
+    DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Class63_Code_IG,
+    DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Class79_Code,
+    DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Code_QuasiBrand,
+    DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.CustInn) all nodes ksafe;
+
+comment on table DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB is 'Витрина ПКБ для блока "Федеральный отчет по дивизионам" как доработка от 11.10.2024';
+comment on column DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Class63_Code_UP is '63 классификатор ветки УП';
+comment on column DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Class63_Code_IG is '63 классификатор ветки ИГ';
+comment on column DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Class79_Code is 'Квази ЦКГ 79G';
+comment on column DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.Code_QuasiBrand is 'Квази бренд (кл298)';
+comment on column DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.CustInn is 'ИНН игрока';
+comment on column DataMart.DshMCB_FedRepQrt_TrnOvrFact_QB.DataInfo is 'Дата';
+
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT ALL ON SCHEMA public, DataPrime, DataMart TO RW_public_role;

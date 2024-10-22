@@ -9,7 +9,7 @@ conn_info = {'host': '172.24.2.140',
              'user': 'user_finebi_jdbc',
              'password': 'userfinebijdbcvert92',
              'database': 'DWH',
-             'autocommit': False,
+             'autocommit': True,
              'connection_load_balance': True}
 conn = vertica_python.connect(**conn_info)
 cur = conn.cursor()
@@ -108,7 +108,7 @@ def tblname_search(): # поиск таблицы
                         at.schema_name || '.' || at.table_name as table_name,
                         at.remarks
                     from v_catalog.all_tables at
-                    where (lower(at.table_name) like (lower('%{search}%'))) 
+                    where (lower(at.table_name) like (lower('%{search}%')))
                         and (schema_name not like ('v_%'));
                     """)
     except Exception:
@@ -222,7 +222,7 @@ def remarks_search(): # поиск по описанию таблицы
         model.importDict(data)
         table.redrawTable()
         table.adjustColumnWidths()
-        
+
 def tags_search(): # поиск по описанию таблицы
     search = search_entry.get()
     try:

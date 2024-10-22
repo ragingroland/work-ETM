@@ -8,10 +8,6 @@ cd /d H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN
 
 del H:\OLAP\DshECom_AnlsTopLvlVisAct\endgetfvrt.txt
 
-del H:\OLAP\DshECom_AnlsTopLvlVisAct\DATA\*.csv
-del H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\*.rej
-del H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\*.exc
-
 :_begget
 
 ping -n 100 relay.etm.spb.ru >nul
