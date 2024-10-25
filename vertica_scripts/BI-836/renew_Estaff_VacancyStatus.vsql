@@ -14,8 +14,8 @@ from local 'H:\OLAP\Estaff_VacancyStatus\DATA\VacancyStatus.vcsv'
     null 'null'
     enclosed by '"'
     rejectmax 1
-    rejected data 'H:\OLAP\Estaff_VacancyStatus\VacancyStatus.csv'
-    exceptions 'H:\OLAP\Estaff_VacancyStatus\VacancyStatus.csv' direct skip 1;
+    rejected data 'H:\OLAP\Estaff_VacancyStatus\VacancyStatus.rej'
+    exceptions 'H:\OLAP\Estaff_VacancyStatus\VacancyStatus.exc' direct skip 1;
 
 INSERT INTO DataPrime.Estaff_VacancyStatus (Num, Code, Name)
 WITH
@@ -24,7 +24,7 @@ MaxCode as (
 ),
 NameR as (
     select distinct tmp_local.Code, tmp_local.Name as rd from tmp_local
-    left join DataPrime.Estaff_VacancyStatus Main on Main.Name = tmp_local.Name
+    left join DataPrime.Estaff_VacancyStatus Main on Main.Code = tmp_local.Code
     where Main.Num is null
 )
 select
@@ -32,4 +32,10 @@ select
     NameR.Code,
     NameR.rd
 from MaxCode, NameR;
+commit;
+
+update DataPrime.Estaff_VacancyStatus
+set Name = t.Name
+from tmp_local t
+where DataPrime.Estaff_VacancyStatus.Code = t.Code and DataPrime.Estaff_VacancyStatus.Name != t.Name;
 commit;

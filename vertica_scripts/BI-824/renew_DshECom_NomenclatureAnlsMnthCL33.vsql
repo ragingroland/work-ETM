@@ -83,3 +83,5 @@ select
     TotalCards
 from main;
 commit;
+
+select analyze_statistics('DataMart.DshECom_NomenclatureAnlsMnthCL33');

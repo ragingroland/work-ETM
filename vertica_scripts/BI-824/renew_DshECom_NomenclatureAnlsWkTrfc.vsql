@@ -115,3 +115,5 @@ select
     Refusals
 from main;
 commit;
+
+select analyze_statistics('DataMart.DshECom_NomenclatureAnlsWkTrfc');

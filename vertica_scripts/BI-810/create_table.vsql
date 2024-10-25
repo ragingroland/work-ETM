@@ -3,20 +3,19 @@
 
 create table DataPrime.CliDctdPriceInfo (
     CliCode int,
-    PriceDctd int,
-    PricePreDctd int,
+    PriceDctd float,
+    PricePreDctd float,
     DctDateFrom date,
     DctDateTo date)
 order by
     CliCode,
-    DctDateFrom,
-    DctDateTo
+    DctDateFrom
 segmented by hash (
     DataPrime.CliDctdPriceInfo.CliCode) all nodes ksafe;
 
 comment on table DataPrime.CliDctdPriceInfo is 'Информация о ценах клиента по скидкам';
 comment on column DataPrime.CliDctdPriceInfo.CliCode is 'Код клиента';
-comment on column DataPrime.CliDctdPriceInfo.PriceDctd is 'Цена';
+comment on column DataPrime.CliDctdPriceInfo.PriceDctd is 'Цена со скидкой';
 comment on column DataPrime.CliDctdPriceInfo.PricePreDctd is 'Цена до скидки';
 comment on column DataPrime.CliDctdPriceInfo.DctDateFrom is 'Скидка действует с *дата*';
 comment on column DataPrime.CliDctdPriceInfo.DctDateTo is 'Скидка действует по *дата*';

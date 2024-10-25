@@ -209,3 +209,5 @@ select
     ReplacedCards
 from main;
 commit;
+
+select analyze_statistics('DataMart.DshECom_NomenclatureAnlsWk');

@@ -11,6 +11,7 @@ del H:\OLAP\CliDctdPriceInfo\endgetfvrt.txt
 del H:\OLAP\CliDctdPriceInfo\DATA\*.csv
 del H:\OLAP\CliDctdPriceInfo\RUN\*.rej
 del H:\OLAP\CliDctdPriceInfo\RUN\*.exc
+del H:\OLAP\CliDctdPriceInfo\TEMP\*.flg
 
 cd /d H:\OLAP\CliDctdPriceInfo\TEMP
 
@@ -18,14 +19,16 @@ cd /d H:\OLAP\CliDctdPriceInfo\TEMP
 
 ping -n 100 relay.etm.spb.ru >nul
 
+ftp -n -v -i -s:H:\OLAP\CliDctdPriceInfo\RUN\ftp_check_flg.in
+
 if not EXIST H:\OLAP\CliDctdPriceInfo\TEMP\end.flg goto _begget
 
-rem ждем того, куда будет предоставляться файл с выгрузкой
+ftp -n -v -i -s:H:\OLAP\CliDctdPriceInfo\RUN\ftp.in
 
 goto _endget
 :_endget
 
-copy /Y H:\OLAP\CliDctdPriceInfo\TEMP\CliDctdPriceInfo.csv H:\OLAP\CliDctdPriceInfo\DATA\CliDctdPriceInfo.csv /B
+copy /Y H:\OLAP\CliDctdPriceInfo\TEMP\CenaFrom522.csv H:\OLAP\CliDctdPriceInfo\DATA\CenaFrom522.csv /B
 
 cd /d H:\OLAP\CliDctdPriceInfo\RUN
 

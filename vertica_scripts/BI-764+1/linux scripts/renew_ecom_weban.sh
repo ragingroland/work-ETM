@@ -29,13 +29,13 @@ if [ -f /autons/vertica/web_analitik/start_wa.wrk ];
 fi
 
 rm start_wa.wrk
-rm end_wbanl.flg
 echo "2_stop: $(date)" >> time_wa.log
 if [ -f /autons/vertica/web_analitik/dm_web_analytics.csv ];
    then
        if [ ! -f /autons/vertica/web_analitik_run/web_analytics.exc ];
           then
                rm /autons/vertica/web_analitik/dm_web_analytics.csv
+               rm end_wbanl.flg
        fi
 fi
 exit 0

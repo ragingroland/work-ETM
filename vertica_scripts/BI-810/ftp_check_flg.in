@@ -1,0 +1,6 @@
+open base5.etm.corp
+user autons oe10ns31038
+cd /autons/vertica/CenFrom522
+mget end.flg
+close
+quit

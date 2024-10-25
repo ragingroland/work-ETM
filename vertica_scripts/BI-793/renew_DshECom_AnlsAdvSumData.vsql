@@ -51,3 +51,6 @@ truncate table DataMart.DshECom_AnlsAdvSumDataCli;
 insert into DataMart.DshECom_AnlsAdvSumDataCli
 select * from tmp_local2;
 commit;
+
+select analyze_statistics('DataMart.DshECom_AnlsAdvSumDataComp');
+select analyze_statistics('DataMart.DshECom_AnlsAdvSumDataCli');
