@@ -29,13 +29,13 @@ if [ -f /autons/vertica/web_analitik/start_nomenm.wrk ];
 fi
 
 rm start_nomenm.wrk
-rm end_nommnth.flg
 echo "2_stop: $(date)" >> time_nomenm.log
 if [ -f /autons/vertica/web_analitik/nomenklature_month.csv ];
    then
        if [ ! -f /autons/vertica/web_analitik_run/nomenklature_month.exc ];
           then
                rm /autons/vertica/web_analitik/nomenklature_month.csv
+               rm end_nommnth.flg
        fi
 fi
 exit 0

@@ -75,7 +75,6 @@ if [ -f /autons/vertica/web_analitik/start_spr.wrk ];
 fi
 
 rm start_spr.wrk
-rm end_spr.flg
 echo "2_stop: $(date)" >> time_spr.log
 if [ -f /autons/vertica/web_analitik/time_spr.log ];
     then
@@ -127,5 +126,17 @@ if [ -f /autons/vertica/web_analitik/time_spr.log ];
             then
                 rm /autons/vertica/web_analitik/AdType.csv
         fi
+fi
+
+directory="/autons/vertica/web_analitik_run"
+file_pattern="*.exc"
+# Проверка наличия файлов
+found_files=$(find "$directory" -name "$file_pattern" -print)
+# Если файлы найдены
+if [ -n "$found_files" ];
+    then
+        exit 0
+    else
+        rm end_spr.flg
 fi
 exit 0

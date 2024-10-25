@@ -31,9 +31,9 @@ fi
 if [ ! -f /autons/vertica/web_analitik_run/vertica_scripts/inactive_33_week.rej ];
     then
         rm /autons/vertica/web_analitik/inactive_33_week.csv
+        rm end_inact33_wk.flg
 fi
 
 rm start_inact33_wk.wrk
-rm end_inact33_wk.flg
 echo "2_stop: $(date)" >> time_inactive33wk.log
 exit 0

@@ -2,8 +2,7 @@
 -- интересующий временной срез
 -- т.е нам нужно то, чего в витрине нет
 create local temp table slice (
-    martdate date,
-    primedate date)
+    martdate date)
 on commit preserve rows;
 
 -- нужно проследить за тем, что может ли быть разница в дате между витринами
@@ -12,19 +11,11 @@ on commit preserve rows;
 -- все витрины в этой задаче (в т.ч во всём ECom) обновляются за одинаковый временной срез
 -- поэтому не важно из какой именно витрины будет взята максимальная дата
 -- ну и разумеется нам нужна максимальная дата в первичке
--- max(DataInfo) = ближайшая к текущему моменту дата в первичке и витрине
+-- max(DataInfo) = ближайшая к текущему моменту дата в витрине
 insert into slice
-with
-s1 as (
-    select
-        isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate
-    from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0),
-s2 as (
-    select
-        max(DataInfo) as primedate
-    from DataPrime.ECom_AdConversion)
-select *
-from s1, s2;
+select
+    isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate
+from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0;
 
 -- основная выборка из первички + бренд + Series
 create local temp table mainselect
@@ -53,11 +44,11 @@ left join public.DescSeriesRgd dsr on rmb.RgdCode = dsr.RgdCode
 inner join DataPrime.ECom_Cities c on ac.CityID = c.CityID
     and CountryID in (19, 24)
 where -- ac.DataInfo >= add_months(trunc(current_date, 'mm'), -13)
-    martdate <= ac.DataInfo and ac.DataInfo <= primedate -- добавлять сюда то, чего нет в витрине, аналогично ниже
+    (select martdate from slice) <= ac.DataInfo -- добавлять сюда то, чего нет в витрине, аналогично ниже
     and CampaignID != 0;
 
 -- считаем меры
-create local temp table userwtchprod -- пользователей просмотревших товары
+create local temp table userwtchprod
 on commit preserve rows as
 select
     DataInfo,
@@ -74,7 +65,7 @@ from mainselect
 where WatchProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
-create local temp table useraddbusk -- пользователей добавивших товары в корзину
+create local temp table useraddbusk
 on commit preserve rows as
 select
     DataInfo,
@@ -91,7 +82,7 @@ from mainselect
 where QltAddProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
-create local temp table userwithordrs -- пользователей оформивших товары
+create local temp table userwithordrs
 on commit preserve rows as
 select
     DataInfo,
@@ -108,7 +99,7 @@ from mainselect
 where QltPurchaseProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9;
 
-create local temp table sums  -- кол-во купленных товаров и их суммарная стоимость
+create local temp table sums
 on commit preserve rows as
 select
     DataInfo,
@@ -151,7 +142,7 @@ group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;
 -- апдейтятся меры в табличке wb1 выше
 update wb1 cn
 set UsersWtchProd = up.UserID
-from userwtchprod up -- пользователей просмотревших товары
+from userwtchprod up
 where cn.DataInfo = up.DataInfo
     and cn.Class81_Code = up.Class81_Code
     and cn.MnfCode = up.MnfCode
@@ -165,7 +156,7 @@ commit;
 
 update wb1 cn
 set UsersAddBusk = ub.UserID
-from useraddbusk ub -- пользователей добавивших товары в корзину
+from useraddbusk ub
 where cn.DataInfo = ub.DataInfo
     and cn.Class81_Code = ub.Class81_Code
     and cn.MnfCode = ub.MnfCode
@@ -179,7 +170,7 @@ commit;
 
 update wb1 cn
 set UsersWthOrdrs = uo.UserID
-from userwithordrs uo -- пользователей оформивших товары
+from userwithordrs uo
 where cn.DataInfo = uo.DataInfo
     and cn.Class81_Code = uo.Class81_Code
     and cn.MnfCode = uo.MnfCode
@@ -193,7 +184,7 @@ commit;
 
 update wb1 cn
 set OrdsCheckout = sm.QltPurchaseProd
-from sums sm -- кол-во купленных товаров
+from sums sm
 where cn.DataInfo = sm.DataInfo
     and cn.Class81_Code = sm.Class81_Code
     and cn.MnfCode = sm.MnfCode
@@ -207,7 +198,7 @@ commit;
 
 update wb1 cn
 set ChecksSum = sm.TotalSum
-from sums sm -- суммарная стоимость купленных товаров
+from sums sm
 where cn.DataInfo = sm.DataInfo
     and cn.Class81_Code = sm.Class81_Code
     and cn.MnfCode = sm.MnfCode
@@ -219,10 +210,17 @@ where cn.DataInfo = sm.DataInfo
     and cn.CityID = sm.CityID;
 commit;
 
-select * from wb1;
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+create local temp table tmp_date
+on commit preserve rows as
+select min(DataInfo) as DataInfo
+from wb1;
 
+delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 -- теперь нужно вставить в базу
--- атрибуция 1 тип клиента 0
 insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
 select
     DataInfo,
@@ -250,7 +248,11 @@ where AdTypeID = 1
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 1 тип клиента 1
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
 select
     DataInfo,
@@ -278,7 +280,11 @@ where AdTypeID = 1
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 1 тип клиента 2
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
 select
     DataInfo,
@@ -306,7 +312,11 @@ where AdTypeID = 1
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 1 тип клиента 3
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
 select
     DataInfo,
@@ -334,7 +344,11 @@ where AdTypeID = 1
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 2 тип клиента 0
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
 select
     DataInfo,
@@ -362,7 +376,11 @@ where AdTypeID = 2
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 2 тип клиента 1
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
 select
     DataInfo,
@@ -390,7 +408,11 @@ where AdTypeID = 2
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 2 тип клиента 2
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
 select
     DataInfo,
@@ -418,7 +440,11 @@ where AdTypeID = 2
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- атрибуция 2 тип клиента 3
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
 select
     DataInfo,
@@ -446,7 +472,7 @@ where AdTypeID = 2
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
 commit;
 
--- удалить по дате все данные старше нужного периода
+-- удалить по дате всё старже нужного
 delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
 where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
 commit;
@@ -471,3 +497,78 @@ commit;
 delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
 where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
 commit;
+
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli0');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli1');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli2');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli3');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli0');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli1');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli2');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli3');
+
+-- ВРЕМЕННОЕ (ПОСТОЯННОЕ) РЕШЕНИЕ
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad1
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
+insert into DataMart.DshECom_AnlsMerchGrp_Ad1
+select
+    DataInfo,
+    left(Class81_Code, 2) as Class81_Code_1,
+    left(Class81_Code, 4) as Class81_Code_2,
+    left(Class81_Code, 6) as Class81_Code_3,
+    Class81_Code as Class81_Code_4,
+    MnfCode,
+    Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CountryID,
+    RegionID,
+    CityID,
+    UsersWtchProd,
+    UsersAddBusk,
+    UsersWthOrdrs,
+    OrdsCheckout,
+    ChecksSum
+from wb1
+where AdTypeID = 1
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+commit;
+
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsMerchGrp_Ad2
+where DataInfo >= (select DataInfo from tmp_date);
+commit;
+-------
+insert into DataMart.DshECom_AnlsMerchGrp_Ad2
+select
+    DataInfo,
+    left(Class81_Code, 2) as Class81_Code_1,
+    left(Class81_Code, 4) as Class81_Code_2,
+    left(Class81_Code, 6) as Class81_Code_3,
+    Class81_Code as Class81_Code_4,
+    MnfCode,
+    Series,
+    AdTypeID,
+    CampaignID,
+    CategoryID,
+    TypeClientID,
+    CountryID,
+    RegionID,
+    CityID,
+    UsersWtchProd,
+    UsersAddBusk,
+    UsersWthOrdrs,
+    OrdsCheckout,
+    ChecksSum
+from wb1
+where AdTypeID = 2
+group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+commit;
+
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1');
+select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2');

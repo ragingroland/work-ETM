@@ -29,13 +29,13 @@ if [ -f /autons/vertica/web_analitik/start_nomenwk.wrk ];
 fi
 
 rm start_nomenwk.wrk
-rm end_nomwk.flg
 echo "2_stop: $(date)" >> time_nomenwk.log
 if [ -f /autons/vertica/web_analitik/nomenklature_week.csv ];
    then
        if [ ! -f /autons/vertica/web_analitik_run/nomenklature_week.exc ];
           then
                rm /autons/vertica/web_analitik/nomenklature_week.csv
+               rm end_nomwk.flg
        fi
 fi
 exit 0

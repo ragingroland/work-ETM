@@ -2,25 +2,16 @@
 -- интересующий временной срез
 -- т.е нам нужно то, чего в витрине нет
 create local temp table slice (
-    martdate date,
-    primedate date)
+    martdate date)
 on commit preserve rows;
 -- все витрины в этой задаче (в т.ч во всём ECom) обновляются за одинаковый временной срез
 -- поэтому не важно из какой именно витрины будет взята максимальная дата
 -- ну и разумеется нам нужна максимальная дата в первичке
--- max(DataInfo) = ближайшая к текущему моменту дата в первичке и витрине
+-- max(DataInfo) = ближайшая к текущему моменту дата в витрине
 insert into slice
-with
-s1 as (
-    select
-        isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate -- если даты в витрине нет (по какой-то причине),
-    from DataMart.DshECom_AnlsTopLvlVisActTfc_1),                                     -- грузим всё за регламентированный срез
-s2 as (
-    select
-        max(DataInfo) as primedate
-    from DataPrime.ECom_WebAnalytics)
-select *
-from s1, s2;
+select
+    isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate -- если даты в витрине нет (по какой-то причине),
+from DataMart.DshECom_AnlsTopLvlVisActTfc_1;                                      -- грузим всё за регламентированный срез;
 --------------------------------------------------------
 -- забираются нужные для счета и вообще поля из первички
 -- плюс пара джойнов для 71, 72
@@ -54,14 +45,14 @@ select
     TotalSum,
     PricePRZ,
     PricePO
-from /* slice,*/ DataPrime.ECom_WebAnalytics wa
+from DataPrime.ECom_WebAnalytics wa
 left join public.DescUsers du on wa.ETMCliID = du.CliId
-and wa.Class206_Code = du.Class206_Code
+    and wa.Class206_Code = du.Class206_Code
 left join public.DescKontrag dk on du.CliCode = dk.CliCode
-where CountryID in (19, 24); --and martdate <= DataInfo and DataInfo <= primedate
-
+where CountryID in (19, 24) and (select martdate from slice) <= DataInfo;
 ----------------------------------------
--- ниже считается для траффика и заказа вкладка 1
+-- ниже считается для траффика вкладка 1
+-- пользователей и визитов
 create local temp table userviscnt
 on commit preserve rows as
 select
@@ -78,6 +69,7 @@ select
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- пользователей просмотревших товары
 create local temp table userwtchprod
 on commit preserve rows as
 select
@@ -94,6 +86,7 @@ from forcalcs
 where WatchProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- пользователей добавивших товар в корзину
 create local temp table useraddbusk -- используется также для заказа 1
 on commit preserve rows as
 select
@@ -110,6 +103,7 @@ from forcalcs
 where QltAddProd > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- пользователей просмотревших корзину
 create local temp table userwtchbusk
 on commit preserve rows as
 select
@@ -126,6 +120,7 @@ from forcalcs
 where WatchBusket > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- пользователей с оформленными заказами
 create local temp table userwithordrs -- используется также для заказа 1
 on commit preserve rows as
 select
@@ -142,6 +137,7 @@ from forcalcs
 where QltCheckOut > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- пользователей с размещенными заказами
 create local temp table usersprz
 on commit preserve rows as
 select
@@ -158,6 +154,7 @@ from forcalcs
 where QltPRZ > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- пользователей с отгруженными заказами
 create local temp table userspo
 on commit preserve rows as
 select
@@ -174,6 +171,7 @@ from forcalcs
 where QltPO > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- кол-во новых пользователей
 create local temp table newusercnt
 on commit preserve rows as
 select
@@ -188,99 +186,6 @@ select
     count(distinct UserID) as UserID
 from forcalcs
 where NewUser > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table ordcheckout
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    count(distinct OrderID) as OrderID
-from forcalcs
-where QltCheckOut > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table ordPRZ
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    count(distinct OrderID) as OrderID
-from forcalcs
-where QltPRZ > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table ordPO
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    count(distinct OrderID) as OrderID
-from forcalcs
-where QltPO > 0
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table totsum
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    sum(TotalSum) as TotalSum
-from forcalcs
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table sumPRZ
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    sum(PricePRZ) as SumPRZ
-from forcalcs
-group by 1, 2, 3, 4, 5, 6, 7, 8;
-
-create local temp table sumPO
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    sum(PricePO) as SumPO
-from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
 -- таблица, для занесения мер
@@ -306,28 +211,6 @@ select
     cast(0 as float) as UsersPO
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17;
-
-create local temp table od1
-on commit preserve rows as
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    Class206_Code,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    cast(0 as float) as OrdsCheckout,
-    cast(0 as float) as OrdsPRZ,
-    cast(0 as float) as OrdsPO,
-    cast(0 as float) as UsersAddBusk,
-    cast(0 as float) as UsersWthOrdrs,
-    cast(0 as float) as SumTot,
-    cast(0 as float) as SumPRZ,
-    cast(0 as float) as SumPO
-from forcalcs
-group by 1, 2, 3, 4, 5, 6, 7, 8;
 
 -- апдейтятся меры
 update tf1 cn
@@ -439,8 +322,11 @@ where cn.DataInfo = nuc.DataInfo
     and cn.TypeClientID = nuc.TypeClientID;
 
 -------------------------------------------
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsTopLvlVisActTfc_1
+where DataInfo >= (select min(DataInfo) from tf1);
+commit;
 -- ну и сразу вставляем новые данные в базу
-truncate table DataMart.DshECom_AnlsTopLvlVisActTfc_1;
 insert into DataMart.DshECom_AnlsTopLvlVisActTfc_1
 select
     DataInfo,
@@ -464,29 +350,6 @@ select
 from tf1;
 commit;
 
-truncate table  DataMart.DshECom_AnlsTopLvlVisActOrd_1;
-insert into DataMart.DshECom_AnlsTopLvlVisActOrd_1
-select
-    DataInfo,
-    Class71_Code,
-    Class72_Code,
-    left(Class206_Code, 2) as Class206_Code_1,
-    Class206_Code as Class206_Code_2,
-    RegUser,
-    TypeClientID,
-    CounterID,
-    Device,
-    OrdsCheckout,
-    OrdsPRZ,
-    OrdsPO,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    SumTot,
-    SumPo,
-    SumPRZ
-from od1;
-commit;
-
 -- все ненужные времянки дропаются
 drop table userviscnt;
 drop table newusercnt;
@@ -495,19 +358,10 @@ drop table userwtchbusk;
 drop table usersprz;
 drop table userspo;
 drop table tf1;
-drop table od1;
-drop table useraddbusk;
-drop table userwithordrs;
-drop table ordcheckout;
-drop table ordPRZ;
-drop table ordPO;
-drop table SumPO;
-drop table SumPRZ;
-drop table SumTot;
-
 
 ----------------------------------------
 -- ниже считается для заказ вкладка 1
+-- заказов оформленно
 create local temp table ordcheckout
 on commit preserve rows as
 select
@@ -524,6 +378,7 @@ from forcalcs
 where QltCheckOut > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- размещенных заказов
 create local temp table ordPRZ
 on commit preserve rows as
 select
@@ -540,6 +395,7 @@ from forcalcs
 where QltPRZ > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- заказов отгружено
 create local temp table ordPO
 on commit preserve rows as
 select
@@ -556,6 +412,7 @@ from forcalcs
 where QltPO > 0
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- суммарная стоимость оформленных заказов
 create local temp table totsum
 on commit preserve rows as
 select
@@ -571,6 +428,7 @@ select
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- суммарная стоимость размещенных заказов
 create local temp table sumPRZ
 on commit preserve rows as
 select
@@ -586,6 +444,7 @@ select
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- суммарная стоимость отгруженных заказов
 create local temp table sumPO
 on commit preserve rows as
 select
@@ -601,6 +460,7 @@ select
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+-- аналогичная tf1 таблица и так же апдейтятся меры
 create local temp table od1
 on commit preserve rows as
 select
@@ -623,10 +483,139 @@ select
 from forcalcs
 group by 1, 2, 3, 4, 5, 6, 7, 8;
 
+update od1 cn
+set OrdsCheckout = oc.OrderID
+from ordcheckout oc
+where cn.DataInfo = oc.DataInfo
+    and cn.Class71_Code = oc.Class71_Code
+    and cn.Class72_Code = oc.Class72_Code
+    and cn.Class206_Code = oc.Class206_Code
+    and cn.RegUser = oc.RegUser
+    and cn.CounterID = oc.CounterID
+    and cn.Device = oc.Device
+    and cn.TypeClientID = oc.TypeClientID;
 
+update od1 cn
+set OrdsPRZ = op.OrderID
+from ordprz op
+where cn.DataInfo = op.DataInfo
+    and cn.Class71_Code = op.Class71_Code
+    and cn.Class72_Code = op.Class72_Code
+    and cn.Class206_Code = op.Class206_Code
+    and cn.RegUser = op.RegUser
+    and cn.CounterID = op.CounterID
+    and cn.Device = op.Device
+    and cn.TypeClientID = op.TypeClientID;
+
+update od1 cn
+set OrdsPO = opo.OrderID
+from ordpo opo
+where cn.DataInfo = opo.DataInfo
+    and cn.Class71_Code = opo.Class71_Code
+    and cn.Class72_Code = opo.Class72_Code
+    and cn.Class206_Code = opo.Class206_Code
+    and cn.RegUser = opo.RegUser
+    and cn.CounterID = opo.CounterID
+    and cn.Device = opo.Device
+    and cn.TypeClientID = opo.TypeClientID;
+
+update od1 cn
+set UsersAddBusk = ub.UserID
+from useraddbusk ub
+where cn.DataInfo = ub.DataInfo
+    and cn.Class71_Code = ub.Class71_Code
+    and cn.Class72_Code = ub.Class72_Code
+    and cn.Class206_Code = ub.Class206_Code
+    and cn.RegUser = ub.RegUser
+    and cn.CounterID = ub.CounterID
+    and cn.Device = ub.Device
+    and cn.TypeClientID = ub.TypeClientID;
+
+update od1 cn
+set UsersWthOrdrs = uo.UserID
+from userwithordrs uo
+where cn.DataInfo = uo.DataInfo
+    and cn.Class71_Code = uo.Class71_Code
+    and cn.Class72_Code = uo.Class72_Code
+    and cn.Class206_Code = uo.Class206_Code
+    and cn.RegUser = uo.RegUser
+    and cn.CounterID = uo.CounterID
+    and cn.Device = uo.Device
+    and cn.TypeClientID = uo.TypeClientID;
+
+update od1 cn
+set SumTot = TotalSum
+from totsum st
+where cn.DataInfo = st.DataInfo
+    and cn.Class71_Code = st.Class71_Code
+    and cn.Class72_Code = st.Class72_Code
+    and cn.Class206_Code = st.Class206_Code
+    and cn.RegUser = st.RegUser
+    and cn.CounterID = st.CounterID
+    and cn.Device = st.Device
+    and cn.TypeClientID = st.TypeClientID;
+
+update od1 cn
+set SumPRZ = sprz.SumPRZ
+from sumprz sprz
+where cn.DataInfo = sprz.DataInfo
+    and cn.Class71_Code = sprz.Class71_Code
+    and cn.Class72_Code = sprz.Class72_Code
+    and cn.Class206_Code = sprz.Class206_Code
+    and cn.RegUser = sprz.RegUser
+    and cn.CounterID = sprz.CounterID
+    and cn.Device = sprz.Device
+    and cn.TypeClientID = sprz.TypeClientID;
+
+update od1 cn
+set SumPO = spo.SumPO
+from sumpo spo
+where cn.DataInfo = spo.DataInfo
+    and cn.Class71_Code = spo.Class71_Code
+    and cn.Class72_Code = spo.Class72_Code
+    and cn.Class206_Code = spo.Class206_Code
+    and cn.RegUser = spo.RegUser
+    and cn.CounterID = spo.CounterID
+    and cn.Device = spo.Device
+    and cn.TypeClientID = spo.TypeClientID;
+
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsTopLvlVisActOrd_1
+where DataInfo >= (select min(DataInfo) from od1);
+commit;
+-------
+insert into DataMart.DshECom_AnlsTopLvlVisActOrd_1
+select
+    DataInfo,
+    Class71_Code,
+    Class72_Code,
+    left(Class206_Code, 2) as Class206_Code_1,
+    Class206_Code as Class206_Code_2,
+    RegUser,
+    TypeClientID,
+    CounterID,
+    Device,
+    OrdsCheckout,
+    OrdsPRZ,
+    OrdsPO,
+    UsersAddBusk,
+    UsersWthOrdrs,
+    SumTot,
+    SumPo,
+    SumPRZ
+from od1;
+commit;
 
 -- все времянки дропаются
-
+drop table useraddbusk;
+drop table userwithordrs;
+drop table ordcheckout;
+drop table ordPRZ;
+drop table ordPO;
+drop table SumPO;
+drop table SumPRZ;
+drop table SumTot;
+drop table od1;
 
 -- и дальше подобным образом для вкладок №2
 ----------------------------------------
@@ -890,7 +879,11 @@ where cn.DataInfo = nuc.DataInfo
     and cn.TrafficSourceAuto = nuc.TrafficSourceAuto
     and cn.TrafficSourceLast = nuc.TrafficSourceLast;
 
-truncate table DataMart.DshECom_AnlsTopLvlVisActTfc_2;
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsTopLvlVisActTfc_2
+where DataInfo >= (select min(DataInfo) from tf2);
+commit;
+-------
 insert into DataMart.DshECom_AnlsTopLvlVisActTfc_2
 select
     DataInfo,
@@ -922,6 +915,7 @@ drop table userwtchbusk;
 drop table usersprz;
 drop table userspo;
 drop table newuserscnt;
+drop table totsum;
 drop table tf2;
 
 ----------------------------------------
@@ -1137,6 +1131,11 @@ where cn.DataInfo = spo.DataInfo
     and cn.TrafficSourceAuto = spo.TrafficSourceAuto
     and cn.TrafficSourceLast = spo.TrafficSourceLast;
 
+-- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_AnlsTopLvlVisActOrd_2
+where DataInfo >= (select min(DataInfo) from od2);
+commit;
+-------
 insert into DataMart.DshECom_AnlsTopLvlVisActOrd_2
 select
     DataInfo,
@@ -1163,16 +1162,19 @@ commit;
 
 -- удалить данные старше нужного среза
 delete from DataMart.DshECom_AnlsTopLvlVisActTfc_1
-where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
 commit;
 delete from DataMart.DshECom_AnlsTopLvlVisActTfc_2
-where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
 commit;
 delete from DataMart.DshECom_AnlsTopLvlVisActOrd_1
-where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
 commit;
 delete from DataMart.DshECom_AnlsTopLvlVisActOrd_2
-where min(DataInfo) < add_months(trunc(current_date, 'mm'), -13);
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
 commit;
 ---------------------------
--- (музыка из Ералаша) ВСЁ!
+select analyze_statistics('DataMart.DshECom_AnlsTopLvlVisActTfc_1');
+select analyze_statistics('DataMart.DshECom_AnlsTopLvlVisActTfc_2');
+select analyze_statistics('DataMart.DshECom_AnlsTopLvlVisActOrd_1');
+select analyze_statistics('DataMart.DshECom_AnlsTopLvlVisActOrd_2');
