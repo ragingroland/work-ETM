@@ -97,6 +97,13 @@ delete from DataMart.DshECom_NomenclatureAnlsMnthTrfc
 where DataInfo < add_months(trunc(current_date, 'year')::date, - 12);
 commit;
 
+-- удалить из витрины данные большие или равные минимальной дате во временной таблице
+delete from DataMart.DshECom_NomenclatureAnlsMnthTrfc
+where DataInfo >= (select min(DataInfo) from main);
+commit;
+
+select purge_table('DataMart.DshECom_NomenclatureAnlsMnthTrfc');
+
 -- вставка в витрину с расшивкой 81 на уровни
 insert into DataMart.DshECom_NomenclatureAnlsMnthTrfc
 select

@@ -14,10 +14,11 @@ select
     sum(goal_registration_B2B) as goal_registration_B2B,
     sum(goal_registration_B2C) as goal_registration_B2C,
     sum(Purchase_revenue) as PurchaseRevenue,
-    sum(Cost) as Cost
+    sum(Cost) as Cost,
+    sum(Transactions) as Transactions
 from DataPrime.ECom_DirectIndicators
-where DataInfo >= add_months(trunc(current_date, 'year'), -12)
-    and CampaignID != 0
+inner join DataPrime.ECom_Campaign on CampaignID = ID and Name != ''
+where DataInfo >= add_months(trunc(current_date, 'mm'), -13)
 group by 1, 2, 3, 4;
 
 create local temp table tmp_local2
@@ -38,8 +39,8 @@ select
     sum(Purchase_revenue) as PurchaseRevenue,
     sum(Cost) as Cost
 from DataPrime.ECom_DirectIndicators
-where DataInfo >= add_months(trunc(current_date, 'year'), -12)
-    and CampaignID != 0
+inner join DataPrime.ECom_Campaign on CampaignID = ID and Name != ''
+where DataInfo >= add_months(trunc(current_date, 'mm'), -13)
 group by 1, 2, 3, 4;
 
 truncate table DataMart.DshECom_AnlsAdvSumDataComp;

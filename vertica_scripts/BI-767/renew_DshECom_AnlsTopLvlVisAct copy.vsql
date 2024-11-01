@@ -2,24 +2,15 @@
 -- интересующий временной срез
 -- т.е нам нужно то, чего в витрине нет
 create local temp table slice (
-    martdate_tfc date,
-    martdate_ord date)
+    martdate date)
 on commit preserve rows;
 -- все витрины в этой задаче (в т.ч во всём ECom) обновляются за одинаковый временной срез
+-- поэтому не важно из какой именно витрины будет взята максимальная дата
 -- max(DataInfo) = ближайшая к текущему моменту дата в первичке и витрине
--- отдельно для трафика
-insert into slice (martdate_tfc, martdate_ord)
-with
-tfc as (
-    select
-        isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate_tfc -- если даты в витрине нет (по какой-то причине),
-    from DataMart.DshECom_AnlsTopLvlVisActTfc_1),                                         -- грузим всё за регламентированный срез;
--- отдельно для заказа
-ord as (
-    select
-        isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate_ord
-    from DataMart.DshECom_AnlsTopLvlVisActOrd_1)
-select martdate_tfc, martdate_ord from tfc, ord;                                  -- грузим всё за регламентированный срез;
+insert into slice
+select
+    isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate -- если даты в витрине нет (по какой-то причине),
+from DataMart.DshECom_AnlsTopLvlVisActTfc_1;                                      -- грузим всё за регламентированный срез;
 --------------------------------------------------------
 -- забираются нужные для счета и вообще поля из первички
 -- плюс пара джойнов для 71, 72
@@ -57,8 +48,7 @@ from DataPrime.ECom_WebAnalytics wa
 left join public.DescUsers du on wa.ETMCliID = du.CliId
     and wa.Class206_Code = du.Class206_Code
 left join public.DescKontrag dk on du.CliCode = dk.CliCode
--- на всякий случай выбираем меньшую из двух дат для выборки из первички
-where CountryID in (19, 24) and (select least(martdate_tfc, martdate_ord) from slice) <= DataInfo;
+where CountryID in (19, 24) and (select martdate from slice) <= DataInfo;
 ----------------------------------------
 -- ниже считается для траффика вкладка 1
 -- пользователей и визитов
@@ -340,17 +330,10 @@ where cn.DataInfo = nuc.DataInfo
 commit;
 
 -------------------------------------------
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- нужно удалить из витрины даты меньшие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_AnlsTopLvlVisActTfc_1
 where DataInfo >= (select min(DataInfo) from tf1);
 commit;
-
-delete from DataMart.DshECom_AnlsTopLvlVisActTfc_1
-where DataInfo < add_months(trunc(current_date, 'mm'), -13);
-commit;
-
-select purge_table('DataMart.DshECom_AnlsTopLvlVisActTfc_1');
-
 -- ну и сразу вставляем новые данные в базу
 insert into DataMart.DshECom_AnlsTopLvlVisActTfc_1
 select
@@ -612,17 +595,10 @@ where cn.DataInfo = spo.DataInfo
     and cn.TypeClientID = spo.TypeClientID;
 commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- нужно удалить из витрины даты меньшие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_AnlsTopLvlVisActOrd_1
 where DataInfo >= (select min(DataInfo) from od1);
 commit;
-
-delete from DataMart.DshECom_AnlsTopLvlVisActOrd_1
-where DataInfo < add_months(trunc(current_date, 'mm'), -13);
-commit;
-
-select purge_table('DataMart.DshECom_AnlsTopLvlVisActOrd_1');
-
 -------
 insert into DataMart.DshECom_AnlsTopLvlVisActOrd_1
 select
@@ -928,17 +904,10 @@ where cn.DataInfo = nuc.DataInfo
     and cn.TrafficSourceLast = nuc.TrafficSourceLast;
 commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- нужно удалить из витрины даты меньшие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_AnlsTopLvlVisActTfc_2
 where DataInfo >= (select min(DataInfo) from tf2);
 commit;
-
-delete from DataMart.DshECom_AnlsTopLvlVisActTfc_2
-where DataInfo < add_months(trunc(current_date, 'mm'), -13);
-commit;
-
-select purge_table('DataMart.DshECom_AnlsTopLvlVisActTfc_2');
-
 -------
 insert into DataMart.DshECom_AnlsTopLvlVisActTfc_2
 select
@@ -1194,17 +1163,10 @@ where cn.DataInfo = spo.DataInfo
     and cn.TrafficSourceLast = spo.TrafficSourceLast;
 commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- нужно удалить из витрины даты меньшие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_AnlsTopLvlVisActOrd_2
 where DataInfo >= (select min(DataInfo) from od2);
 commit;
-
-delete from DataMart.DshECom_AnlsTopLvlVisActOrd_2
-where DataInfo < add_months(trunc(current_date, 'mm'), -13);
-commit;
-
-select purge_table('DataMart.DshECom_AnlsTopLvlVisActOrd_2');
-
 -------
 insert into DataMart.DshECom_AnlsTopLvlVisActOrd_2
 select
@@ -1230,6 +1192,19 @@ select
 from od2;
 commit;
 
+-- удалить данные старше нужного среза
+delete from DataMart.DshECom_AnlsTopLvlVisActTfc_1
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
+commit;
+delete from DataMart.DshECom_AnlsTopLvlVisActTfc_2
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
+commit;
+delete from DataMart.DshECom_AnlsTopLvlVisActOrd_1
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
+commit;
+delete from DataMart.DshECom_AnlsTopLvlVisActOrd_2
+where DataInfo < add_months(trunc(current_date, 'mm'), -13);
+commit;
 ---------------------------
 select analyze_statistics('DataMart.DshECom_AnlsTopLvlVisActTfc_1');
 select analyze_statistics('DataMart.DshECom_AnlsTopLvlVisActTfc_2');

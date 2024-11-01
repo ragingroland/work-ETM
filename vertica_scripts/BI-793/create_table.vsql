@@ -10,7 +10,8 @@ create table DataMart.DshECom_AnlsAdvSumDataComp (
     goal_registration_B2B float,
     goal_registration_B2C float,
     Purchase_revenue float,
-    Cost float)
+    Cost float,
+    Transactions float)
 order by
     AdTypeID,
     CategoryID,
@@ -34,6 +35,7 @@ comment on column DataMart.DshECom_AnlsAdvSumDataComp.goal_registration_B2B is '
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.goal_registration_B2C is 'Цель: регистрации ФЛ';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.Purchase_revenue is 'Сумма заказов=доход';
 comment on column DataMart.DshECom_AnlsAdvSumDataComp.Cost is 'Стоимость кликов=расход';
+comment on column DataMart.DshECom_AnlsAdvSumDataComp.Transactions is 'Транзакции';
 
 create table DataMart.DshECom_AnlsAdvSumDataCli (
     DataInfo date,
