@@ -20,64 +20,33 @@ left join DataPrime.RgdMnfBrand rmb on nm.RgdCode = rmb.RgdCode
 left join public.DescSeriesRgd dsr on nm.RgdCode = dsr.RgdCode
 left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
 where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnthCL81)
-    --nm.DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
+    -- nm.DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
     and nm.Status != 'N';
 
-create local temp table at_cards
-on commit preserve rows as
-with
-main as ( -- неактивные карточки
-    select
-        DataInfo,
-        Status,
-        class81_code,
-        cast(0 as float) as active,
-        sum(Qlt_Inactive81) as inactive,
-        cast(0 as float) as TrfcPsCards,
-        cast(0 as float) as AddBuskCards,
-        cast(0 as float) as PurchasedCards,
-        cast(0 as float) as ReplacedCards
-    from DataPrime.ECom_InactiveCL81Mnth
-    where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnthCL81)
-    group by 1, 2, 3),
-main2 as ( -- активные карточки
-    select
-        DataInfo,
-        Status,
-        class81_code,
-        count(distinct rgdcode) as active,
-        cast(0 as float) as inactive,
-        cast(0 as float) as TrfcPsCards,
-        cast(0 as float) as AddBuskCards,
-        cast(0 as float) as PurchasedCards,
-        cast(0 as float) as ReplacedCards
-    from n_mnth81
-    group by 1, 2, 3)
-select
-    DataInfo,
-    Status,
-    class81_code,
-    active as ActiveCards,
-    active + inactive as TotalCards,
-    TrfcPsCards,
-    AddBuskCards,
-    PurchasedCards,
-    ReplacedCards
-from main
-union -- склеиваются активные и неактивные
-select
-    DataInfo,
-    Status,
-    class81_code,
-    active as ActiveCards,
-    active + inactive as TotalCards,
-    TrfcPsCards,
-    AddBuskCards,
-    PurchasedCards,
-    ReplacedCards
-from main2;
-
 -- все меры считаются в конкретном срезе с конкретными условиями, по отдельности
+create local temp table totalcards -- карточек всего
+on commit preserve rows as
+select
+    n_mnth81.DataInfo,
+    n_mnth81.Class81_Code,
+    n_mnth81.Status,
+    count(distinct RgdCode) + isnull(Qlt_Inactive81, 0) as TotalCards
+from n_mnth81
+left join DataPrime.ECom_InactiveCL81Mnth nm81 on nm81.DataInfo = n_mnth81.DataInfo
+    and nm81.Status = n_mnth81.Status
+    and nm81.Class81_Code = n_mnth81.Class81_Code
+group by 1, 2, 3, Qlt_Inactive81;
+
+create local temp table activecards -- просмотренные карточки
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    Status,
+    count(distinct RgdCode) as ActiveCards
+from n_mnth81
+group by 1, 2, 3;
+
 create local temp table trfcpscards -- карточек с трафиком из ПС
 on commit preserve rows as
 select
@@ -123,7 +92,39 @@ from n_mnth81
 where QltClickReplace != 0
 group by 1, 2, 3;
 
-update at_cards m
+-- промежуточная таблица, где будет нужный срез и меры, которые будут наполняться апдейтами ниже
+create local temp table main
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    Status,
+    cast(0 as float) as ActiveCards,
+    cast(0 as float) as TotalCards,
+    cast(0 as float) as TrfcPsCards,
+    cast(0 as float) as AddBuskCards,
+    cast(0 as float) as PurchasedCards,
+    cast(0 as float) as ReplacedCards
+from n_mnth81
+group by 1, 2, 3;
+
+update main m
+set ActiveCards = ac.ActiveCards
+from activecards ac
+where m.DataInfo = ac.DataInfo
+    and m.Class81_Code = ac.Class81_Code
+    and m.Status = ac.Status;
+commit;
+
+update main m
+set TotalCards = tc.TotalCards
+from totalcards tc
+where m.DataInfo = tc.DataInfo
+    and m.Class81_Code = tc.Class81_Code
+    and m.Status = tc.Status;
+commit;
+
+update main m
 set TrfcPsCards = tpc.TrfcPsCards
 from trfcpscards tpc
 where m.DataInfo = tpc.DataInfo
@@ -131,7 +132,7 @@ where m.DataInfo = tpc.DataInfo
     and m.Status = tpc.Status;
 commit;
 
-update at_cards m
+update main m
 set AddBuskCards = abc.AddBuskCards
 from addbuskcards abc
 where m.DataInfo = abc.DataInfo
@@ -139,7 +140,7 @@ where m.DataInfo = abc.DataInfo
     and m.Status = abc.Status;
 commit;
 
-update at_cards m
+update main m
 set PurchasedCards = pc.PurchasedCards
 from purchasedcards pc
 where m.DataInfo = pc.DataInfo
@@ -147,7 +148,7 @@ where m.DataInfo = pc.DataInfo
     and m.Status = pc.Status;
 commit;
 
-update at_cards m
+update main m
 set ReplacedCards = rc.ReplacedCards
 from replacedcards rc
 where m.DataInfo = rc.DataInfo
@@ -162,7 +163,7 @@ commit;
 
 -- удалить из витрины данные большие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_NomenclatureAnlsMnthCL81
-where DataInfo >= (select min(DataInfo) from at_cards);
+where DataInfo >= (select min(DataInfo) from main);
 commit;
 
 select purge_table('DataMart.DshECom_NomenclatureAnlsMnthCL81');
@@ -182,7 +183,7 @@ select
     AddBuskCards,
     PurchasedCards,
     ReplacedCards
-from at_cards;
+from main;
 commit;
 
 select analyze_statistics('DataMart.DshECom_NomenclatureAnlsMnthCL81');

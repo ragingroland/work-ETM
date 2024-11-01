@@ -15,7 +15,7 @@ on commit preserve rows;
 insert into slice
 select
     isnull(max(DataInfo), add_months(trunc(current_date, 'mm'), -13)) as martdate
-from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0;
+from DataMart.DshECom_AnlsMerchGrp_Ad1;
 
 -- основная выборка из первички + бренд + Series
 create local temp table mainselect
@@ -216,302 +216,309 @@ on commit preserve rows as
 select min(DataInfo) as DataInfo
 from wb1;
 
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
--- теперь нужно вставить в базу
-insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 1
-    and TypeClientID = 0
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- -- теперь нужно вставить в базу
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 1
+--     and TypeClientID = 0
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 1
-    and TypeClientID = 1
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 1
+--     and TypeClientID = 1
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 1
-    and TypeClientID = 2
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 1
+--     and TypeClientID = 2
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 1
-    and TypeClientID = 3
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 1
+--     and TypeClientID = 3
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 2
-    and TypeClientID = 0
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 2
+--     and TypeClientID = 0
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 2
-    and TypeClientID = 1
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 2
+--     and TypeClientID = 1
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 2
-    and TypeClientID = 2
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 2
+--     and TypeClientID = 2
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
-where DataInfo >= (select DataInfo from tmp_date);
-commit;
--------
-insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
-select
-    DataInfo,
-    left(Class81_Code, 2) as Class81_Code_1,
-    left(Class81_Code, 4) as Class81_Code_2,
-    left(Class81_Code, 6) as Class81_Code_3,
-    Class81_Code as Class81_Code_4,
-    MnfCode,
-    Series,
-    AdTypeID,
-    CampaignID,
-    CategoryID,
-    TypeClientID,
-    CountryID,
-    RegionID,
-    CityID,
-    UsersWtchProd,
-    UsersAddBusk,
-    UsersWthOrdrs,
-    OrdsCheckout,
-    ChecksSum
-from wb1
-where AdTypeID = 2
-    and TypeClientID = 3
-group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
-commit;
+-- -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
+-- where DataInfo >= (select DataInfo from tmp_date);
+-- commit;
+-- -------
+-- insert into DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
+-- select
+--     DataInfo,
+--     left(Class81_Code, 2) as Class81_Code_1,
+--     left(Class81_Code, 4) as Class81_Code_2,
+--     left(Class81_Code, 6) as Class81_Code_3,
+--     Class81_Code as Class81_Code_4,
+--     MnfCode,
+--     Series,
+--     AdTypeID,
+--     CampaignID,
+--     CategoryID,
+--     TypeClientID,
+--     CountryID,
+--     RegionID,
+--     CityID,
+--     UsersWtchProd,
+--     UsersAddBusk,
+--     UsersWthOrdrs,
+--     OrdsCheckout,
+--     ChecksSum
+-- from wb1
+-- where AdTypeID = 2
+--     and TypeClientID = 3
+-- group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+-- commit;
 
--- удалить по дате всё старже нужного
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
-delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
-where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
-commit;
+-- -- удалить по дате всё старже нужного
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli0
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli1
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli2
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad1Cli3
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli0
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli1
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli2
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
+-- delete from DataMart.DshECom_AnlsMerchGrp_Ad2Cli3
+-- where DataInfo < (select add_months(trunc(current_date, 'mm'), -13))
+-- commit;
 
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli0');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli1');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli2');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli3');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli0');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli1');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli2');
-select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli3');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli0');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli1');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli2');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad1Cli3');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli0');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli1');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli2');
+-- select analyze_statistics('DataMart.DshECom_AnlsMerchGrp_Ad2Cli3');
 
 -- ВРЕМЕННОЕ (ПОСТОЯННОЕ) РЕШЕНИЕ
 -- нужно удалить из витрины даты большие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_AnlsMerchGrp_Ad1
 where DataInfo >= (select DataInfo from tmp_date);
 commit;
+
+delete from DataMart.DshECom_AnlsMerchGrp_Ad1
+where DataInfo < (select add_months(trunc(current_date, 'mm'), -13));
+commit;
+
+select purge_table('DataMart.DshECom_AnlsMerchGrp_Ad1');
+
 -------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad1
 select
@@ -543,6 +550,13 @@ commit;
 delete from DataMart.DshECom_AnlsMerchGrp_Ad2
 where DataInfo >= (select DataInfo from tmp_date);
 commit;
+
+delete from DataMart.DshECom_AnlsMerchGrp_Ad2
+where DataInfo < (select add_months(trunc(current_date, 'mm'), -13));
+commit;
+
+select purge_table('DataMart.DshECom_AnlsMerchGrp_Ad2');
+
 -------
 insert into DataMart.DshECom_AnlsMerchGrp_Ad2
 select

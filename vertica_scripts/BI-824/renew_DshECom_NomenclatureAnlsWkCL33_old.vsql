@@ -11,46 +11,60 @@ select
 from DataPrime.ECom_NomenclatureWk nm
 left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
 where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWkCL33)
-    --nm.DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
+    -- nm.DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
     and nm.Status != 'N';
 
-create local temp table at_cards
+-- все меры считаются в конкретном срезе с конкретными условиями, по отдельности
+create local temp table totalcards -- карточек всего
 on commit preserve rows as
-with
-main as ( -- неактивные карточки
-    select
-        DataInfo,
-        Status,
-        class33_code,
-        cast(0 as float) as active,
-        sum(Qlt_Inactive33) as inactive
-    from DataPrime.ECom_InactiveCL33Wk
-    where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWkCL33)
-    group by 1, 2, 3),
-main2 as ( -- активные карточки
-    select
-        DataInfo,
-        Status,
-        class33_code,
-        count(distinct rgdcode) as active,
-        cast(0 as float) as inactive
-    from n_wk33
-    group by 1, 2, 3)
+select
+    n_wk33.DataInfo,
+    n_wk33.Class33_Code,
+    n_wk33.Status,
+    count(distinct RgdCode) + isnull(Qlt_Inactive33, 0) as TotalCards
+from n_wk33
+left join DataPrime.ECom_InactiveCL33Wk nm33 on n_wk33.DataInfo = nm33.DataInfo
+    and n_wk33.Status = nm33.Status
+    and n_wk33.Class33_Code = nm33.Class33_Code
+group by 1, 2, 3, Qlt_Inactive33;
+
+create local temp table activecards -- просмотренных карточек
+on commit preserve rows as
 select
     DataInfo,
+    Class33_Code,
     Status,
-    class33_code,
-    active as ActiveCards,
-    active + inactive as TotalCards
-from main
-union -- склеиваются активные и неактивные
+    count(distinct RgdCode) as ActiveCards
+from n_wk33
+group by 1, 2, 3;
+
+-- промежуточная таблица, где будет нужный срез и меры, которые будут наполняться апдейтами ниже
+create local temp table main
+on commit preserve rows as
 select
     DataInfo,
+    Class33_Code,
     Status,
-    class33_code,
-    active as ActiveCards,
-    active + inactive as TotalCards
-from main2;
+    cast(0 as float) as ActiveCards,
+    cast(0 as float) as TotalCards
+from n_wk33
+group by 1, 2, 3;
+
+update main m
+set ActiveCards = ac.ActiveCards
+from activecards ac
+where m.DataInfo = ac.DataInfo
+    and m.Class33_Code = ac.Class33_Code
+    and m.Status = ac.Status;
+commit;
+
+update main m
+set TotalCards = tc.TotalCards
+from totalcards tc
+where m.DataInfo = tc.DataInfo
+    and m.Class33_Code = tc.Class33_Code
+    and m.Status = tc.Status;
+commit;
 
 -- удаляются данные старше анализируемого периода
 delete from DataMart.DshECom_NomenclatureAnlsWkCL33
@@ -59,7 +73,7 @@ commit;
 
 -- удалить из витрины данные большие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_NomenclatureAnlsWkCL33
-where DataInfo >= (select min(DataInfo) from at_cards);
+where DataInfo >= (select min(DataInfo) from main);
 commit;
 
 select purge_table('DataMart.DshECom_NomenclatureAnlsWkCL33');
@@ -74,7 +88,7 @@ select
     Status,
     ActiveCards,
     TotalCards
-from at_cards;
+from main;
 commit;
 
 select analyze_statistics('DataMart.DshECom_NomenclatureAnlsWkCL33');
