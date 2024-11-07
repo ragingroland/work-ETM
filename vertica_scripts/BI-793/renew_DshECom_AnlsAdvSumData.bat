@@ -1,4 +1,4 @@
-rem BI-E-com: разработка витрин для блока "Анализ верхнеуровневой активности посетителей" BI-767
+rem BI-E-com: разработка витрин для блока "Сводные данные по рекламным кампаниям" BI-793
 
 setlocal enableextensions
 
@@ -7,6 +7,17 @@ IF EXIST H:\OLAP\MoveJobs\movejobs.txt exit 0
 cd /d H:\OLAP\DshECom_AnlsAdvSumData\RUN
 
 del H:\OLAP\DshECom_AnlsAdvSumData\endgetfvrt.txt
+del H:\OLAP\DshECom_AnlsAdvSumData\RUN\di.flg
+
+:_begget
+
+ping -n 100 relay.etm.spb.ru >nul
+
+ftp -n -v -i -s:H:\OLAP\DshECom_AnlsAdvSumData\RUN\ftp_check_flg.in
+if not exist H:\OLAP\DshECom_AnlsAdvSumData\RUN\di.flg goto _begget
+
+goto _endget
+:_endget
 
 path=%path%;C:\Program Files\Vertica Systems\VSQL64
 

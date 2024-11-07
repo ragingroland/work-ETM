@@ -6,7 +6,8 @@ create local temp table tmp_copy (
     Mark varchar(6),
     CliCode int,
     Code1 varchar(200),
-    Code2 varchar(300))
+    Code2 varchar(300),
+    Class132_Code varchar(30))
 on commit preserve rows;
 
 copy tmp_copy
@@ -36,7 +37,8 @@ select
             then 'Работа персонала'
         else Code1
     end,
-    Code2
+    Code2,
+    Class132_Code
 from tmp_copy;
 
 insert into DataPrime.CSI_ElmaSrvcQlty
@@ -49,7 +51,8 @@ select
             then ''
         else Mark
     end,
-    esqr.Code
+    esqr.Code,
+    Class132_Code
 from tmp_local
 left join DataPrime.CSI_ElmaSrvcQltyRsns esqr on Code1 = CodeName_1 and Code2 = CodeName_2
 where CliCode is not null;

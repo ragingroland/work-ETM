@@ -40,7 +40,7 @@ select
 from DataPrime.ECom_AdConversion ac
 left join public.DescRgd dr on ac.RgdCode = dr.RgdCode
 left join DataPrime.RgdMnfBrand rmb on dr.RgdCode = rmb.RgdCode
-left join public.DescSeriesRgd dsr on rmb.RgdCode = dsr.RgdCode
+left join public.DescSeriesRgd dsr on ac.RgdCode = dsr.RgdCode
 inner join DataPrime.ECom_Cities c on ac.CityID = c.CityID
     and CountryID in (19, 24)
 where -- ac.DataInfo >= add_months(trunc(current_date, 'mm'), -13)

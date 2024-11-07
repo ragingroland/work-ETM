@@ -7,12 +7,15 @@ IF EXIST H:\OLAP\MoveJobs\movejobs.txt exit 0
 cd /d H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN
 
 del H:\OLAP\DshECom_AnlsTopLvlVisAct\endgetfvrt.txt
+del H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\wa.flg
 
 :_begget
 
 ping -n 100 relay.etm.spb.ru >nul
 
-if not EXIST I:\common-spr\endgetfvrt.txt goto _beg
+ftp -n -v -i -s:H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\ftp_check_flg.in
+if not exist H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\wa.flg goto _begget
+if not EXIST I:\common-spr\endgetfvrt.txt goto _begget
 
 goto _endget
 :_endget

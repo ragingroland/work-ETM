@@ -180,12 +180,12 @@ where m.DataInfo = rc.DataInfo
     and m.Status = rc.Status;
 commit;
 
--- удаляются данные старше анализируемого периода
+удаляются данные старше анализируемого периода
 delete from DataMart.DshECom_NomenclatureAnlsWk
 where DataInfo < add_months(trunc(current_date, 'year')::date, - 12);
 commit;
 
--- удалить из витрины данные большие или равные минимальной дате во временной таблице
+удалить из витрины данные большие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_NomenclatureAnlsWk
 where DataInfo >= (select min(DataInfo) from at_cards);
 commit;
@@ -201,7 +201,7 @@ select
     left(Class81_Code, 6) as Class81_Code_3,
     Class81_Code as Class81_Code_4,
     MnfCode,
-    Series,
+    replace(Series, '''', ''),
     Status,
     ActiveCards,
     TotalCards,

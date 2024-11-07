@@ -37,7 +37,6 @@ select
     coalesce(klc296.Class296_Code, '') as Class296_Code,
     coalesce(cg298.ClassCodeGrp, '99999') as Code_QuasiBrand,
     coalesce(c79.Class79_Code, '') as Class79_Code,
-    1 as eletm,
     sum(SumShipped) as SumShipped
 from sibistat cbs
 left join c79 on cbs.CustInn = c79.CustInn and cbs.CustCode = c79.CustCode and rn = 1 -- берем первый попавшийся 79ЖЕ
@@ -57,9 +56,9 @@ left join public.ClassGroup cg298 on -- получаем 298 (квази бре�
     and cg298.ClassCodeSrc = cbs.Class295_Code
 left join DataPrime.KontragLinkClass296_CliInn klc296 on cbs.CustInn = klc296.CliInn -- получаем 296 (крупность клиента)
     and cbs.Class294_Code = klc296.Class294_Code
-where not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code) -- исключаем ИНН с признаком 1096
+where cbs.Class295_Code = '00001' -- считаем суммы только для ЭТМ
     and not exists (select 1 from notE where CustInn = cbs.CustInn) -- исключаем 79Е
-    and (cbs.Class295_Code = '00001') -- считаем суммы только для ЭТМ
+    and not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code) -- исключаем ИНН с признаком 1096
 group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9, 10
 union -- объединяются
 select
@@ -73,7 +72,6 @@ select
     coalesce(klc296.Class296_Code, '') as Class296_Code,
     coalesce(cg298.ClassCodeGrp, '99999') as Code_QuasiBrand,
     coalesce(c79.Class79_Code, '') as Class79_Code,
-    0 as eletm,
     sum(SumShipped) as SumShipped
 from sibistat cbs
 left join c79 on cbs.CustInn = c79.CustInn and cbs.CustCode = c79.CustCode and rn = 1
