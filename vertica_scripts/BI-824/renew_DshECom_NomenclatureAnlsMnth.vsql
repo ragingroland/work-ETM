@@ -20,8 +20,8 @@ from DataPrime.ECom_NomenclatureMnth nm
 left join DataPrime.RgdMnfBrand rmb on nm.RgdCode = rmb.RgdCode
 left join public.DescSeriesRgd dsr on nm.RgdCode = dsr.RgdCode
 left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
-where --DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnth)
-    DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
+where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnth)
+    --DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
     and Status != 'N';
 
 create local temp table at_cards
@@ -41,7 +41,7 @@ main as ( -- неактивные карточки
         cast(0 as float) as PurchasedCards,
         cast(0 as float) as ReplacedCards
     from DataPrime.ECom_InactiveCL81Mnth
-    where DataInfo >= add_months(trunc(current_date, 'year')::date, - 12) -- DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnth)
+    where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnth)
     group by 1, 2, 3, 4, 5),
 main2 as ( -- активные карточки
     select
@@ -201,7 +201,7 @@ select
     left(Class81_Code, 6) as Class81_Code_3,
     Class81_Code as Class81_Code_4,
     MnfCode,
-    Series,
+    replace(Series, '''', ''),
     Status,
     ActiveCards,
     TotalCards,

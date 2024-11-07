@@ -4,7 +4,8 @@ create local temp table tmp_copy (
     ID int,
     DataInfo date,
     Mark int,
-    CliCode int)
+    CliCode int,
+    Class132_Code varchar(30))
 on commit preserve rows;
 
 copy tmp_copy
@@ -27,6 +28,7 @@ select
     DataInfo,
     CliCode,
     ID,
-    Mark
+    Mark,
+    Class132_Code
 from tmp_copy;
 commit;

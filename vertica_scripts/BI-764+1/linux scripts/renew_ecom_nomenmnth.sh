@@ -2,7 +2,7 @@
 
 # переход к нужному каталогу
 cd /autons/vertica/web_analitik
-
+rm nm.flg
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_nommnth.flg ];
     do
@@ -36,6 +36,7 @@ if [ -f /autons/vertica/web_analitik/nomenklature_month.csv ];
           then
                rm /autons/vertica/web_analitik/nomenklature_month.csv
                rm end_nommnth.flg
+               touch nm.flg
        fi
 fi
 exit 0

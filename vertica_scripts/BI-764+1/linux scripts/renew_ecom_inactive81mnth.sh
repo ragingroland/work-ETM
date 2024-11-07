@@ -2,7 +2,7 @@
 
 # переход к нужному каталогу
 cd /autons/vertica/web_analitik
-
+rm i81m.flg
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_inact81_mnth.flg ];
     do
@@ -32,6 +32,7 @@ if [ ! -f /autons/vertica/web_analitik_run/vertica_scripts/inactive_81_month.rej
     then
         rm /autons/vertica/web_analitik/inactive_81_month.csv
         rm end_inact81_mnth.flg
+        touch i81m.flg
 fi
 
 rm start_inact81_mnth.wrk

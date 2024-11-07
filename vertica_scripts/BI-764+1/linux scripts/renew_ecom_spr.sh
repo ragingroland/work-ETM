@@ -2,7 +2,7 @@
 
 # переход к нужному каталогу
 cd /autons/vertica/web_analitik
-
+rm spr.flg
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_spr.flg ];
     do
@@ -138,5 +138,6 @@ if [ -n "$found_files" ];
         exit 0
     else
         rm end_spr.flg
+        touch spr.flg
 fi
 exit 0

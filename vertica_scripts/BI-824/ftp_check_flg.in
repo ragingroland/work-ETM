@@ -1,0 +1,11 @@
+open base5.etm.corp
+user autons oe10ns31038
+cd /autons/vertica/web_analitik
+mget nm.flg
+mget nw.flg
+mget i81w.flg
+mget i81m.flg
+mget i33m.flg
+mget i33w.flg
+close
+quit

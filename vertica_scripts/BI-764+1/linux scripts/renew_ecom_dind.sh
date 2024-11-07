@@ -2,7 +2,7 @@
 
 # переход к нужному каталогу
 cd /autons/vertica/web_analitik
-
+rm di.flg
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_di.flg ];
     do
@@ -36,6 +36,7 @@ if [ -f /autons/vertica/web_analitik/direct_indicators.csv ];
           then
                rm /autons/vertica/web_analitik/direct_indicators.csv
                rm end_di.flg
+               touch di.flg
        fi
 fi
 exit 0

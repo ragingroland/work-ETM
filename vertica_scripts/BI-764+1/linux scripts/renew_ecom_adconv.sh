@@ -2,7 +2,7 @@
 
 # переход к нужному каталогу
 cd /autons/vertica/web_analitik
-
+rm adconv.flg
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_adcnv.flg ];
     do
@@ -36,6 +36,7 @@ if [ -f /autons/vertica/web_analitik/ad_conversion_81.csv ];
       then
            rm /autons/vertica/web_analitik/ad_conversion_81.csv
            rm end_adcnv.flg
+           touch adconv.flg
    fi
 fi
 exit 0

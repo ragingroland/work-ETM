@@ -1,4 +1,4 @@
-rem BI-E-com: разработка витрин для блока "Анализ верхнеуровневой активности посетителей" BI-767
+rem BI-E-com: разработка витрин для блока "Анализ по товарным группам 81 классификатора" BI-791
 
 setlocal enableextensions
 
@@ -7,13 +7,16 @@ IF EXIST H:\OLAP\MoveJobs\movejobs.txt exit 0
 cd /d H:\OLAP\DshECom_AnlsMerchGrp\RUN
 
 del H:\OLAP\DshECom_AnlsMerchGrp\endgetfvrt.txt
+del H:\OLAP\DshECom_AnlsMerchGrp\RUN\adconv.flg
 
 :_begget
 
 ping -n 100 relay.etm.spb.ru >nul
 
-if not EXIST H:\OLAP\RgdMnfBrand\endgetfvrt.txt goto _beg
-if not EXIST I:\common-spr\endgetfvrt.txt goto _beg
+ftp -n -v -i -s:H:\OLAP\DshECom_AnlsMerchGrp\RUN\ftp_check_flg.in
+if not exist H:\OLAP\DshECom_AnlsMerchGrp\RUN\adconv.flg goto _begget
+if not EXIST H:\OLAP\RgdMnfBrand\endgetfvrt.txt goto _begget
+if not EXIST I:\common-spr\endgetfvrt.txt goto _begget
 
 goto _endget
 :_endget

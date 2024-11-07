@@ -7,12 +7,25 @@ IF EXIST H:\OLAP\MoveJobs\movejobs.txt exit 0
 cd /d H:\OLAP\DshECom_NomenclatureAnls\RUN
 
 del H:\OLAP\DshECom_NomenclatureAnls\endgetfvrt.txt
+del H:\OLAP\DshECom_NomenclatureAnls\RUN\nw.flg
+del H:\OLAP\DshECom_NomenclatureAnls\RUN\nm.flg
+del H:\OLAP\DshECom_NomenclatureAnls\RUN\i81w.flg
+del H:\OLAP\DshECom_NomenclatureAnls\RUN\i81m.flg
+del H:\OLAP\DshECom_NomenclatureAnls\RUN\i33m.flg
+del H:\OLAP\DshECom_NomenclatureAnls\RUN\i33w.flg
 
-:_beg
+:_begget
 
 ping -n 100 relay.etm.spb.ru > nul
 
-if not EXIST I:\common-spr\endgetfvrt.txt goto _beg
+ftp -n -v -i -s:H:\OLAP\DshECom_NomenclatureAnls\RUN\ftp_check_flg.in
+if not exist H:\OLAP\DshECom_NomenclatureAnls\RUN\nw.flg goto _begget
+if not exist H:\OLAP\DshECom_NomenclatureAnls\RUN\nm.flg goto _begget
+if not exist H:\OLAP\DshECom_NomenclatureAnls\RUN\i81w.flg goto _begget
+if not exist H:\OLAP\DshECom_NomenclatureAnls\RUN\i81m.flg goto _begget
+if not exist H:\OLAP\DshECom_NomenclatureAnls\RUN\i33m.flg goto _begget
+if not exist H:\OLAP\DshECom_NomenclatureAnls\RUN\i33w.flg goto _begget
+if not EXIST I:\common-spr\endgetfvrt.txt goto _begget
 
 goto _end
 

@@ -34,7 +34,6 @@ select
     coalesce(klc296.Class296_Code, '') as Class296_Code,
     coalesce(cg298.ClassCodeGrp, '99999') as Code_QuasiBrand,
     coalesce(c79.Class79_Code, '') as Class79_Code,
-    1 as eletm,
     sum(SumShipped) as SumShipped
 from sibistat cbs
 left join c79 on cbs.CustInn = c79.CustInn and cbs.CustCode = c79.CustCode and rn = 1 -- берем первый попавшийся 79ЖЕ
@@ -56,8 +55,8 @@ left join DataPrime.KontragLinkClass296_CliInn klc296 on cbs.CustInn = klc296.Cl
     and cbs.Class294_Code = klc296.Class294_Code
 where not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code) -- исключаем ИНН с признаком 1096
     and not exists (select 1 from notE where CustInn = cbs.CustInn) -- исключаем 79Е
-    and (cbs.Class295_Code = '00001') -- считаем суммы только для ЭТМ
-group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9
+    and cbs.Class295_Code = '00001' -- считаем суммы только для ЭТМ
+group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8
 union -- объединяются
 select
     trunc(DataInfo, 'q')::date as DataInfo,
@@ -68,7 +67,6 @@ select
     coalesce(klc296.Class296_Code, '') as Class296_Code,
     coalesce(cg298.ClassCodeGrp, '99999') as Code_QuasiBrand,
     coalesce(c79.Class79_Code, '') as Class79_Code,
-    0 as eletm,
     sum(SumShipped) as SumShipped
 from sibistat cbs
 left join c79 on cbs.CustInn = c79.CustInn and cbs.CustCode = c79.CustCode and rn = 1
@@ -91,7 +89,7 @@ left join DataPrime.KontragLinkClass296_CliInn klc296 on cbs.CustInn = klc296.Cl
 where not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code)
     and not exists (select 1 from notE where CustInn = cbs.CustInn)
     and not (cbs.Class294_Code = '03' and cbs.Class295_Code = '00001') -- считаем суммы для всего, что не ЭТМ-Электрика
-group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9)
+group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8)
 select -- делается итоговый селект нужных столбцов
     DataInfo,
     Class63_Code_UP,
