@@ -54,7 +54,11 @@ create table DataMart.DshECom_NomenclatureAnlsWkCL33 (
     Class33_Code_4 varchar(10),
     Status varchar(4),
     ActiveCards float,
-    TotalCards float)
+    TotalCards float,
+    TrfcPsCards float,
+    AddBuskCards float,
+    PurchasedCards float,
+    ReplacedCards float)
 order by
     Status,
     Class33_Code_2,
@@ -75,6 +79,10 @@ comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.Class33_Code_4 is 'К�
 comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.Status is 'Статус';
 comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.ActiveCards is 'Карточки с просмотрами';
 comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.TotalCards is 'Карточек всего + неактивные';
+comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.TrfcPsCards is 'Карточек с трафиком из ПС';
+comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.AddBuskCards is 'Карточек с добавлением в корзину';
+comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.PurchasedCards is 'Карточек с оформлением';
+comment on column DataMart.DshECom_NomenclatureAnlsWkCL33.ReplacedCards is 'Карточек с заменой';
 
 create table DataMart.DshECom_NomenclatureAnlsWkCL81 (
     DataInfo date,
@@ -167,6 +175,67 @@ comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Status is 'Стату�
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.ActiveCards is 'Карточки с просмотрами';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.VisitsCnt is 'Количество визитов';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Refusals is 'Количество отказов';
+
+create table DataMart.DshECom_NomenclatureAnlsWk_Inact (
+    DataInfo date,
+    Class33_Code_2 varchar(4),
+    Class33_Code_3 varchar(6),
+    Class33_Code_4 varchar(10),
+    Class81_Code_1 varchar(4),
+    Class81_Code_2 varchar(8),
+    Class81_Code_3 varchar(12),
+    Class81_Code_4 varchar(16),
+    MnfCode int,
+    Series varchar(150),
+    Status varchar(4),
+    ActiveCards float,
+    TotalCards float,
+    TrfcPsCards float,
+    AddBuskCards float,
+    PurchasedCards float,
+    ReplacedCards float)
+order by
+    Status,
+    Class81_Code_1,
+    Class33_Code_2,
+    Class81_Code_2,
+    Class33_Code_3,
+    Class81_Code_3,
+    MnfCode,
+    Class81_Code_4,
+    Class33_Code_4,
+    Series,
+    DataInfo
+segmented by hash (
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Status,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_1,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class33_Code_2,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_2,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class33_Code_3,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_3,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.MnfCode,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_4,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Class33_Code_4,
+    DataMart.DshECom_NomenclatureAnlsWk_Inact.Series) all nodes ksafe;
+
+comment on table DataMart.DshECom_NomenclatureAnlsWk_Inact is 'Витрина "Анализ номенклатуры" гранулярность неделя + неактивные карточки по 33 и 81 классификаторам';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.DataInfo is 'Дата';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class33_Code_2 is 'Кл-р 33 ур 2 (Товарный отдел)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class33_Code_3 is 'Кл-р 33 ур 3 (Товарный отдел)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class33_Code_4 is 'Кл-р 33 ур 4 (Товарный отдел)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_1 is 'Кл-р 81 ур 1 (Категория товара)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_2 is 'Кл-р 81 ур 2 (Категория товара)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_3 is 'Кл-р 81 ур 3 (Категория товара)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Class81_Code_4 is 'Кл-р 81 ур 4 (Категория товара)';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.MnfCode is 'Код производителя';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Series is 'Серия';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.Status is 'Статус';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.ActiveCards is 'Карточки с просмотрами';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.TotalCards is 'Карточек всего + неактивные';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.TrfcPsCards is 'Карточек с трафиком из ПС';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.AddBuskCards is 'Карточек с добавлением в корзину';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.PurchasedCards is 'Карточек с оформлением';
+comment on column DataMart.DshECom_NomenclatureAnlsWk_Inact.ReplacedCards is 'Карточек с заменой';
 
 GRANT USAGE ON SCHEMA public, DataPrime, DataMart TO RO_public_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public, DataPrime, DataMart TO RO_public_role;

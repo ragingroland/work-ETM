@@ -27,7 +27,7 @@ notE as ( -- исключения для 79Е
     group by 1),
 main as ( -- собираем все воедино
 select
-    trunc(DataInfo, 'q')::date as DataInfo,
+    trunc(cbs.DataInfo, 'q')::date as DataInfo,
     Class14_Code_2 as Class14_Code,
     coalesce(left(cg1.ClassCodeGrp, 4), '') as Class63_Code_UP,
     coalesce(left(cg2.ClassCodeGrp, 4), '') as Class63_Code_IG,
@@ -58,10 +58,10 @@ left join DataPrime.KontragLinkClass296_CliInn klc296 on cbs.CustInn = klc296.Cl
 where not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code) -- исключаем ИНН с признаком 1096
     and not exists (select 1 from notE where CustInn = cbs.CustInn) -- исключаем 79Е
     and cbs.Class295_Code = '00001' -- считаем суммы только для ЭТМ
-group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9
+group by trunc(cbs.DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9
 union -- объединяются
 select
-    trunc(DataInfo, 'q')::date as DataInfo,
+    trunc(cbs.DataInfo, 'q')::date as DataInfo,
     Class14_Code_2 as Class14_Code,
     coalesce(left(cg1.ClassCodeGrp, 4), '') as Class63_Code_UP,
     coalesce(left(cg2.ClassCodeGrp, 4), '') as Class63_Code_IG,
@@ -92,7 +92,7 @@ left join DataPrime.KontragLinkClass296_CliInn klc296 on cbs.CustInn = klc296.Cl
 where not exists (select 1 from DataPrime.BrandsTrdsExclCL295CRM where Class295_Code = cbs.Class295_Code)
     and not exists (select 1 from notE where CustInn = cbs.CustInn)
     and not (cbs.Class294_Code = '03' and cbs.Class295_Code = '00001') -- считаем суммы для всего, что не ЭТМ-Электрика
-group by trunc(DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9)
+group by trunc(cbs.DataInfo, 'q')::date, 2, 3, 4, 5, 6, 7, 8, 9)
 select -- делается итоговый селект нужных столбцов
     DataInfo,
     Class14_Code,
