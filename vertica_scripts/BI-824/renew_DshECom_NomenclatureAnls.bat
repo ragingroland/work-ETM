@@ -65,6 +65,14 @@ chcp 65001
 vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C  -f H:\OLAP\DshECom_NomenclatureAnls\SCRIPTS\renew_DshECom_NomenclatureAnlsWkTrfc.vsql -A -q -o  H:\OLAP\DshECom_NomenclatureAnls\RUN\renew_DshECom_NomenclatureAnlsWkTrfc.vout
 chcp 866
 
+chcp 65001
+vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C  -f H:\OLAP\DshECom_NomenclatureAnls\SCRIPTS\renew_DshECom_NomenclatureAnlsWk_Inact.vsql -A -q -o  H:\OLAP\DshECom_NomenclatureAnls\RUN\renew_DshECom_NomenclatureAnlsWk_Inact.vout
+chcp 866
+
+chcp 65001
+vsql.exe -U user_etl_adm -w useretladmvert92 -h 172.24.2.140 -p 5433 -d DWH -C  -f H:\OLAP\DshECom_NomenclatureAnls\SCRIPTS\renew_DshECom_NomenclatureAnlsMnth_Inact.vsql -A -q -o  H:\OLAP\DshECom_NomenclatureAnls\RUN\renew_DshECom_NomenclatureAnlsMnth_Inact.vout
+chcp 866
+
 copy H:\OLAP\DshECom_NomenclatureAnls\null.txt H:\OLAP\DshECom_NomenclatureAnls\endgetfvrt.txt
 
 exit 0

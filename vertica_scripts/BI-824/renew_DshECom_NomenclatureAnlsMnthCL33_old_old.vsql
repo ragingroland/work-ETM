@@ -7,6 +7,11 @@ select
     nm.DataInfo,
     left(dr.Class33_Code, 5) as Class33_Code,
     nm.Status,
+    nm.TrafficSourceID,
+    nm.QltVisit,
+    nm.QltAdd,
+    nm.QltPurchaseProd,
+    nm.QltClickReplace,
     nm.RgdCode
 from DataPrime.ECom_NomenclatureMnth nm
 left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
@@ -41,7 +46,11 @@ select
     Status,
     class33_code,
     active as ActiveCards,
-    active + inactive as TotalCards
+    active + inactive as TotalCards,
+    cast(0 as float) as TrfcPsCards,
+    cast(0 as float) as AddBuskCards,
+    cast(0 as float) as PurchasedCards,
+    cast(0 as float) as ReplacedCards
 from main
 union -- склеиваются активные и неактивные
 select
@@ -49,8 +58,89 @@ select
     Status,
     class33_code,
     active as ActiveCards,
-    active + inactive as TotalCards
+    active + inactive as TotalCards,
+    cast(0 as float) as TrfcPsCards,
+    cast(0 as float) as AddBuskCards,
+    cast(0 as float) as PurchasedCards,
+    cast(0 as float) as ReplacedCards
 from main2;
+
+create local temp table trfcpscards -- карточек с трафиком из ПС
+on commit preserve rows as
+select
+    DataInfo,
+    Status,
+    class33_code,
+    count(distinct RgdCode) as TrfcPsCards
+from n_mnth33
+where TrafficSourceID = 3
+    and QltVisit != 0
+group by 1, 2, 3;
+
+create local temp table addbuskcards -- карточек с добавлением в корзину
+on commit preserve rows as
+select
+    DataInfo,
+    Status,
+    class33_code,
+    count(distinct RgdCode) as AddBuskCards
+from n_mnth33
+where QltAdd != 0
+group by 1, 2, 3;
+
+create local temp table purchasedcards -- оформленные
+on commit preserve rows as
+select
+    DataInfo,
+    Status,
+    class33_code,
+    count(distinct RgdCode) as PurchasedCards
+from n_mnth33
+where QltPurchaseProd > 0
+group by 1, 2, 3;
+
+create local temp table replacedcards -- замены
+on commit preserve rows as
+select
+    DataInfo,
+    Status,
+    class33_code,
+    count(distinct RgdCode) as ReplacedCards
+from n_mnth33
+where QltClickReplace != 0
+group by 1, 2, 3;
+
+update at_cards m
+set TrfcPsCards = tpc.TrfcPsCards
+from trfcpscards tpc
+where m.DataInfo = tpc.DataInfo
+    and m.Class33_Code = tpc.Class33_Code
+    and m.Status = tpc.Status;
+commit;
+
+update at_cards m
+set AddBuskCards = abc.AddBuskCards
+from addbuskcards abc
+where m.DataInfo = abc.DataInfo
+    and m.Class33_Code = abc.Class33_Code
+    and m.Status = abc.Status;
+commit;
+
+update at_cards m
+set PurchasedCards = pc.PurchasedCards
+from purchasedcards pc
+where m.DataInfo = pc.DataInfo
+    and m.Class33_Code = pc.Class33_Code
+    and m.Status = pc.Status;
+commit;
+
+update at_cards m
+set ReplacedCards = rc.ReplacedCards
+from replacedcards rc
+where m.DataInfo = rc.DataInfo
+    and m.Class33_Code = rc.Class33_Code
+    and m.Status = rc.Status;
+commit;
 
 -- удалить из витрины данные старше анализируемого периода
 delete from DataMart.DshECom_NomenclatureAnlsMnthCL33
@@ -73,7 +163,11 @@ select
     Class33_Code as Class33_Code_4,
     Status,
     ActiveCards,
-    TotalCards
+    TotalCards,
+    TrfcPsCards,
+    AddBuskCards,
+    PurchasedCards,
+    ReplacedCards
 from at_cards;
 commit;
 

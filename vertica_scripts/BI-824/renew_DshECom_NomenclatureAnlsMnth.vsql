@@ -24,68 +24,6 @@ where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMn
     --DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
     and Status != 'N';
 
-create local temp table at_cards
-on commit preserve rows as
-with
-main as ( -- неактивные карточки
-    select
-        DataInfo,
-        Status,
-        series,
-        mnfcode,
-        class81_code,
-        cast(0 as float) as active,
-        sum(Qlt_Inactive81) as inactive,
-        cast(0 as float) as TrfcPsCards,
-        cast(0 as float) as AddBuskCards,
-        cast(0 as float) as PurchasedCards,
-        cast(0 as float) as ReplacedCards
-    from DataPrime.ECom_InactiveCL81Mnth
-    where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnth)
-    group by 1, 2, 3, 4, 5),
-main2 as ( -- активные карточки
-    select
-        DataInfo,
-        Status,
-        series,
-        mnfcode,
-        class81_code,
-        count(distinct rgdcode) as active,
-        cast(0 as float) as inactive,
-        cast(0 as float) as TrfcPsCards,
-        cast(0 as float) as AddBuskCards,
-        cast(0 as float) as PurchasedCards,
-        cast(0 as float) as ReplacedCards
-    from n_mnth
-    group by 1, 2, 3, 4, 5)
-select
-    DataInfo,
-    Status,
-    series,
-    mnfcode,
-    class81_code,
-    active as ActiveCards,
-    active + inactive as TotalCards,
-    TrfcPsCards,
-    AddBuskCards,
-    PurchasedCards,
-    ReplacedCards
-from main
-union -- склеиваются активные и неактивные
-select
-    DataInfo,
-    Status,
-    series,
-    mnfcode,
-    class81_code,
-    active as ActiveCards,
-    active + inactive as TotalCards,
-    TrfcPsCards,
-    AddBuskCards,
-    PurchasedCards,
-    ReplacedCards
-from main2;
-
 -- все меры считаются в конкретном срезе с конкретными условиями, по отдельности
 create local temp table trfcpscards -- карточки с трафиком из ПС
 on commit preserve rows as
@@ -140,7 +78,24 @@ from n_mnth
 where QltClickReplace != 0
 group by 1, 2, 3, 4, 5;
 
-update at_cards m
+create local temp table tmp_local
+on commit preserve rows as
+select
+    DataInfo,
+    Status,
+    series,
+    mnfcode,
+    class81_code,
+    count(distinct rgdcode) as active,
+    cast(0 as float) as inactive,
+    cast(0 as float) as TrfcPsCards,
+    cast(0 as float) as AddBuskCards,
+    cast(0 as float) as PurchasedCards,
+    cast(0 as float) as ReplacedCards
+from n_mnth
+group by 1, 2, 3, 4, 5;
+
+update tmp_local m
 set TrfcPsCards = tpc.TrfcPsCards
 from trfcpscards tpc
 where m.DataInfo = tpc.DataInfo
@@ -150,7 +105,7 @@ where m.DataInfo = tpc.DataInfo
     and m.Status = tpc.Status;
 commit;
 
-update at_cards m
+update tmp_local m
 set AddBuskCards = abc.AddBuskCards
 from addbuskcards abc
 where m.DataInfo = abc.DataInfo
@@ -160,7 +115,7 @@ where m.DataInfo = abc.DataInfo
     and m.Status = abc.Status;
 commit;
 
-update at_cards m
+update tmp_local m
 set PurchasedCards = pc.PurchasedCards
 from purchasedcards pc
 where m.DataInfo = pc.DataInfo
@@ -170,7 +125,7 @@ where m.DataInfo = pc.DataInfo
     and m.Status = pc.Status;
 commit;
 
-update at_cards m
+update tmp_local m
 set ReplacedCards = rc.ReplacedCards
 from replacedcards rc
 where m.DataInfo = rc.DataInfo
@@ -179,6 +134,56 @@ where m.DataInfo = rc.DataInfo
     and m.Series = rc.Series
     and m.Status = rc.Status;
 commit;
+
+create local temp table at_cards
+on commit preserve rows as
+with
+main as ( -- неактивные карточки
+    select
+        DataInfo,
+        Status,
+        series,
+        mnfcode,
+        class81_code,
+        cast(0 as float) as active,
+        sum(Qlt_Inactive81) as inactive,
+        cast(0 as float) as TrfcPsCards,
+        cast(0 as float) as AddBuskCards,
+        cast(0 as float) as PurchasedCards,
+        cast(0 as float) as ReplacedCards
+    from DataPrime.ECom_InactiveCL81Mnth
+    where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnth)
+    group by 1, 2, 3, 4, 5),
+main2 as ( -- активные карточки
+    select *
+    from tmp_local)
+select
+    DataInfo,
+    Status,
+    series,
+    mnfcode,
+    class81_code,
+    active as ActiveCards,
+    active + inactive as TotalCards,
+    TrfcPsCards,
+    AddBuskCards,
+    PurchasedCards,
+    ReplacedCards
+from main
+union -- склеиваются активные и неактивные
+select
+    DataInfo,
+    Status,
+    series,
+    mnfcode,
+    class81_code,
+    active as ActiveCards,
+    active + inactive as TotalCards,
+    TrfcPsCards,
+    AddBuskCards,
+    PurchasedCards,
+    ReplacedCards
+from main2;
 
 -- удалить данные старше анализируемого периода
 delete from DataMart.DshECom_NomenclatureAnlsMnth
