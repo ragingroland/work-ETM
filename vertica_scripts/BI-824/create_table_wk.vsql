@@ -46,6 +46,7 @@ comment on column DataMart.DshECom_NomenclatureAnlsWk.TrfcPsCards is 'Карто
 comment on column DataMart.DshECom_NomenclatureAnlsWk.AddBuskCards is 'Карточек с добавлением в корзину';
 comment on column DataMart.DshECom_NomenclatureAnlsWk.PurchasedCards is 'Карточек с оформлением';
 comment on column DataMart.DshECom_NomenclatureAnlsWk.ReplacedCards is 'Карточек с заменой';
+comment on column DataMart.DshECom_NomenclatureAnlsWk.VisitsCnt is 'Количество визитов';
 
 create table DataMart.DshECom_NomenclatureAnlsWkCL33 (
     DataInfo date,
@@ -131,18 +132,31 @@ create table DataMart.DshECom_NomenclatureAnlsWkTrfc (
     Class81_Code_2 varchar(8),
     Class81_Code_3 varchar(12),
     Class81_Code_4 varchar(16),
-    TrafficSourceID int,
-    SearchEngineRootID int,
     MnfCode int,
     Series varchar(150),
     Status varchar(4),
+    TrafficSourceOrder float,
+    SearchEngineRootOrder float,
     ActiveCards float,
     VisitsCnt float,
-    Refusals float)
+    Refusals float,
+    DirectActiveCards float,
+    DirectVisitsCnt float,
+    DirectRefusals float,
+    YaActiveCards float,
+    YaVisits float,
+    YaRefusals float,
+    GActiveCards float,
+    GVisits float,
+    GRefusals float,
+    OtherActiveCards float,
+    OtherVisits float,
+    OtherRefusals float,
+    OtherTrfcActiveCards float,
+    OtherTrfcVisits float,
+    OtherTrfcRefusals float)
 order by
     Status,
-    TrafficSourceID,
-    SearchEngineRootID,
     Class81_Code_1,
     Class81_Code_2,
     Class81_Code_3,
@@ -152,8 +166,6 @@ order by
     DataInfo
 segmented by hash (
     DataMart.DshECom_NomenclatureAnlsWkTrfc.Status,
-    DataMart.DshECom_NomenclatureAnlsWkTrfc.TrafficSourceID,
-    DataMart.DshECom_NomenclatureAnlsWkTrfc.SearchEngineRootID,
     DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_1,
     DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_2,
     DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_3,
@@ -167,14 +179,29 @@ comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_1 is 'К�
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_2 is 'Кл-р 81 ур 2 (Категория товара)';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_3 is 'Кл-р 81 ур 3 (Категория товара)';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Class81_Code_4 is 'Кл-р 81 ур 4 (Категория товара)';
-comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.TrafficSourceID is 'ID трафика';
-comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.SearchEngineRootID is 'ID поисковой системы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.TrafficSourceOrder is 'Источник трафика, порядок';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.SearchEngineRootOrder is 'Поисковая система, порядок';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.MnfCode is 'Код производителя';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Series is 'Серия';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Status is 'Статус';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.ActiveCards is 'Карточки с просмотрами';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.VisitsCnt is 'Количество визитов';
 comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.Refusals is 'Количество отказов';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.DirectActiveCards is 'Карточки с просмотрами прямые входы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.DirectVisitsCnt is 'Количество визитов прямые входы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.DirectRefusals is 'Количество отказов прямые входы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.YaActiveCards is 'Карточки с просмотрами Яндекс';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.YaVisits is 'Количество визитов Яндекс';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.YaRefusals is 'Количество отказов Яндекс';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.GActiveCards is 'Карточки с просмотрами Google';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.GVisits is 'Количество визитов Google';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.GRefusals is 'Количество отказов Google';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.OtherActiveCards is 'Карточки с просмотрами прочие поисковые системы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.OtherVisits is 'Количество визитов прочие поисковые системы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.OtherRefusals is 'Количество отказов прочие поисковые системы';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.OtherTrfcActiveCards is 'Карточки с просмотрами прочий трафик';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.OtherTrfcVisits is 'Количество визитов прочий трафик';
+comment on column DataMart.DshECom_NomenclatureAnlsWkTrfc.OtherTrfcRefusals is 'Количество отказов прочий трафик';
 
 create table DataMart.DshECom_NomenclatureAnlsWk_Inact (
     DataInfo date,

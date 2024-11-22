@@ -14,7 +14,7 @@ del H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\wa.flg
 ping -n 100 relay.etm.spb.ru >nul
 
 ftp -n -v -i -s:H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\ftp_check_flg.in
-if not exist H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\wa.flg goto _begget
+if not exist H:\OLAP\DshECom_AnlsTopLvlVisAct\RUN\wbanl.flg goto _begget
 if not EXIST I:\common-spr\endgetfvrt.txt goto _begget
 
 goto _endget
