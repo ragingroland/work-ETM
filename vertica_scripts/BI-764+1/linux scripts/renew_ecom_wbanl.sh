@@ -2,7 +2,7 @@
 
 # переход к нужному каталогу
 cd /autons/vertica/web_analitik
-rm wa.flg
+rm wbanl.flg
 # проверка наличия флага завершения выгрузки
 while [ ! -f /autons/vertica/web_analitik/end_wbanl.flg ];
     do
@@ -36,7 +36,7 @@ if [ -f /autons/vertica/web_analitik/dm_web_analytics.csv ];
           then
                rm /autons/vertica/web_analitik/dm_web_analytics.csv
                rm end_wbanl.flg
-               touch wa.flg
+               touch wbanl.flg
        fi
 fi
 exit 0

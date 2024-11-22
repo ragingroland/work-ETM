@@ -14,7 +14,7 @@ on commit preserve rows as
 select
     DataInfo,
     left(dr.Class81_Code, 8) as Class81_Code,
-    isnull(rgdrn.MnfCode, dr.MnfCode) as MnfCode, -- BI-824 Заявленные аналитические срезы: п.6
+    isnull(rmb.MnfCode, dr.MnfCode) as MnfCode, -- BI-824 Заявленные аналитические срезы: п.6
     isnull(dsr.Series, '') as Series,
     Status,
     TrafficSourceID,
@@ -22,11 +22,11 @@ select
     nm.RgdCode,
     QltVisit,
     QltRefusal
-from DataPrime.ECom_NomenclatureWk nm
-left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
-left join rgdrn on nm.RgdCode = rgdrn.RgdCode and rn = 1
+from DataPrime.ECom_NomenclatureMnth nm
+left join DataPrime.RgdMnfBrand rmb on nm.RgdCode = rmb.RgdCode
 left join public.DescSeriesRgd dsr on nm.RgdCode = dsr.RgdCode
-where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWkTrfc)
+left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
+where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsMnthTrfc)
     --DataInfo >= add_months(trunc(current_date, 'year')::date, - 12)
     and Status != 'N';
 
@@ -152,10 +152,7 @@ select
     cast(0 as float) as GRefusals,
     cast(0 as float) as OtherActiveCards,
     cast(0 as float) as OtherVisits,
-    cast(0 as float) as OtherRefusals,
-    cast(0 as float) as OtherTrfcActiveCards,
-    cast(0 as float) as OtherTrfcVisits,
-    cast(0 as float) as OtherTrfcRefusals
+    cast(0 as float) as OtherRefusals
 from nm_trfc
 group by 1, 2, 3, 4, 5, 6;
 
@@ -224,43 +221,33 @@ where m.DataInfo = o.DataInfo
 commit;
 
 update main m
-set OtherTrfcActiveCards = o.ActiveCards,
-    OtherTrfcVisits = o.VisitsCnt,
-    OtherTrfcRefusals = o.Refusals
-from othertrfc o
-where m.DataInfo = o.DataInfo
-    and m.Class81_Code = o.Class81_Code
-    and m.MnfCode = o.MnfCode
-    and m.Series = o.Series
-    and m.Status = o.Status;
-commit;
-
-update main m
 set TrafficSourceOrder = 1
 where SearchEngineRootOrder is not null
     and TrafficSourceOrder is null;
 commit;
 
--- удалаюятся данные старше анализируемого периода
-delete from DataMart.DshECom_NomenclatureAnlsWkTrfc
+-- данные старше анализируемого периода удаляются
+delete from DataMart.DshECom_NomenclatureAnlsMnthTrfc
 where DataInfo < add_months(trunc(current_date, 'year')::date, - 12);
 commit;
 
 -- удалить из витрины данные большие или равные минимальной дате во временной таблице
-delete from DataMart.DshECom_NomenclatureAnlsWkTrfc
+delete from DataMart.DshECom_NomenclatureAnlsMnthTrfc
 where DataInfo >= (select min(DataInfo) from main);
 commit;
 
-select purge_table('DataMart.DshECom_NomenclatureAnlsWkTrfc');
+select purge_table('DataMart.DshECom_NomenclatureAnlsMnthTrfc');
 
--- вставка в витрину с расшивкой 81 по уровням
-insert into DataMart.DshECom_NomenclatureAnlsWkTrfc
+-- вставка в витрину с расшивкой 81 на уровни
+insert into DataMart.DshECom_NomenclatureAnlsMnthTrfc
 select
     DataInfo,
     left(Class81_Code, 2) as Class81_Code_1,
     left(Class81_Code, 4) as Class81_Code_2,
     left(Class81_Code, 6) as Class81_Code_3,
     Class81_Code as Class81_Code_4,
+    TrafficSourceID,
+    SearchEngineRootID,
     MnfCode,
     replace(Series, '''', ''),
     Status,
@@ -280,11 +267,8 @@ select
     GRefusals,
     OtherActiveCards,
     OtherVisits,
-    OtherRefusals,
-    OtherTrfcActiveCards,
-    OtherTrfcVisits,
-    OtherTrfcRefusals
+    OtherRefusals
 from main;
 commit;
 
-select analyze_statistics('DataMart.DshECom_NomenclatureAnlsWkTrfc');
+select analyze_statistics('DataMart.DshECom_NomenclatureAnlsMnthTrfc');

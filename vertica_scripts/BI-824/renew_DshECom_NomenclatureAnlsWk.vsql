@@ -1,6 +1,14 @@
 /* из первички берутся нужные для расчетов мер и построения витрины столбцы
 на основании максимальной даты из витрины, из первички берутся более свежие данные
 т.к если брать за весь период, то получается очень много. это было необходимо только для первого наполнения */
+create local temp table rgdrn -- из-за дублирующихся строк в RgdMnfBrand множились данные
+on commit preserve rows as
+select distinct
+    RgdCode,
+    MnfCode,
+    row_number() over(partition by RgdCode, MnfCode) as rn -- возьмем первый
+from DataPrime.RgdMnfBrand;
+
 create local temp table n_wk
 on commit preserve rows as
 select
@@ -17,7 +25,7 @@ select
     QltPurchaseProd,
     QltRefusal
 from DataPrime.ECom_NomenclatureWk nm
-left join DataPrime.RgdMnfBrand rmb on nm.RgdCode = rmb.RgdCode
+left join rgdrn rmb on nm.RgdCode = rmb.RgdCode and rn = 1
 left join public.DescSeriesRgd dsr on nm.RgdCode = dsr.RgdCode
 left join public.DescRgd dr on nm.RgdCode = dr.RgdCode
 where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWk)
@@ -25,6 +33,18 @@ where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWk
     and Status != 'N';
 
 -- все меры считаются в конкретном срезе с конкретными условиями, по отдельности
+create local temp table visitscnt -- количество визитов
+on commit preserve rows as
+select
+    DataInfo,
+    Class81_Code,
+    MnfCode,
+    Series,
+    Status,
+    sum(QltVisit) as VisitsCnt
+from n_wk
+group by 1, 2, 3, 4, 5;
+
 create local temp table trfcpscards -- карточек с трафиком из ПС
 on commit preserve rows as
 select
@@ -91,9 +111,20 @@ select
     cast(0 as float) as TrfcPsCards,
     cast(0 as float) as AddBuskCards,
     cast(0 as float) as PurchasedCards,
-    cast(0 as float) as ReplacedCards
+    cast(0 as float) as ReplacedCards,
+    cast(0 as float) as VisitsCnt
 from n_wk
 group by 1, 2, 3, 4, 5;
+
+update tmp_local m
+set VisitsCnt = vc.VisitsCnt
+from visitscnt vc
+where m.DataInfo = vc.DataInfo
+    and m.Class81_Code = vc.Class81_Code
+    and m.MnfCode = vc.MnfCode
+    and m.Series = vc.Series
+    and m.Status = vc.Status;
+commit;
 
 update tmp_local m
 set TrfcPsCards = tpc.TrfcPsCards
@@ -150,7 +181,8 @@ main as ( -- неактивные карточки
         cast(0 as float) as TrfcPsCards,
         cast(0 as float) as AddBuskCards,
         cast(0 as float) as PurchasedCards,
-        cast(0 as float) as ReplacedCards
+        cast(0 as float) as ReplacedCards,
+        cast(0 as float) as VisitsCnt
     from DataPrime.ECom_InactiveCL81Wk
     where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWk)
     group by 1, 2, 3, 4, 5),
@@ -168,7 +200,8 @@ select
     TrfcPsCards,
     AddBuskCards,
     PurchasedCards,
-    ReplacedCards
+    ReplacedCards,
+    VisitsCnt
 from main
 union -- склеиваются активные и неактивные
 select
@@ -182,15 +215,16 @@ select
     TrfcPsCards,
     AddBuskCards,
     PurchasedCards,
-    ReplacedCards
+    ReplacedCards,
+    VisitsCnt
 from main2;
 
-удаляются данные старше анализируемого периода
+-- удаляются данные старше анализируемого периода
 delete from DataMart.DshECom_NomenclatureAnlsWk
 where DataInfo < add_months(trunc(current_date, 'year')::date, - 12);
 commit;
 
-удалить из витрины данные большие или равные минимальной дате во временной таблице
+-- удалить из витрины данные большие или равные минимальной дате во временной таблице
 delete from DataMart.DshECom_NomenclatureAnlsWk
 where DataInfo >= (select min(DataInfo) from at_cards);
 commit;
@@ -213,7 +247,8 @@ select
     TrfcPsCards,
     AddBuskCards,
     PurchasedCards,
-    ReplacedCards
+    ReplacedCards,
+    VisitsCnt
 from at_cards;
 commit;
 
