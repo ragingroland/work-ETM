@@ -60,35 +60,29 @@ cl33 as (
     from DataPrime.ECom_InactiveCL33Wk
     where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWk_Inact)
     group by 1, 2, 3, 4, 5, 6),
-cl81 as (
-    select
-        DataInfo,
-        Status,
-        '' as class33_code,
-        class81_code,
-        MnfCode,
-        Series,
-        cast(0 as float) as active,
-        sum(Qlt_Inactive81) as inactive
-    from DataPrime.ECom_InactiveCL81Wk
-    where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWk_Inact)
-    group by 1, 2, 3, 4, 5, 6),
+-- cl81 as (
+--     select
+--         DataInfo,
+--         Status,
+--         '' as class33_code,
+--         class81_code,
+--         MnfCode,
+--         Series,
+--         cast(0 as float) as active,
+--         sum(Qlt_Inactive81) as inactive
+--     from DataPrime.ECom_InactiveCL81Wk
+--     where DataInfo >= (select max(DataInfo) from DataMart.DshECom_NomenclatureAnlsWk_Inact)
+--     group by 1, 2, 3, 4, 5, 6),
 unity as (
     select * from act
     union
-    select * from cl33
-    union
-    select * from cl81)
+    select * from cl33)
+    -- union
+    -- select * from cl81)
 select
     DataInfo,
     Status,
-    case
-        when class33_code like '1%'
-            then class33_code
-        when class33_code not like '1%' and class33_code != ''
-            then '-'
-        else ''
-    end as class33_code,
+    class33_code,
     class81_code,
     MnfCode,
     isnull(replace(Series, '''', ''), '') as Series,
@@ -162,16 +156,6 @@ update tmp_local m
 set TrfcPsCards = tpc.TrfcPsCards
 from trfcpscards tpc
 where m.DataInfo = tpc.DataInfo
-    and m.Status = tpc.Status
-    and m.Series = tpc.Series
-    and m.Class81_Code = tpc.Class81_Code
-    and m.MnfCode = tpc.MnfCode;
-commit;
-
-update tmp_local m
-set TrfcPsCards = tpc.TrfcPsCards
-from trfcpscards tpc
-where m.DataInfo = tpc.DataInfo
     and m.Class33_Code = tpc.Class33_Code
     and m.Class81_Code = tpc.Class81_Code
     and m.Status = tpc.Status
@@ -185,49 +169,9 @@ from addbuskcards abc
 where m.DataInfo = abc.DataInfo
     and m.Status = abc.Status
     and m.Series = abc.Series
-    and m.Class81_Code = abc.Class81_Code
-    and m.MnfCode = abc.MnfCode;
-commit;
-
-update tmp_local m
-set AddBuskCards = abc.AddBuskCards
-from addbuskcards abc
-where m.DataInfo = abc.DataInfo
-    and m.Class33_Code = abc.Class33_Code
-    and m.Status = abc.Status
-    and m.Series = abc.Series
-    and m.MnfCode = abc.MnfCode;
-commit;
-
-update tmp_local m
-set AddBuskCards = abc.AddBuskCards
-from addbuskcards abc
-where m.DataInfo = abc.DataInfo
-    and m.Status = abc.Status
-    and m.Series = abc.Series
     and m.Class33_Code = abc.Class33_Code
     and m.Class81_Code = abc.Class81_Code
     and m.MnfCode = abc.MnfCode;
-commit;
-
-update tmp_local m
-set PurchasedCards = pc.PurchasedCards
-from purchasedcards pc
-where m.DataInfo = pc.DataInfo
-    and m.Status = pc.Status
-    and m.Series = pc.Series
-    and m.Class81_Code = pc.Class81_Code
-    and m.MnfCode = pc.MnfCode;
-commit;
-
-update tmp_local m
-set PurchasedCards = pc.PurchasedCards
-from purchasedcards pc
-where m.DataInfo = pc.DataInfo
-    and m.Class33_Code = pc.Class33_Code
-    and m.Status = pc.Status
-    and m.Series = pc.Series
-    and m.MnfCode = pc.MnfCode;
 commit;
 
 update tmp_local m
@@ -247,29 +191,24 @@ from replacedcards rc
 where m.DataInfo = rc.DataInfo
     and m.Status = rc.Status
     and m.Series = rc.Series
+    and m.Class33_Code = rc.Class33_Code
     and m.Class81_Code = rc.Class81_Code
     and m.MnfCode = rc.MnfCode;
 commit;
 
 update tmp_local m
-set ReplacedCards = rc.ReplacedCards
-from replacedcards rc
-where m.DataInfo = rc.DataInfo
-    and m.Class33_Code = rc.Class33_Code
-    and m.Status = rc.Status
-    and m.Series = rc.Series
-    and m.MnfCode = rc.MnfCode;
+set class33_code = class33_code
+where class33_code like '1%';
 commit;
 
 update tmp_local m
-set ReplacedCards = rc.ReplacedCards
-from replacedcards rc
-where m.DataInfo = rc.DataInfo
-    and m.Status = rc.Status
-    and m.Series = rc.Series
-    and m.Class33_Code = rc.Class33_Code
-    and m.Class81_Code = rc.Class81_Code
-    and m.MnfCode = rc.MnfCode;
+set class33_code = '-'
+where class33_code not like '1%' and class33_code != '';
+commit;
+
+update tmp_local m
+set class33_code = ''
+where class33_code is null;
 commit;
 
 -- удалить из витрины данные старше анализируемого периода
