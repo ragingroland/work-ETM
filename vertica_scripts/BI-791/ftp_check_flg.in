@@ -1,6 +1,0 @@
-open base5.etm.corp
-user autons oe10ns31038
-cd /autons/vertica/web_analitik
-mget adcnv.flg
-close
-quit

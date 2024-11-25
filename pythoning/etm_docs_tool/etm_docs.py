@@ -4,10 +4,10 @@ import vertica_python
 from tkintertable import TableCanvas, TableModel
 
 # подключение к вертике
-conn_info = {'host': '172.24.2.140',
-             'port': 5433,
-             'user': 'user_finebi_jdbc',
-             'password': 'userfinebijdbcvert92',
+conn_info = {'host': 'host',
+             'port': port,
+             'user': 'user',
+             'password': 'pass',
              'database': 'DWH',
              'autocommit': True,
              'connection_load_balance': True}
